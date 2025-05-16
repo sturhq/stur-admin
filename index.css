@@ -1,0 +1,370 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: 'SF Pro Text' !important;
+}
+
+@font-face {
+  font-family: 'SF Pro Text';
+  src: url(/fonts/SF/SF-Pro-Text-Thin.otf) format('opentype');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'SF Pro Text';
+  src: url(/fonts/SF/SF-Pro-Text-Light.otf) format('opentype');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'SF Pro Text';
+  src: url(/fonts/SF/SF-Pro-Text-Regular.otf) format('opentype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'SF Pro Text';
+  src: url(/fonts/SF/SF-Pro-Text-Medium.otf) format('opentype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'SF Pro Text';
+  src: url(/fonts/SF/SF-Pro-Text-Semibold.otf) format('opentype');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'SF Pro Text';
+  src: url(/fonts/SF/SF-Pro-Text-Bold.otf) format('opentype');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'SF Pro Text';
+  src: url(/fonts/SF/SF-Pro-Text-Heavy.otf) format('opentype');
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: 'SF Pro Text';
+  src: url(/fonts/SF/SF-Pro-Text-Black.otf) format('opentype');
+  font-weight: 900;
+}
+
+/* SF Pro Display */
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url(/fonts/SF/SF-Pro-Display-Thin.otf) format('opentype');
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url(/fonts/SF/SF-Pro-Display-Light.otf) format('opentype');
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url(/fonts/SF/SF-Pro-Display-Regular.otf) format('opentype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url(/fonts/SF/SF-Pro-Display-Medium.otf) format('opentype');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url(/fonts/SF/SF-Pro-Display-Semibold.otf) format('opentype');
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url(/fonts/SF/SF-Pro-Display-Bold.otf) format('opentype');
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url(/fonts/SF/SF-Pro-Display-Heavy.otf) format('opentype');
+  font-weight: 800;
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url(/fonts/SF/SF-Pro-Display-Black.otf) format('opentype');
+  font-weight: 900;
+}
+
+.sf-pro-display {
+  font-family: 'SF Pro Display' !important;
+}
+
+.secondary-button-shadow {
+  box-shadow:
+    0 1px 2px 0 rgba(0, 0, 0, 0.05),
+    0 1px 3px 1px rgba(0, 0, 0, 0.1);
+}
+
+.nav-background {
+  background: linear-gradient(240.95deg, #763088 15.11%, #1a44ed 106.59%);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(
+    240.95deg,
+    #763088 15.11%,
+    #1a44ed 106.59%
+  ) !important;
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+a {
+  color: inherit;
+  text-decoration: none !important;
+}
+
+/* Rsuite */
+.rs-picker-popup.rs-picker-popup-date {
+  z-index: 9999;
+}
+
+.rs-calendar-table-cell-selected .rs-calendar-table-cell-content {
+  background-color: #30313d !important;
+}
+
+.rs-btn-primary {
+  background-color: #30313d !important;
+  color: #fff !important;
+}
+
+.rs-calendar-month-dropdown-cell-active
+  .rs-calendar-month-dropdown-cell-content {
+  background-color: #30313d !important;
+}
+
+.rs-calendar-month-view .rs-calendar-header-title-date {
+  color: #30313d !important;
+}
+
+.rs-calendar-month-dropdown-year-active {
+  color: #30313d !important;
+}
+
+.rs-input-group:focus-within,
+.rs-input-group:not(.rs-input-group-disabled).rs-input-group-focus {
+  outline: 3px solid #c0c0c05c !important;
+  border: 2px solid #c0c0c05c !important;
+}
+
+.rs-input {
+  border: hsl(0 0% 89.8%) !important;
+}
+
+.rs-input:focus {
+  /* outline: 3px solid #c0c0c05c !important;
+  border: 2px solid #c0c0c05c !important; */
+}
+
+.rs-input-group:not(.rs-input-group-disabled):hover {
+  border-color: hsl(0 0% 89.8%) !important;
+}
+
+.rs-picker-popup.rs-picker-popup-date {
+  top: 74.31rem;
+}
+
+.data-\[state\=checked\]\:bg-primary[data-state='checked'] {
+  background-color: #5433eb !important;
+}
+
+.data-\[state\=active\]\:text-primary[data-state='active'] {
+  color: #5433eb !important;
+}
+
+.data-\[state\=active\]\:border-primary[data-state='active'] {
+  border-color: #5433eb !important;
+}
+
+/* ... */
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+
+    --foreground: 235, 12%, 21%, 1;
+
+    --card: 0 0% 100%;
+
+    --card2: 180, 14%, 99%, 1;
+
+    --card-foreground: 235, 12%, 21%, 1;
+
+    --popover: 0 0% 100%;
+
+    --popover-foreground: 325 12% 21%;
+
+    --primary: 228, 85%, 52%, 1;
+
+    --primary2: 235, 12%, 21%, 1;
+
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 0 0% 96.1%;
+
+    --secondary-foreground: 0 0% 9%;
+
+    --muted: 0 0% 96.1%;
+
+    --muted-foreground: 0 0% 45.1%;
+
+    --accent: 0 0% 96.1%;
+
+    --accent-foreground: 0 0% 9%;
+
+    --destructive: 348, 78%, 49%, 1;
+
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 210, 18%, 93%, 1;
+
+    --input: 0 0% 89.8%;
+
+    --ring: 325 12% 21%;
+
+    --chart-1: 221.2 83.2% 53.3%;
+    --chart-2: 212 95% 68%;
+    --chart-3: 216 92% 60%;
+    --chart-4: 210 98% 78%;
+    --chart-5: 212 97% 87%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 180, 14%, 99%, 1;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 0 0% 3.9%;
+
+    --foreground: 0 0% 98%;
+
+    --card: 0 0% 3.9%;
+
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 3.9%;
+
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 0 0% 98%;
+
+    --primary-foreground: 0 0% 9%;
+
+    --secondary: 0 0% 14.9%;
+
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 0 0% 14.9%;
+
+    --muted-foreground: 0 0% 63.9%;
+
+    --accent: 0 0% 14.9%;
+
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 14.9%;
+
+    --input: 0 0% 14.9%;
+
+    --ring: 0 0% 83.1%;
+
+    --chart-1: 221.2 83.2% 53.3%;
+    --chart-2: 212 95% 68%;
+    --chart-3: 216 92% 60%;
+    --chart-4: 210 98% 78%;
+    --chart-5: 212 97% 87%;
+
+    --sidebar-background: 180, 14%, 99%, 1;
+
+    --sidebar-foreground: 240 4.8% 95.9%;
+
+    --sidebar-primary: 224.3 76.3% 48%;
+
+    --sidebar-primary-foreground: 0 0% 100%;
+
+    --sidebar-accent: 240 3.7% 15.9%;
+
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+
+    --sidebar-border: 213, 24%, 91%, 1;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
