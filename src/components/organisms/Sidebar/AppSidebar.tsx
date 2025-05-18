@@ -22,6 +22,7 @@ import {useLogoutEndpoint} from '@/services/authentication.service';
 import {useIsMobile} from '@/hooks/use-mobile';
 import {Spinner} from '@/components/ui/spinner';
 import {Exit} from '@/assets/svgs/Icons';
+
 type MenuItem = {
   title: string;
   url: string;
@@ -44,8 +45,8 @@ export function AppSidebar({
       {
         items: [
           {
-            title: 'Dashboard',
-            url: '/dashboard',
+            title: 'Stores',
+            url: '/stores',
             icon: 'home-solid',
             disable: false,
           },
@@ -65,18 +66,6 @@ export function AppSidebar({
             title: 'Transactions',
             url: '/transactions',
             icon: 'chart-bar-solid',
-            disable: false,
-          },
-          {
-            title: 'Payment',
-            url: '/payment',
-            icon: 'currency-dollar-solid',
-            disable: false,
-          },
-          {
-            title: 'Settings',
-            url: '/settings',
-            icon: 'cog-8-tooth-solid',
             disable: false,
           },
         ] as MenuItem[],

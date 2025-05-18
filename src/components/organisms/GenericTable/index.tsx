@@ -5,35 +5,43 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-  TableFooter,
 } from '@/components/ui/table';
 import {
   ColumnDef,
-  createColumnHelper,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
   flexRender,
   getCoreRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import {Button} from '@/components/ui/button';
-import {Spinner} from '../ui/spinner';
-import React from 'react';
-import {ScrollArea, ScrollBar} from '../ui/scroll-area';
 
-interface GenericTableProps<T> {
+import {Spinner} from '@/components/ui/spinner';
+import React from 'react';
+import {ScrollArea, ScrollBar} from '@/components/ui/scroll-area';
+import {Pagination} from './Pagination';
+
+interface GenericTableProps<T, TValue> {
   data: T[];
-  columns: ColumnDef<T>[];
+  columns: ColumnDef<T, TValue>[];
   // Optional props for additional customization
   onRowClick?: (row: T) => void;
-  className?: string;
   pageSize?: number;
-  showPagination?: boolean;
   currentPage?: number;
   totalPages?: number;
   onPageChange?: (page: number) => void;
-  isLoading?: boolean;
-  emptyState?: EmptyStateProps;
   hasNextPage?: boolean;
   hasPrevPage?: boolean;
+  className?: string;
+  emptyState?: EmptyStateProps;
+  isLoading?: boolean;
+  showPagination?: boolean;
+  customToolbar?: React.ReactNode;
 }
 
 interface EmptyStateProps {
@@ -60,7 +68,7 @@ const EmptyState = ({
   </div>
 );
 
-export function GenericTable<T>({
+export function GenericTable<T, TValue>({
   data,
   columns,
   onRowClick,
@@ -73,11 +81,35 @@ export function GenericTable<T>({
   emptyState,
   hasNextPage,
   hasPrevPage,
-}: GenericTableProps<T>) {
+
+  customToolbar,
+}: GenericTableProps<T, TValue>) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] =
+    React.useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
   const table = useReactTable({
-    columns,
     data,
+    columns,
+    state: {
+      sorting,
+      columnVisibility,
+      rowSelection,
+      columnFilters,
+    },
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
   if (data.length === 0 && !isLoading) {
@@ -101,6 +133,10 @@ export function GenericTable<T>({
         </div>
       ) : (
         <ScrollArea className="w-full max-sm:w-[22.5rem] whitespace-nowrap">
+          {customToolbar &&
+            React.cloneElement(customToolbar as React.ReactElement, {
+              table,
+            })}
           <Table className={className}>
             <TableHeader>
               {table.getHeaderGroups().map(headerGroup => (
@@ -139,37 +175,14 @@ export function GenericTable<T>({
               ))}
             </TableBody>
             {showPagination && (
-              <TableFooter>
-                <TableRow>
-                  <TableCell colSpan={columns.length}>
-                    <div className="flex items-center justify-between px-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm text-muted-foreground">
-                          Page {currentPage} of {totalPages}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => onPageChange(currentPage - 1)}
-                          disabled={!hasPrevPage}
-                        >
-                          Previous
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => onPageChange(currentPage + 1)}
-                          disabled={!hasNextPage}
-                        >
-                          Next
-                        </Button>
-                      </div>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              </TableFooter>
+              <Pagination
+                columns={columns}
+                currentPage={currentPage || 1}
+                totalPages={totalPages || 1}
+                onPageChange={onPageChange || (() => {})}
+                hasNextPage={hasNextPage || false}
+                hasPrevPage={hasPrevPage || false}
+              />
             )}
           </Table>
           <ScrollBar orientation="horizontal" />
@@ -177,9 +190,4 @@ export function GenericTable<T>({
       )}
     </div>
   );
-}
-
-// Helper function to create columns with less boilerplate
-export function createColumns<T>() {
-  return createColumnHelper<T>();
 }

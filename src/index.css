@@ -123,11 +123,7 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background: linear-gradient(
-    240.95deg,
-    #763088 15.11%,
-    #1a44ed 106.59%
-  ) !important;
+  background: #30313d !important;
 }
 
 input[type='number']::-webkit-outer-spin-button,

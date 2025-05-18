@@ -3,6 +3,7 @@
 // import CreateAccount from '@/pages/Auth/CreateAccount';
 // import CreatePassword from '@/pages/Auth/CreatePassword';
 import Login from '@/pages/Auth/Login';
+import Stores from '@/pages/Stores';
 // import ProvideEmailRest from '@/pages/Auth/ProvideEmailRest';
 // import ResetPassword from '@/pages/Auth/ResetPassword';
 // import Dashboard from '@/pages/Dashboard';
@@ -30,7 +31,7 @@ import Login from '@/pages/Auth/Login';
 // import MyProfile from '@/pages/Settings/[slug]/MyProfile';
 // import StoreInformation from '@/pages/Settings/[slug]/StoreInformation';
 // import Transactions from '@/pages/Transactions';
-// import {Navigate} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
 
 export const authRoutes = [
   {
@@ -67,6 +68,8 @@ export const resetPasswordRoutes = [
 ];
 
 export const inAppRoutes = [
+  {path: '/', element: <Navigate to="/stores" />},
+  {path: '/stores', element: <Stores />},
   /*  {path: '/', element: <Navigate to="/dashboard" />},
   {
     path: 'dashboard',
