@@ -4,6 +4,8 @@
 // import CreatePassword from '@/pages/Auth/CreatePassword';
 import Login from '@/pages/Auth/Login';
 import Stores from '@/pages/Stores';
+import StoreDetails from '@/pages/Stores/StoreDetails';
+import ProductDetailsPage from '@/pages/Stores/StoreDetails/ProductDetails/ProductDetailsPage';
 // import ProvideEmailRest from '@/pages/Auth/ProvideEmailRest';
 // import ResetPassword from '@/pages/Auth/ResetPassword';
 // import Dashboard from '@/pages/Dashboard';
@@ -70,6 +72,7 @@ export const resetPasswordRoutes = [
 export const inAppRoutes = [
   {path: '/', element: <Navigate to="/stores" />},
   {path: '/stores', element: <Stores />},
+  {path: '/stores/:storeId', element: <StoreDetails />},
   /*  {path: '/', element: <Navigate to="/dashboard" />},
   {
     path: 'dashboard',
@@ -123,6 +126,10 @@ export const inAppRoutes = [
 ];
 
 export const fullScreenRoutes = [
+  {
+    path: 'products/product-detail/:productId',
+    element: <ProductDetailsPage />,
+  },
   /* {
     path: 'products/add-product',
     element: <AddProductPage />,
