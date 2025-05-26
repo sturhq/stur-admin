@@ -126,7 +126,7 @@ export function GenericTable<T, TValue>({
   }
 
   return (
-    <div className="space-y-4 mt-4">
+    <div className="space-y-4">
       {isLoading ? (
         <div className="flex justify-center">
           <Spinner />
@@ -137,7 +137,7 @@ export function GenericTable<T, TValue>({
             React.cloneElement(customToolbar as React.ReactElement, {
               table,
             })}
-          <Table className={className}>
+          <Table className={`${className} mt-4`}>
             <TableHeader>
               {table.getHeaderGroups().map(headerGroup => (
                 <TableRow key={headerGroup.id}>
