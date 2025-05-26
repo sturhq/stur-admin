@@ -44,7 +44,7 @@ export function TableToolbar<TData>({table}: TableToolbarProps<TData>) {
             placeholder="Search..."
             value={nameFilter}
             onChange={handleNameFilterChange}
-            className="h-8 w-[150px] lg:w-[250px] border-none"
+            className="h-8 w-[150px] lg:w-[250px] border-none focus:outline-none focus:ring-0 focus:border-none"
           />
         </div>
 

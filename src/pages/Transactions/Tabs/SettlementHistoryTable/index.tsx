@@ -1,60 +1,58 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {columns} from './columns';
 import {GenericTable} from '@/components/organisms/GenericTable';
 import {TableToolbar} from './table-toolbar';
 import SettlementSummaryCards from '../../SettlementSummaryCards';
+import {useGetSettlement} from '@/services/transactions.service';
+import {useUser} from '@/hooks/useUser';
 
-const data = {
-  data: [
-    {
-      _id: '1',
-      accountName: 'Merchant account name',
-      type: 'settlement',
-      dateTime: '2 Jan 2025; 21:29',
-      amount: 67000,
-      status: 'successful',
-    },
-    {
-      _id: '2',
-      accountName: 'Merchant account name',
-      type: 'settlement',
-      dateTime: '2 Jan 2025; 21:29',
-      amount: 67000,
-      status: 'successful',
-    },
-    {
-      _id: '3',
-      accountName: 'Merchant account name',
-      type: 'settlement',
-      dateTime: '2 Jan 2025; 21:29',
-      amount: 67000,
-      status: 'successful',
-    },
-  ],
-  pagination: {
-    total: 3,
-    page: 1,
-    limit: 10,
-    totalPages: 1,
-    hasNextPage: false,
-    hasPrevPage: false,
-  },
+export type SETTLEMENT_HISTORY = {
+  settlementAccount: {
+    accountName: string;
+    type: string;
+  };
+  date: string;
+  createdAt: string;
+  amount: number;
+  status: string;
 };
 
 const SettlementHistory = () => {
-  const {
-    data: productData,
-    pagination: {page, limit, totalPages, hasNextPage, hasPrevPage},
-  } = data;
+  const [page, setPage] = useState(1);
+  // const isMobile = useIsMobile();
+  const limit = 10;
+  const {userData} = useUser();
+  // const columnHelper = createColumns<SETTLEMENT_HISTORY>();
+  const {data, isLoading, refetch} = useGetSettlement(
+    page,
+    limit,
+    userData?.store?._id
+  );
+
+  const settlements = data?.data?.data || [];
+
+  const hasNextPage = data?.data?.pagination?.hasNextPage;
+  const hasPrevPage = data?.data?.pagination?.hasPrevPage;
+  const totalPages = data?.data?.pagination?.totalPages;
+  const summary = data?.data?.summary || {};
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
+  useEffect(() => {
+    refetch();
+  }, [page, refetch]);
 
   return (
     <React.Fragment>
       {' '}
       <div>
-        <SettlementSummaryCards />
+        <SettlementSummaryCards summary={summary} isLoading={isLoading} />
         <GenericTable
-          data={productData}
+          data={settlements}
           columns={columns}
+          isLoading={isLoading}
           pageSize={limit}
           currentPage={page}
           totalPages={totalPages}
@@ -62,7 +60,6 @@ const SettlementHistory = () => {
           hasNextPage={hasNextPage}
           hasPrevPage={hasPrevPage}
           showPagination
-          isLoading={false}
           emptyState={{
             title: 'No Products Found',
             description: 'There are no products available at the moment.',

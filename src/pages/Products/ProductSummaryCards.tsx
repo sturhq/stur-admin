@@ -50,25 +50,7 @@ const ProductSummaryCard = () => {
             <p className="text-xl font-bold">892</p>
           </div>
         </Card>
-        {/* <Card className="p-4 w-full  transition-all duration-500 ease-in-out flex gap-[0.9375rem] items-center">
-          <IconComponent
-            Icon={ShoppingCartIcon}
-            bgColor="bg-[#DF1B41]"
-            className=""
-          />
-          <div>
-            <h1 className="text-base font-semibold leading-5 mb-1 text-[#6A7383]">
-              Out of stock
-            </h1>
-            <p className="text-xl font-bold">
-              {isPending ? (
-                <Skeleton className="w-20 h-7" />
-              ) : (
-                statistics?.outOfStock
-              )}
-            </p>
-          </div>
-        </Card> */}
+       
       </div>
       {/* <div className="hidden max-lg:block">
         <MobileProductSummaryCard />

@@ -16,7 +16,7 @@ const Stores = () => {
           title="Stores"
           button={
             <Button onClick={() => navigate('/store/create')}>
-              Create Store
+              Create Stur
             </Button>
           }
         />

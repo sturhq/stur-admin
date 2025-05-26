@@ -1,8 +1,9 @@
 import {Dialog, DialogContent, DialogTitle} from '@/components/ui/dialog';
-import {TRANSACTIONTYPE} from './Tabs/AllTransactions';
+// import {TRANSACTIONTYPE} from './Tabs/AllTransactions';
 import {nigerianCurrencyFormat} from '@/lib/utils';
 import {dateTimeSemiColon} from '@/lib/dateTimeFormat';
 import {Badge} from '@/components/ui/badge';
+import { TRANSACTIONTYPE } from './Tabs/AllTransactionTable';
 
 interface TransactionsSummaryProps {
   open: boolean;
