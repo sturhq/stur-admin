@@ -36,6 +36,7 @@ export function TableToolbar<TData>({table}: TableToolbarProps<TData>) {
     const value = e.target.value;
     setNameFilter(value);
 
+    // Filter on product title
     table.getColumn('title')?.setFilterValue(value);
   };
 
@@ -44,6 +45,7 @@ export function TableToolbar<TData>({table}: TableToolbarProps<TData>) {
   return (
     <div className="flex items-center justify-between pb-6 px-1 gap-2">
       <div className="flex flex-1 items-center space-x-2">
+        {/* <Search size={16} /> */}
         <Tabs
           defaultValue="all"
           className="w-full  "

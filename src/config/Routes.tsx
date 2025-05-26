@@ -3,9 +3,15 @@
 // import CreateAccount from '@/pages/Auth/CreateAccount';
 // import CreatePassword from '@/pages/Auth/CreatePassword';
 import Login from '@/pages/Auth/Login';
+import Orders from '@/pages/Orders';
+import Products from '@/pages/Products';
 import Stores from '@/pages/Stores';
+import AddProductPage from '@/pages/Stores/AddProduct/AddProduct';
+
+import CreateStorePage from '@/pages/Stores/CreateStore/CreateStorePage';
 import StoreDetails from '@/pages/Stores/StoreDetails';
 import ProductDetailsPage from '@/pages/Stores/StoreDetails/ProductDetails/ProductDetailsPage';
+import Transactions from '@/pages/Transactions';
 // import ProvideEmailRest from '@/pages/Auth/ProvideEmailRest';
 // import ResetPassword from '@/pages/Auth/ResetPassword';
 // import Dashboard from '@/pages/Dashboard';
@@ -73,6 +79,18 @@ export const inAppRoutes = [
   {path: '/', element: <Navigate to="/stores" />},
   {path: '/stores', element: <Stores />},
   {path: '/stores/:storeId', element: <StoreDetails />},
+  {
+    path: 'products',
+    element: <Products />,
+  },
+  {
+    path: 'orders',
+    element: <Orders />,
+  },
+  {
+    path: 'transactions',
+    element: <Transactions />,
+  },
   /*  {path: '/', element: <Navigate to="/dashboard" />},
   {
     path: 'dashboard',
@@ -130,6 +148,15 @@ export const fullScreenRoutes = [
     path: 'products/product-detail/:productId',
     element: <ProductDetailsPage />,
   },
+  {
+    path: 'store/create',
+    element: <CreateStorePage />,
+  },
+  {
+    path: 'products/add-product',
+    element: <AddProductPage />,
+  },
+
   /* {
     path: 'products/add-product',
     element: <AddProductPage />,
