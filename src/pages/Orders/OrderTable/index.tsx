@@ -32,11 +32,11 @@ const OrderTable = () => {
       pageSize={limit}
       currentPage={page}
       totalPages={totalPages}
-      onPageChange={handlePageChange} 
+      onPageChange={handlePageChange}
       hasNextPage={hasNextPage}
       hasPrevPage={hasPrevPage}
       showPagination
-      isLoading={isLoading} 
+      isLoading={isLoading}
       className="!mt-0"
       emptyState={{
         title: 'No Products Found',

@@ -10,8 +10,7 @@ import {z} from 'zod';
 import {GenericTable} from '@/components/organisms/GenericTable';
 import SettlementSummaryCards from '../../SettlementSummaryCards';
 import {SETTLEMENT_HISTORY} from '.';
-import { dateTimeSemiColon } from '@/lib/dateTimeFormat';
-
+import {dateTimeSemiColon} from '@/lib/dateTimeFormat';
 
 const renderStatus = (status: string) => {
   switch (status) {
@@ -55,7 +54,7 @@ export const columns: ColumnDef<SETTLEMENT_HISTORY>[] = [
     header: ({column}) => (
       <TableColumnHeader column={column} title="DATETIME" />
     ),
-    cell: ({row}) => dateTimeSemiColon(row.original.createdAt)
+    cell: ({row}) => dateTimeSemiColon(row.original.createdAt),
   },
   {
     accessorKey: 'amount',

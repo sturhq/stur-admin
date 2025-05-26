@@ -11,7 +11,6 @@ import emptyStateImage from '@/assets/images/transactionEmptyState.svg';
 import {z} from 'zod';
 import {GenericTable} from '@/components/organisms/GenericTable';
 
-
 export const productTableSchema = z.object({
   _id: z.string(),
   previewMedia: z.string(),

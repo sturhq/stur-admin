@@ -50,7 +50,6 @@ const ProductSummaryCard = () => {
             <p className="text-xl font-bold">892</p>
           </div>
         </Card>
-       
       </div>
       {/* <div className="hidden max-lg:block">
         <MobileProductSummaryCard />

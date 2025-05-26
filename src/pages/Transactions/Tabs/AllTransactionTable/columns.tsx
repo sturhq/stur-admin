@@ -13,8 +13,6 @@ import TransactionsSummaryCards from '../../TransactionsSummaryCards';
 import {TRANSACTIONTYPE} from '.';
 import {dateTimeSemiColon} from '@/lib/dateTimeFormat';
 
-
-
 export const columns: ColumnDef<TRANSACTIONTYPE>[] = [
   {
     accessorKey: 'customer',

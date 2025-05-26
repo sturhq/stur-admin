@@ -23,7 +23,6 @@ export type TRANSACTIONTYPE = {
   transactionId: string;
 };
 
-
 const AllTransactions = () => {
   const [open, setOpen] = useState(false);
   // const isMobile = useIsMobile();

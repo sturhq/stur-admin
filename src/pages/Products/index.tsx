@@ -1,7 +1,6 @@
 import PageHeader from '@/common/PageHeader';
 import PageHelmet from '@/common/PageHelmet';
 
-
 import React, {useEffect, useState} from 'react';
 import ProductSummaryCard from './ProductSummaryCards';
 
@@ -101,7 +100,7 @@ const Products = () => {
   return (
     <React.Fragment>
       <PageHelmet title="Products" />
- 
+
       {products?.length === 0 ? (
         <div>
           <PageHeader title="Products" />
@@ -114,13 +113,10 @@ const Products = () => {
         </div>
       ) : (
         <div>
-          <PageHeader
-            title="Products"
-      
-          />
+          <PageHeader title="Products" />
           <div className="mt-[1.5625rem]">
             <ProductSummaryCard />
-         
+
             <ProductTable />
             <div className="hidden max-lg:block fixed bottom-20 right-6 z-50">
               <Button
