@@ -2,7 +2,7 @@ import React from 'react';
 import {columns} from './columns';
 import {GenericTable} from '@/components/organisms/GenericTable';
 import {TableToolbar} from './table-toolbar';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const data = {
   data: [
@@ -68,7 +68,7 @@ const data = {
 };
 
 const ProductTable = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const {
     data: productData,
     pagination: {page, limit, totalPages, hasNextPage, hasPrevPage},

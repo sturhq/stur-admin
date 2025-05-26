@@ -14,14 +14,11 @@ import {DottedButton} from '@/components/ui/DottedButton';
 import {Switch} from '@/components/ui/switch';
 import {useUser} from '@/hooks/useUser';
 
-
 const AddCategoryModal = () => {
   const [open, setOpen] = useState(false);
   const {userData} = useUser();
   const [categoryName, setCategoryName] = useState('');
   const [showCategory, setShowCategory] = useState<boolean>(true);
-
-
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -68,9 +65,9 @@ const AddCategoryModal = () => {
         </div>
         <DialogFooter className="flex max-lg:hidden">
           <Button
-            // loading={isPending}
-            // onClick={handleSave}
-            // disabled={!categoryName || isPending}
+          // loading={isPending}
+          // onClick={handleSave}
+          // disabled={!categoryName || isPending}
           >
             Save
           </Button>

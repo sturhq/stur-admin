@@ -112,7 +112,6 @@ const AllSettlements = ({
 
   return (
     <React.Fragment>
-    
       {isMobile ? (
         // <MobileSettlementTable
         //   className="mt-4 mb-16"

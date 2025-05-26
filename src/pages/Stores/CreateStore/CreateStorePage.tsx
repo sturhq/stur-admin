@@ -145,8 +145,6 @@ const CreateStorePage = () => {
           /> */}
           <DetailedStore />
         </div>
-
-    
       </div>
     </React.Fragment>
   );

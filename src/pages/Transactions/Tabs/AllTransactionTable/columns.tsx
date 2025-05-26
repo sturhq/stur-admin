@@ -136,7 +136,6 @@ const AllTransactions = ({
 
   return (
     <React.Fragment>
-   
       {isMobile ? (
         // <MobileTransactionTable
         //   className="mt-4 mb-16"

@@ -16,7 +16,7 @@ import {Switch} from '@/components/ui/switch';
 import {CubeIcon} from '@heroicons/react/24/solid';
 import {DETAILSTYPES, OptionChoice, ProductOption} from './AddProduct';
 import {NumericFormat} from 'react-number-format';
-import { DeleteConfirmationModal } from './DeleteConfirmationModal';
+import {DeleteConfirmationModal} from './DeleteConfirmationModal';
 
 // Simple type for option choices
 type Choice = {
