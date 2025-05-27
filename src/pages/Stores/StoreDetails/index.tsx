@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PageHeader from '@/common/PageHeader';
 import PageHelmet from '@/common/PageHelmet';
 import {Button} from '@/components/ui/button';
@@ -6,15 +6,15 @@ import {Copy, Plus} from 'lucide-react';
 import {toast} from '@/hooks/use-toast';
 import {Badge} from '@/components/ui/badge';
 import ProductSummaryCard from './ProductSummaryCards';
-import ProductsTable from './ProductTable.tsx';
 import {BlockModal} from './BlockModal.tsx';
 import {useGetStoreById} from '@/services/stores.services.ts';
-import {useNavigate, useParams} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import {useGetProducts} from '@/services/products.service.ts';
+import ProductsTable from '@/pages/Products/ProductsTable/index.tsx';
 
 const StoreDetails = () => {
   const limit = 20; // Define the number of items per page
-  const navigate = useNavigate();
+
   const [page, setPage] = useState(1);
 
   const {storeId} = useParams();
@@ -27,7 +27,9 @@ const StoreDetails = () => {
     refetch,
   } = useGetProducts(page, limit, storeId);
 
-  console.log(products);
+  useEffect(() => {
+    refetch();
+  }, [page, refetch]);
 
   if (error) {
     toast({
@@ -46,6 +48,24 @@ const StoreDetails = () => {
     totalPages: 0,
     hasNextPage: false,
     hasPrevPage: false,
+  };
+
+  const planMap = {
+    Premium: 'Premium',
+    Standard: 'Standard',
+  };
+  const variantMap: Record<
+    typeof plan,
+    | 'positive'
+    | 'negative'
+    | 'destructive'
+    | 'info'
+    | 'outline'
+    | 'default'
+    | 'warning'
+  > = {
+    Premium: 'info',
+    Standard: 'outline',
   };
 
   return (
@@ -110,10 +130,15 @@ const StoreDetails = () => {
           </div>
           <div className="flex col gap-2 mt-4">
             <Badge variant="positive">Complete</Badge>
-            <Badge variant="default">Standard</Badge>
+            <Badge variant={variantMap[store?.plan || '']}>
+              {planMap[store?.plan || '']}
+            </Badge>
           </div>
         </div>
-        <ProductSummaryCard />
+        <ProductSummaryCard
+          statistics={statistics}
+          isLoading={isLoading}
+        />
         <ProductsTable
           tableData={tableData}
           isLoading={isLoading}

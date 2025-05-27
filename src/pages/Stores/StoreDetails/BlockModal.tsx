@@ -1,6 +1,8 @@
 import truck from '@/assets/images/shopping-bag.svg';
 import {Button} from '@/components/ui/button';
 import {Dialog, DialogContent} from '@/components/ui/dialog';
+import {useBlockUser} from '@/services/stores.services';
+import queryString from 'query-string';
 
 interface Props {
   open: boolean;
@@ -9,12 +11,21 @@ interface Props {
   handleDelete?: () => Promise<void>;
 }
 
-export const BlockModal = ({
-  open,
-  setOpen,
-  isPending,
-  // handleDelete
-}: Props) => {
+export const BlockModal = ({open, setOpen}: Props) => {
+  const queryParams = queryString.parse(window.location.search);
+  const userId = queryParams.userId as string;
+
+  const {mutateAsync, isPending} = useBlockUser(userId);
+
+  const handleBlock = async () => {
+    try {
+      await mutateAsync();
+      setOpen(false);
+    } catch (error) {
+      console.error('Error blocking user:', error);
+    }
+  };
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent
@@ -39,7 +50,7 @@ export const BlockModal = ({
           </Button>
           <Button
             loading={isPending}
-            // onClick={handleDelete}
+            onClick={handleBlock}
             variant="destructive"
           >
             Yes, continue

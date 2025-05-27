@@ -6,6 +6,7 @@ import {useNavigate} from 'react-router-dom';
 
 type StoreData = {
   _id: string;
+  userId: string;
   storeName: string;
   category: string;
   phone: string;
@@ -44,7 +45,7 @@ const StoreTable = ({
   };
 
   const handleRowClick = (row: StoreData) => {
-    navigate(`/stores/${row._id}`);
+    navigate(`/stores/${row._id}?userId=${row.userId}`);
   };
 
   return (
