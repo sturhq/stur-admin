@@ -74,7 +74,7 @@ const AllTransactions = () => {
           isLoading={isLoading}
         />
         <GenericTable
-          data={transactions}
+          data={transactions || []}
           isLoading={isLoading}
           columns={columns}
           pageSize={limit}
@@ -86,9 +86,8 @@ const AllTransactions = () => {
           hasPrevPage={hasPrevPage}
           showPagination
           emptyState={{
-            title: 'No Products Found',
-            description: 'There are no products available at the moment.',
-            action: <button>Add Product</button>,
+            title: 'No Transactions Yet',
+            description: 'All transactions will be displayed here',
           }}
           customToolbar={<TableToolbar />}
         />

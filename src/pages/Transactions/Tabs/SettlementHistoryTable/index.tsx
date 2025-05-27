@@ -45,7 +45,7 @@ const SettlementHistory = () => {
       <div>
         <SettlementSummaryCards summary={summary} isLoading={isLoading} />
         <GenericTable
-          data={settlements}
+          data={settlements || []}
           columns={columns}
           isLoading={isLoading}
           pageSize={limit}
@@ -56,9 +56,8 @@ const SettlementHistory = () => {
           hasPrevPage={hasPrevPage}
           showPagination
           emptyState={{
-            title: 'No Products Found',
-            description: 'There are no products available at the moment.',
-            action: <button>Add Product</button>,
+            title: 'No settlement history',
+            description: 'You have no settlement history yet.',
           }}
           customToolbar={<TableToolbar />}
         />

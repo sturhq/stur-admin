@@ -108,6 +108,10 @@ const ProductsTable = () => {
       onPageChange={handlePageChange}
       onRowClick={handleRowClick}
       customToolbar={<TableToolbar />}
+      emptyState={{
+        title: 'No Products Found',
+        description: 'There are no products available at the moment.',
+      }}
     />
   );
 };
