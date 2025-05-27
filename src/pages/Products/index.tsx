@@ -1,11 +1,5 @@
 import PageHeader from '@/common/PageHeader';
 import PageHelmet from '@/common/PageHelmet';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/components/ui/tabs';
 
 import React, {useEffect, useState} from 'react';
 import ProductSummaryCard from './ProductSummaryCards';
@@ -106,10 +100,7 @@ const Products = () => {
   return (
     <React.Fragment>
       <PageHelmet title="Products" />
-      {/* <AddProductModal
-        open={isAddModalOpen}
-        onOpenChange={setIsAddModalOpen}
-      /> */}
+
       {products?.length === 0 ? (
         <div>
           <PageHeader title="Products" />
@@ -122,31 +113,10 @@ const Products = () => {
         </div>
       ) : (
         <div>
-          <PageHeader
-            title="Products"
-            // button={
-            //   <Button
-            //     size="lg"
-            //     className="max-lg:hidden block"
-            //     onClick={() => setIsAddModalOpen(true)}
-            //   >
-            //     Add Product
-            //   </Button>
-            // }
-          />
+          <PageHeader title="Products" />
           <div className="mt-[1.5625rem]">
             <ProductSummaryCard />
-            {/* <AllProducts
-              products={products}
-              isLoading={isLoading}
-              page={page}
-              totalPages={totalPages}
-              refetch={refetch}
-              hasNextPage={hasNextPage}
-              hasPrevPage={hasPrevPage}
-              onPageChange={handlePageChange}
-              pageSize={limit}
-            /> */}
+
             <ProductTable />
             <div className="hidden max-lg:block fixed bottom-20 right-6 z-50">
               <Button

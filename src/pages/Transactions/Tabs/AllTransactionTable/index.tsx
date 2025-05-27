@@ -1,48 +1,67 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {columns} from './columns';
 import {GenericTable} from '@/components/organisms/GenericTable';
 import {TableToolbar} from './table-toolbar';
 import TransactionsSummaryCards from '../../TransactionsSummaryCards';
+import {useGetTransactions} from '@/services/transactions.service';
+import {useUser} from '@/hooks/useUser';
+import {TransactionsSummaryModal} from '../../TransactionsSummaryModal';
+export type TRANSACTIONTYPE = {
+  _id: string;
+  authorization: {
+    senderName: string;
+    senderBank: string;
+    senderAccount: string;
+  };
 
-const data = {
-  data: [
-    {
-      _id: '1',
-      customer: 'Ibrahim Adekunle',
-      orderId: 'ID 45271',
-      dateTime: '2 Jan 2025; 21:29',
-      type: 'Transfer',
-      source: 'POS',
-      amount: 67000,
-      status: 'successful',
-    },
-    {
-      _id: '2',
-      customer: 'Solomon Buchi',
-      orderId: '-',
-      dateTime: '2 Jan 2025; 21:29',
-      type: 'Transfer',
-      source: 'Terminal',
-      amount: 67000,
-      status: 'successful',
-    },
-    // Add more transactions as needed
-  ],
-  pagination: {
-    total: 2,
-    page: 1,
-    limit: 10,
-    totalPages: 1,
-    hasNextPage: false,
-    hasPrevPage: false,
-  },
+  orderId: string;
+  createdAt: string;
+  type: string;
+  channel: string;
+  amount: number;
+  status: string;
+  transactionId: string;
 };
 
 const AllTransactions = () => {
-  const {
-    data: productData,
-    pagination: {page, limit, totalPages, hasNextPage, hasPrevPage},
-  } = data;
+  const [open, setOpen] = useState(false);
+  // const isMobile = useIsMobile();
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<TRANSACTIONTYPE | null>(null);
+  const [page, setPage] = useState(1);
+  const limit = 10;
+  const {userData} = useUser();
+  const storeId = userData?.store?._id;
+  const {data, isLoading, refetch} = useGetTransactions(
+    page,
+    limit,
+    storeId,
+    null,
+    null
+  );
+
+  const transactions = data?.data?.data || [];
+
+  const totalPages = Math.ceil(
+    (data?.data?.pagination?.total || 0) / limit
+  );
+
+  const hasNextPage = data?.data?.pagination?.hasNextPage;
+
+  const hasPrevPage = data?.data?.pagination?.hasPrevPage;
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleRowClick = (row: TRANSACTIONTYPE) => {
+    setSelectedTransaction(row);
+    setOpen(true);
+  };
+
+  useEffect(() => {
+    refetch();
+  }, [page, refetch]);
 
   return (
     <React.Fragment>
@@ -50,22 +69,28 @@ const AllTransactions = () => {
         {' '}
         <TransactionsSummaryCards />
         <GenericTable
-          data={productData}
+          data={transactions}
+          isLoading={isLoading}
           columns={columns}
           pageSize={limit}
+          onRowClick={row => handleRowClick(row)}
           currentPage={page}
           totalPages={totalPages}
           onPageChange={() => {}}
           hasNextPage={hasNextPage}
           hasPrevPage={hasPrevPage}
           showPagination
-          isLoading={false}
           emptyState={{
             title: 'No Products Found',
             description: 'There are no products available at the moment.',
             action: <button>Add Product</button>,
           }}
           customToolbar={<TableToolbar />}
+        />
+        <TransactionsSummaryModal
+          open={open}
+          setOpen={setOpen}
+          transaction={selectedTransaction}
         />
       </div>
     </React.Fragment>

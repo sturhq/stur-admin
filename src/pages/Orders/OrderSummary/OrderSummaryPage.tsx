@@ -10,17 +10,17 @@ import {
 } from '@/components/ui/select';
 import {useEffect, useState} from 'react';
 import {Input} from '@/components/ui/input';
-import {ArrowLeft, Copy} from 'lucide-react';
+import {ArrowLeft, Copy, CopyIcon} from 'lucide-react';
 import DeliveryAddressSummary from './DeliveryAddressSummary';
 import CustomerInfoSummary from './CustomerInfoSummary';
 import InvoiceSummary from './InvoiceSummary';
 import {useNavigate, useParams} from 'react-router-dom';
-import {
-  useGetOrderById,
-  useUpdateDeliveryStatus,
-  useUpdateOrderPaymentStatus,
-  useUpdateOrderStatus,
-} from '@/services/orders.service';
+// import {
+//   useGetOrderById,
+//   useUpdateDeliveryStatus,
+//   useUpdateOrderPaymentStatus,
+//   useUpdateOrderStatus,
+// } from '@/services/orders.service';
 import {CopyToClipboard, nigerianCurrencyFormat} from '@/lib/utils';
 import {toast} from '@/hooks/use-toast';
 import {useUser} from '@/hooks/useUser';
@@ -34,7 +34,19 @@ import {
   XCircleIcon,
 } from '@heroicons/react/24/solid';
 import ReportTransaction from './ReportTransaction';
-import {gaRecordEvent} from '@/analytics';
+// import {gaRecordEvent} from '@/analytics';
+import {
+  useGetOrderById,
+  useUpdateDeliveryStatus,
+  useUpdateOrderPaymentStatus,
+  useUpdateOrderStatus,
+} from '@/services/orders.service';
+import {
+  Avatar,
+  // AvatarFallback,
+  // AvatarFallback,
+  AvatarImage,
+} from '@/components/ui/avatar';
 
 const statusOptions = [
   {
@@ -90,6 +102,7 @@ const OrderSummary = () => {
   const {orderId} = useParams();
   const {userData} = useUser();
   const {data, isLoading} = useGetOrderById(orderId);
+  console.log(userData);
 
   const order = data?.data?.data;
 
@@ -281,7 +294,7 @@ const OrderSummary = () => {
     const whatsappUrl = `https://api.whatsapp.com/send?phone=${formattedNumber}&text=${encodeURIComponent(
       message
     )}`;
-    gaRecordEvent('ORDER', 'share_invoice');
+    // gaRecordEvent('ORDER', 'share_invoice');
     window.open(whatsappUrl, '_blank');
   };
 
@@ -295,181 +308,129 @@ const OrderSummary = () => {
           />
         </div>
         <h1 className="text-2xl font-bold max-lg:text-lg">
-          Order Summary
+          Order Details
         </h1>
       </div>
 
-      <div className="p-1.2 md:p-[1.8rem] grid grid-cols-3 max-lg:grid-cols-1 gap-4 w-[70%] max-2xl:w-[90%]  m-auto overflow-y-auto ">
-        <div className="max-lg:col-span-3 col-span-2 w-full place-items-center mb-[7.6875rem] max-lg:mb-[1rem]">
-          <Card className="p-4 space-y-4 w-full mb-[1.25rem]">
-            <div className="flex flex-col gap-5">
-              <div className="flex flex-col gap-[0.375rem]">
-                <Label className="text-sm font-semibold">
-                  Order status
-                </Label>
-                <Select
-                  value={orderStatus}
-                  onValueChange={(status: string) =>
-                    handleStatusChange(status, 'order')
-                  }
-                  disabled={
-                    orderStatus === 'completed' ||
-                    orderStatus === 'cancelled'
-                  }
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue>
-                      {
-                        statusOptions.find(
-                          option => option.value === orderStatus
-                        )?.label
-                      }
-                    </SelectValue>
-                  </SelectTrigger>
-                  <SelectContent>
-                    {statusOptions.map(option => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+      <div className="p-1.2 md:p-[1.8rem]   overflow-y-auto ">
+        <div className="p-1.2 md:p-[1.8rem]  w-[70%] max-2xl:w-[90%] mx-auto  transition-all duration-500 ease-in-out flex flex-col md:flex-row justify-between md:gap-[0.9375rem] md:items-center max-md:col-span-6 max-md:border-transparent max-md:rounded-lg">
+          <div className="flex gap-[1.0625rem] items-center">
+            <Avatar className="w-[3.4375rem] h-[3.4375rem]">
+              <AvatarImage src={userData?.store.storeLogoUrl} />
+            </Avatar>
+            <div>
+              <div>
+                <p className="text-[#414552] text-[1.75rem] font-bold">
+                  {userData?.store?.storeName}
+                </p>
               </div>
-              <div className="flex flex-col gap-[0.375rem]">
-                <Label className="text-sm font-semibold">
-                  Payment status
-                </Label>
-                <Select
-                  value={paymentStatus}
-                  onValueChange={(status: string) =>
-                    handleStatusChange(status, 'payment')
-                  }
-                  disabled={
-                    paymentStatus === 'paid' || orderStatus === 'cancelled'
-                  }
-                >
-                  <SelectTrigger className="w-full data-[disabled]:opacity-75 data-[disabled]:cursor-not-allowed">
-                    <SelectValue>
-                      {
-                        paymentOptions.find(
-                          option => option.value === paymentStatus
-                        )?.label
-                      }
-                    </SelectValue>
-                  </SelectTrigger>
-                  <SelectContent>
-                    {paymentOptions.map(option => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="flex flex-col gap-[0.375rem]">
-                <Label className="text-sm font-semibold">
-                  Delivery status
-                </Label>
-                <Select
-                  value={deliveryStatus}
-                  onValueChange={(status: string) =>
-                    handleStatusChange(status, 'delivery')
-                  }
-                  disabled={
-                    deliveryStatus === 'delivered' ||
-                    orderStatus === 'cancelled'
-                  }
-                >
-                  <SelectTrigger className="w-full data-[disabled]:opacity-75 data-[disabled]:cursor-not-allowed">
-                    <SelectValue>
-                      {
-                        deliveryOptions.find(
-                          option => option.value === deliveryStatus
-                        )?.label
-                      }
-                    </SelectValue>
-                  </SelectTrigger>
-                  <SelectContent>
-                    {deliveryOptions.map(option => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+              <div className="flex gap-[0.75rem] items-center">
+                <p className="text-[#6A7383] text-[0.875rem] font-normal">
+                  {userData?.store?.storeUrl}
+                </p>
+                <CopyIcon size={15} color="#5433EB" />
               </div>
             </div>
-          </Card>
-          <Card className="p-6 w-full border rounded-[0.75rem] ">
-            <InvoiceSummary orderData={order} isLoading={isLoading} />
-          </Card>
+          </div>
+          <Button className="w-[8.1875rem] h-[2.25rem] bg-[#30313D] rounded-[0.75rem] py-[0.5rem] px-[0.75rem]">
+            Contact vendor
+          </Button>
         </div>
-        <div className="space-y-6 w-full place-items-center max-lg:col-span-3 max-lg:mb-20">
-          {orderStatus !== 'cancelled' && (
-            <Card className="p-4 space-y-2 w-full">
-              <Label className="text-sm font-bold">Invoice Link</Label>
+        <div className="p-1.2 md:p-[1.8rem] grid grid-cols-3 max-lg:grid-cols-1 gap-4 w-[70%] max-2xl:w-[90%]  m-auto overflow-y-auto ">
+          <div className="max-lg:col-span-3 col-span-2 w-full place-items-center mb-[7.6875rem] max-lg:mb-[1rem]">
+            <Card className="p-4 space-y-4 w-full mb-[1.25rem]">
+              <div className="flex flex-col gap-5">
+                <div className="flex flex-col gap-[0.375rem]">
+                  <Label className="text-sm font-semibold">
+                    Order status
+                  </Label>
+                  <Select
+                    value={orderStatus}
+                    onValueChange={(status: string) =>
+                      handleStatusChange(status, 'order')
+                    }
+                    disabled={
+                      orderStatus === 'completed' ||
+                      orderStatus === 'cancelled'
+                    }
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue>
+                        {
+                          statusOptions.find(
+                            option => option.value === orderStatus
+                          )?.label
+                        }
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {statusOptions.map(option => (
+                        <SelectItem
+                          key={option.value}
+                          value={option.value}
+                        >
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
 
-              <div className="flex items-center gap-2">
-                <Input
-                  value={
-                    order?.paymentStatus === 'pending'
-                      ? `${import.meta.env.VITE_CUSTOMER_URL}/payment?orderId=${orderId}`
-                      : `${import.meta.env.VITE_CUSTOMER_URL}/invoice/${orderId}`
-                  }
-                  readOnly
-                  className="flex-1 w-full cursor-pointer"
-                  onClick={() =>
-                    window.open(
-                      `${import.meta.env.VITE_CUSTOMER_URL}/invoice/${orderId}`,
-                      '_blank'
-                    )
-                  }
-                />
-                <Button
-                  variant="outline"
-                  className="w-[2.25rem] h-[2.25rem] rounded-[0.5rem]"
-                  onClick={() => {
-                    CopyToClipboard(
-                      order?.paymentStatus === 'pending'
-                        ? `${import.meta.env.VITE_CUSTOMER_URL}/payment?orderId=${orderId}`
-                        : `${import.meta.env.VITE_CUSTOMER_URL}/invoice/${orderId}`
-                    );
-                    toast({
-                      title: 'Payment link copied',
-                      variant: 'default',
-                    });
-                  }}
-                >
-                  <Copy size={16} />
-                </Button>
-              </div>
-              <div className="pt-4">
-                <Button className="w-full" onClick={shareToWhatsApp}>
-                  {paymentStatus === 'paid' ? (
-                    <Share className="text-white" />
-                  ) : (
-                    <BankCard />
-                  )}
-                  {paymentStatus === 'paid'
-                    ? 'Share invoice'
-                    : 'Request Payment'}
-                </Button>
+                <div className="flex flex-col gap-[0.375rem]">
+                  <Label className="text-sm font-semibold">
+                    Delivery status
+                  </Label>
+                  <Select
+                    value={deliveryStatus}
+                    onValueChange={(status: string) =>
+                      handleStatusChange(status, 'delivery')
+                    }
+                    disabled={
+                      deliveryStatus === 'delivered' ||
+                      orderStatus === 'cancelled'
+                    }
+                  >
+                    <SelectTrigger className="w-full data-[disabled]:opacity-75 data-[disabled]:cursor-not-allowed">
+                      <SelectValue>
+                        {
+                          deliveryOptions.find(
+                            option => option.value === deliveryStatus
+                          )?.label
+                        }
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {deliveryOptions.map(option => (
+                        <SelectItem
+                          key={option.value}
+                          value={option.value}
+                        >
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </Card>
-          )}
-          <Card className="p-4 w-full">
-            <CustomerInfoSummary orderData={order} isLoading={isLoading} />
-          </Card>
-          <Card className="w-full p-4">
-            <DeliveryAddressSummary
-              orderData={order}
-              isLoading={isLoading}
-            />
-          </Card>
-          <Card className="w-full p-4">
-            <ReportTransaction orderData={order} />
-          </Card>
+            <Card className="p-6 w-full border rounded-[0.75rem] ">
+              <InvoiceSummary orderData={order} isLoading={isLoading} />
+            </Card>
+          </div>
+          <div className="space-y-6 w-full place-items-center max-lg:col-span-3 max-lg:mb-20">
+            <Card className="p-4 w-full">
+              <CustomerInfoSummary
+                orderData={order}
+                isLoading={isLoading}
+              />
+            </Card>
+            <Card className="w-full p-4">
+              <DeliveryAddressSummary
+                orderData={order}
+                isLoading={isLoading}
+              />
+            </Card>
+          </div>
         </div>
       </div>
 
@@ -481,25 +442,6 @@ const OrderSummary = () => {
         description={modalConfig.description}
         icon={modalConfig.icon}
       />
-
-      {orderStatus !== 'completed' &&
-        orderStatus !== 'cancelled' &&
-        paymentStatus !== 'paid' && (
-          <div className="flex justify-end gap-4 mt-6 fixed bottom-0 bg-white p-4 border-t w-full">
-            <Button
-              onClick={() => navigate(`/order/edit-order/${orderId}`)}
-              disabled={
-                paymentStatus === 'paid' ||
-                orderStatus === 'cancelled' ||
-                orderStatus === 'completed' ||
-                deliveryStatus === 'delivered'
-              }
-            >
-              <Edit />
-              Edit Order
-            </Button>
-          </div>
-        )}
     </div>
   );
 };

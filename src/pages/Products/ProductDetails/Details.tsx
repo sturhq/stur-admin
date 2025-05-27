@@ -21,7 +21,7 @@ import clsx from 'clsx';
 import placeholder from '@/assets/images/placeholderImage.svg';
 import {Card} from '@/components/ui/card';
 import {ChevronRightIcon} from 'lucide-react';
-import {gaRecordEvent} from '@/analytics';
+// import {gaRecordEvent} from '@/analytics';
 
 interface DetailsProps {
   details: {
@@ -137,10 +137,10 @@ export const Details = ({
                       description: 'Product link copied to clipboard',
                       variant: 'success',
                     });
-                    gaRecordEvent(
-                      'PRODUCT',
-                      'product_link_copied_to_clipboard'
-                    );
+                    // gaRecordEvent(
+                    //   'PRODUCT',
+                    //   'product_link_copied_to_clipboard'
+                    // );
                   }}
                   className="cursor-pointer"
                 >
@@ -194,10 +194,10 @@ export const Details = ({
                       'Product link copied to clipboard (sharing not supported)',
                     variant: 'success',
                   });
-                  gaRecordEvent(
-                    'PRODUCT',
-                    'product_link_copied_to_clipboard'
-                  );
+                  // gaRecordEvent(
+                  //   'PRODUCT',
+                  //   'product_link_copied_to_clipboard'
+                  // );
                 }
               }}
             >
@@ -279,10 +279,10 @@ export const Details = ({
                         'Product link copied to clipboard (sharing not supported)',
                       variant: 'success',
                     });
-                    gaRecordEvent(
-                      'PRODUCT',
-                      'product_link_copied_to_clipboard'
-                    );
+                    // gaRecordEvent(
+                    //   'PRODUCT',
+                    //   'product_link_copied_to_clipboard'
+                    // );
                   }
                 }}
                 className="flex text-[#30313D] font-semibold text-sm items-center gap-4 px-3 border-b border-gray-200 border-opacity-50 py-3"

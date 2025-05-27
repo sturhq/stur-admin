@@ -4,6 +4,7 @@
 // import CreatePassword from '@/pages/Auth/CreatePassword';
 import Login from '@/pages/Auth/Login';
 import Orders from '@/pages/Orders';
+import OrderSummary from '@/pages/Orders/OrderSummary/OrderSummaryPage';
 import Products from '@/pages/Products';
 import Stores from '@/pages/Stores';
 import AddProductPage from '@/pages/Stores/AddProduct/AddProduct';
@@ -155,6 +156,10 @@ export const fullScreenRoutes = [
   {
     path: 'products/add-product',
     element: <AddProductPage />,
+  },
+  {
+    path: 'order/summary/:orderId',
+    element: <OrderSummary />,
   },
 
   /* {

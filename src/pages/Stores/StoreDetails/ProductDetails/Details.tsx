@@ -44,10 +44,10 @@ interface DetailsProps {
   };
   isDeleting?: boolean;
   onDelete: () => void;
-  isUnpublishing?: boolean;
-  onUnpublish: () => void;
-  onPublish: () => void;
-  isPublishing?: boolean;
+  // isUnpublishing?: boolean;
+  // onUnpublish: () => void;
+  // onPublish: () => void;
+  // isPublishing?: boolean;
 }
 
 export const Details = ({
@@ -55,10 +55,10 @@ export const Details = ({
   pricing,
   onDelete,
   isDeleting,
-  isUnpublishing,
-  onUnpublish,
-  onPublish,
-  isPublishing,
+  // isUnpublishing,
+  // onUnpublish,
+  // onPublish,
+  // isPublishing,
 }: DetailsProps) => {
   const [isPublished, setIsPublished] = useState(
     details?.status === 'published'
@@ -70,14 +70,14 @@ export const Details = ({
   const {userData} = useUser();
   const isMobile = useIsMobile();
   const navigate = useNavigate();
-  const handleToggle = (checked: boolean) => {
-    setIsPublished(checked);
-    if (checked) {
-      onPublish();
-    } else {
-      onUnpublish();
-    }
-  };
+  // const handleToggle = (checked: boolean) => {
+  //   setIsPublished(checked);
+  //   if (checked) {
+  //     onPublish();
+  //   } else {
+  //     onUnpublish();
+  //   }
+  // };
   const productUrl = userData?.store?.storeUrl
     ? userData?.store?.storeUrl?.replace(
         userData?.store.storeSlug,
@@ -148,6 +148,16 @@ export const Details = ({
         <div>
           <div className="hidden lg:flex items-center gap-4">
             <Button
+              variant="outline"
+              className="flex items-center h-9 gap-2 px-2.5"
+              onClick={() =>
+                navigate(`/products/edit-product/${details._id}`)
+              }
+            >
+              <EditPen />
+              Edit
+            </Button>
+            <Button
               disabled={isDeleting}
               loading={isDeleting}
               onClick={() => onDelete()}
@@ -213,7 +223,7 @@ export const Details = ({
                 Edit
               </div>
               <div className="flex text-[#30313D] font-semibold text-sm items-center gap-4 px-3 border-b border-gray-200 border-opacity-50 py-3">
-                <div className="w-7 flex justify-center">
+                {/* <div className="w-7 flex justify-center">
                   {isUnpublishing ? (
                     <Spinner
                       variant="spin"
@@ -230,7 +240,7 @@ export const Details = ({
                       }}
                     />
                   )}
-                </div>
+                </div> */}
                 <p>
                   {details?.status === 'published'
                     ? 'Unpublish'

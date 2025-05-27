@@ -48,7 +48,7 @@ interface OrderProps {
 }
 
 const DetailedStore = () => {
-  const [isSuccess, setIsSuccess] = useState(true);
+  const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate();
   return (
     <React.Fragment>

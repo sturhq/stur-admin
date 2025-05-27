@@ -3,7 +3,6 @@ import {Skeleton} from '@/components/ui/skeleton';
 const DeliveryAddressSummary = ({orderData, isLoading}) => {
   return (
     <div className="flex flex-col gap-[1.25rem] w-full">
-      <h2 className="text-sm font-bold">Delivery Address</h2>
       <div className="flex flex-col gap-[0.625rem]">
         <div className="flex flex-col">
           <p className="text-[#6A7383] font-normal">Address</p>

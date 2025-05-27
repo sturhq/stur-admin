@@ -71,24 +71,6 @@ const InvoiceSummary = ({orderData, isLoading}) => {
           {isLoading ? (
             <Skeleton className="w-20 h-7" />
           ) : (
-            orderData?.paymentStatus && (
-              <Badge
-                variant={renderPaymentStatusBadge(
-                  orderData?.paymentStatus
-                )}
-                className="flex gap-[0.25rem]"
-              >
-                <p>
-                  {orderData?.paymentStatus.charAt(0).toUpperCase() +
-                    orderData?.paymentStatus.slice(1)}
-                </p>
-                <CreditCard size={13} />
-              </Badge>
-            )
-          )}
-          {isLoading ? (
-            <Skeleton className="w-20 h-7" />
-          ) : (
             orderData?.deliveryStatus && (
               <Badge
                 variant={renderDeliveryStatusBadge(
@@ -113,16 +95,7 @@ const InvoiceSummary = ({orderData, isLoading}) => {
           )}
         </div>
       </div>
-
-      <h2 className="text-xl font-bold mt-[2.187rem]">
-        {isLoading ? (
-          <Skeleton className="w-32 h-8" />
-        ) : (
-          `${orderData?.customer.firstName}`
-        )}
-      </h2>
-
-      <div className="mb-[1.0625rem]">
+      <div className="mb-[1.0625rem] mt-[1.0625rem]">
         <div className="flex gap-[1.125rem] items-baseline">
           <p className="text-[#6A7383]"> Order Id</p>
           {isLoading ? (
@@ -181,8 +154,6 @@ const InvoiceSummary = ({orderData, isLoading}) => {
                         </p>
                       </div>
                     </div>
-
-                    {/* <p className="text-sm text-gray-500">Concrete pot</p> */}
                   </div>
                   <p className="font-medium">
                     {nigerianCurrencyFormat(item.price)}

@@ -2,8 +2,7 @@ import React, {useState} from 'react';
 import {Table} from '@tanstack/react-table';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
-
-import {X} from 'lucide-react';
+import {ArrowUpLeft, Search, X} from 'lucide-react';
 import {
   Select,
   SelectContent,
@@ -30,7 +29,7 @@ export function TableToolbar<TData>({table}: TableToolbarProps<TData>) {
     const value = e.target.value;
     setNameFilter(value);
 
-    // Filter on stur Name
+    // Filter on product title
     table.getColumn('title')?.setFilterValue(value);
   };
 
@@ -39,31 +38,15 @@ export function TableToolbar<TData>({table}: TableToolbarProps<TData>) {
   return (
     <div className="flex items-center justify-between py-6 px-1 gap-2">
       <div className="flex flex-1 items-center space-x-2">
-        <Input
-          placeholder="Search by product name..."
-          value={nameFilter}
-          onChange={handleNameFilterChange}
-          className="h-8 w-[150px] lg:w-[250px]"
-        />
-
-        <Select
-          onValueChange={value =>
-            table.getColumn('status')?.setFilterValue(value || undefined)
-          }
-          value={
-            (table.getColumn('status')?.getFilterValue() as string) ??
-            undefined
-          }
-        >
-          <SelectTrigger className="h-8 w-[150px]">
-            <SelectValue placeholder="Filter by status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="published">Published</SelectItem>
-            <SelectItem value="draft">Draft</SelectItem>
-            <SelectItem value="out-of-stock">Out of stock</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex items-center border rounded-[0.475rem] px-[0.5rem]">
+          <Search size={16} />
+          <Input
+            placeholder="Search..."
+            value={nameFilter}
+            onChange={handleNameFilterChange}
+            className="h-8 w-[150px] lg:w-[250px] border-none focus:outline-none focus:ring-0 focus:border-none"
+          />
+        </div>
 
         {isFiltered && (
           <Button

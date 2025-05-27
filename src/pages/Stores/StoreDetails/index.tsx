@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import PageHeader from '@/common/PageHeader';
 import PageHelmet from '@/common/PageHelmet';
 import {Button} from '@/components/ui/button';
-import {Copy} from 'lucide-react';
+import {Copy, Plus} from 'lucide-react';
 import {toast} from '@/hooks/use-toast';
 import {Badge} from '@/components/ui/badge';
 import ProductSummaryCard from './ProductSummaryCards';
@@ -20,6 +20,15 @@ const StoreDetails = () => {
             title="The Links International"
             button={
               <div className="flex gap-2">
+                <Button
+                  className="bg-[#30313D] p-[0.5rem]"
+                  // onClick={() => {
+                  //   setOpen(true);
+                  // }}
+                >
+                  <Plus size={15} />
+                  <div>Add product</div>
+                </Button>
                 <Button
                   variant="destructive"
                   onClick={() => {
@@ -49,7 +58,7 @@ const StoreDetails = () => {
             >
               www.stur.ng/thelinkstore
             </a>
-            <Copy className="w-4 h-4" />
+            <Copy className="w-4 h-4 text-[#5433EB]" />
           </div>
           <div className="flex col gap-2 mt-4">
             <Badge variant="positive">Complete</Badge>

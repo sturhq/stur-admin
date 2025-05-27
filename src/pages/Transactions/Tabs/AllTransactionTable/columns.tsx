@@ -10,29 +10,19 @@ import emptyStateImage from '@/assets/images/transactionEmptyState.svg';
 import {z} from 'zod';
 import {GenericTable} from '@/components/organisms/GenericTable';
 import TransactionsSummaryCards from '../../TransactionsSummaryCards';
+import {TRANSACTIONTYPE} from '.';
+import {dateTimeSemiColon} from '@/lib/dateTimeFormat';
 
-// Define schema for table data validation
-export const transactionTableSchema = z.object({
-  _id: z.string(),
-  customer: z.string(),
-  orderId: z.string(),
-  dateTime: z.string(),
-  type: z.string(),
-  source: z.string(),
-  amount: z.number(),
-  status: z.enum(['successful', 'failed', 'pending']),
-});
-
-type TransactionTableType = z.infer<typeof transactionTableSchema>;
-
-export const columns: ColumnDef<TransactionTableType>[] = [
+export const columns: ColumnDef<TRANSACTIONTYPE>[] = [
   {
     accessorKey: 'customer',
     header: ({column}) => (
       <TableColumnHeader column={column} title="SUMMARY" />
     ),
     cell: ({row}) => (
-      <span className="font-medium">{row.original.customer}</span>
+      <span className="font-medium">
+        {row.original.authorization?.senderName}
+      </span>
     ),
   },
   {
@@ -47,7 +37,7 @@ export const columns: ColumnDef<TransactionTableType>[] = [
     header: ({column}) => (
       <TableColumnHeader column={column} title="DATETIME" />
     ),
-    cell: ({row}) => row.original.dateTime,
+    cell: ({row}) => dateTimeSemiColon(row.original.createdAt),
   },
   {
     accessorKey: 'type',
@@ -65,7 +55,7 @@ export const columns: ColumnDef<TransactionTableType>[] = [
     ),
     cell: ({row}) => (
       <span className="uppercase">
-        {row.original.source === 'pos' ? 'POS' : row.original.source}
+        {row.original.channel === 'pos' ? 'POS' : row.original.type}
       </span>
     ),
   },
@@ -86,14 +76,12 @@ export const columns: ColumnDef<TransactionTableType>[] = [
       return (
         <Badge
           variant={
-            status === 'successful'
-              ? 'positive'
-              : status === 'pending'
-                ? 'warning'
-                : 'negative'
+            row.original.status === 'success' ? 'positive' : 'negative'
           }
         >
-          {status.charAt(0).toUpperCase() + status.slice(1)}
+          {/* caplitalize */}
+          {row.original.status.charAt(0).toUpperCase() +
+            row.original.status.slice(1)}
         </Badge>
       );
     },
@@ -101,7 +89,7 @@ export const columns: ColumnDef<TransactionTableType>[] = [
 ];
 
 type Props = {
-  transactions: TransactionTableType[];
+  transactions: TRANSACTIONTYPE[];
   isLoading: boolean;
   page: number;
   totalPages: number;
@@ -126,7 +114,7 @@ const AllTransactions = ({
   const isMobile = useIsMobile();
   const navigate = useNavigate();
 
-  const handleRowClick = (row: TransactionTableType) => {
+  const handleRowClick = (row: TRANSACTIONTYPE) => {
     navigate(`/transactions/transaction-detail/${row._id}`);
   };
 

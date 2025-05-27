@@ -3,6 +3,7 @@ import {Card} from '@/components/ui/card';
 import {Skeleton} from '@/components/ui/skeleton';
 import {useUser} from '@/hooks/useUser';
 import {nigerianCurrencyFormat} from '@/lib/utils';
+import {useGetTransactionStatistics} from '@/services/transactions.service';
 // import {useGetTransactionStatistics} from '@/services/transactions.service';
 // import MobileTransactionsSummaryCards from './Mobile/MobileTransactionSummaryCard';
 import {
@@ -14,25 +15,20 @@ import {
 
 const TransactionsSummaryCards = () => {
   const {userData} = useUser();
-  // const {data, isLoading} = useGetTransactionStatistics(
-  //   userData?.store?._id
-  // );
-  // const transactionStatistics = data?.data.data;
+  const {data, isLoading} = useGetTransactionStatistics(
+    userData?.store?._id
+  );
+  const transactionStatistics = data?.data.data;
 
   return (
     <div>
       <div className="flex gap-4 items-center justify-between w-full max-lg:hidden">
         <Card className="p-4 w-full  transition-all duration-500 ease-in-out flex gap-[0.9375rem] items-center">
-          {/* <IconComponent
-            Icon={CurrencyDollarIcon}
-            bgColor="bg-[#5433EB]"
-            className=""
-          /> */}
           <div>
             <h1 className="text-base font-semibold leading-5 mb-1 text-[#6A7383]">
               Pending settlement
             </h1>
-            {/* {!isLoading && transactionStatistics ? (
+            {!isLoading && transactionStatistics ? (
               <p className="text-xl font-bold">
                 {nigerianCurrencyFormat(
                   transactionStatistics?.pendingSettlement
@@ -40,8 +36,7 @@ const TransactionsSummaryCards = () => {
               </p>
             ) : (
               <Skeleton className="w-20 h-7" />
-            )} */}
-            <div className="text-xl font-bold">56,903,000.00</div>
+            )}
           </div>
         </Card>
         <Card className="p-4 w-full  transition-all duration-500 ease-in-out flex gap-[0.9375rem] items-center">
@@ -49,7 +44,7 @@ const TransactionsSummaryCards = () => {
             <h1 className="text-base font-semibold leading-5 mb-1 text-[#6A7383]">
               Total online transaction
             </h1>
-            {/* {!isLoading && transactionStatistics ? (
+            {!isLoading && transactionStatistics ? (
               <p className="text-xl font-bold">
                 {nigerianCurrencyFormat(
                   transactionStatistics?.totalOnline
@@ -57,8 +52,7 @@ const TransactionsSummaryCards = () => {
               </p>
             ) : (
               <Skeleton className="w-20 h-7" />
-            )} */}
-            <div className="text-xl font-bold">0.00</div>
+            )}
           </div>
         </Card>
         <Card className="p-4 w-full  transition-all duration-500 ease-in-out flex gap-[0.9375rem] items-center">
@@ -66,7 +60,7 @@ const TransactionsSummaryCards = () => {
             <h1 className="text-base font-semibold leading-5 mb-1 text-[#6A7383]">
               Total offline transaction
             </h1>
-            {/* {!isLoading && transactionStatistics ? (
+            {!isLoading && transactionStatistics ? (
               <p className="text-xl font-bold">
                 {nigerianCurrencyFormat(
                   transactionStatistics?.totalOffline
@@ -74,8 +68,7 @@ const TransactionsSummaryCards = () => {
               </p>
             ) : (
               <Skeleton className="w-20 h-7" />
-            )} */}
-            <div className="text-xl font-bold">0.00</div>
+            )}
           </div>
         </Card>
       </div>

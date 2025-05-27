@@ -1,57 +1,42 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {columns} from './columns';
 import {GenericTable} from '@/components/organisms/GenericTable';
 import {TableToolbar} from './table-toolbar';
-
-const data = {
-  data: [
-    {
-      _id: '1',
-      customer: 'Solomon Johnson',
-      total: 5,
-      vendor: 'Mr. Bigs',
-      amount: 67000,
-      status: 'pending',
-      deliveryStatus: 'pending',
-    },
-    {
-      _id: '2',
-      customer: 'Jane John',
-      total: 1,
-      vendor: 'Shoprite',
-      amount: 67000,
-      status: 'completed',
-      deliveryStatus: 'out-for-delivery',
-    },
-  ],
-  pagination: {
-    total: 12,
-    page: 1,
-    limit: 10,
-    totalPages: 2,
-    hasNextPage: true,
-    hasPrevPage: false,
-  },
-};
+import {useNavigate} from 'react-router-dom';
+import {useUser} from '@/hooks/useUser';
+import {useGetOrders} from '@/services/orders.service';
 
 const OrderTable = () => {
-  const {
-    data: orderData,
-    pagination: {page, limit, totalPages, hasNextPage, hasPrevPage},
-  } = data;
+  const navigate = useNavigate();
+  const {userData} = useUser();
+  const limit = 20;
+  const [page, setPage] = useState(1);
 
+  const {data, isLoading, refetch} = useGetOrders(
+    userData?.store?._id,
+    page,
+    limit
+  );
+  const orders = data?.data?.data || [];
+
+  const hasNextPage = data?.data?.pagination?.hasNextPage;
+  const hasPrevPage = data?.data?.pagination?.hasPrevPage;
+  const totalPages = data?.data?.pagination?.totalPages;
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
   return (
     <GenericTable
-      data={orderData}
+      data={orders}
       columns={columns}
       pageSize={limit}
       currentPage={page}
       totalPages={totalPages}
-      onPageChange={() => {}}
+      onPageChange={handlePageChange}
       hasNextPage={hasNextPage}
       hasPrevPage={hasPrevPage}
       showPagination
-      isLoading={false}
+      isLoading={isLoading}
       className="!mt-0"
       emptyState={{
         title: 'No Products Found',
@@ -59,6 +44,9 @@ const OrderTable = () => {
         action: <button>Add Product</button>,
       }}
       customToolbar={<TableToolbar />}
+      onRowClick={row => {
+        navigate(`/order/summary/${row?._id}`);
+      }}
     />
   );
 };

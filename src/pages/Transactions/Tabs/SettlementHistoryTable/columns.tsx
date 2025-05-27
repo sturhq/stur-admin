@@ -9,20 +9,24 @@ import emptyStateImage from '@/assets/images/transactionEmptyState.svg';
 import {z} from 'zod';
 import {GenericTable} from '@/components/organisms/GenericTable';
 import SettlementSummaryCards from '../../SettlementSummaryCards';
+import {SETTLEMENT_HISTORY} from '.';
+import {dateTimeSemiColon} from '@/lib/dateTimeFormat';
 
-// Define schema for table data validation
-export const settlementTableSchema = z.object({
-  _id: z.string(),
-  accountName: z.string(),
-  type: z.enum(['settlement', 'payout', 'refund']),
-  dateTime: z.string(),
-  amount: z.number(),
-  status: z.enum(['successful', 'failed', 'pending']),
-});
-
-type SettlementTableType = z.infer<typeof settlementTableSchema>;
-
-export const columns: ColumnDef<SettlementTableType>[] = [
+const renderStatus = (status: string) => {
+  switch (status) {
+    case 'completed':
+      return 'positive';
+    case 'failed':
+      return 'negative';
+    case 'processing':
+      return 'warning';
+    case 'pending':
+      return 'warning';
+    default:
+      return 'default';
+  }
+};
+export const columns: ColumnDef<SETTLEMENT_HISTORY>[] = [
   {
     accessorKey: 'accountName',
     header: ({column}) => (
@@ -30,7 +34,7 @@ export const columns: ColumnDef<SettlementTableType>[] = [
     ),
     cell: ({row}) => (
       <span className="font-medium mr-[18rem]">
-        {row.original.accountName}
+        {row.original.settlementAccount.accountName}
       </span>
     ),
   },
@@ -40,7 +44,9 @@ export const columns: ColumnDef<SettlementTableType>[] = [
       <TableColumnHeader column={column} title="TYPE" />
     ),
     cell: ({row}) => (
-      <span className="capitalize">{row.original.type}</span>
+      <span className="capitalize">
+        {row.original.settlementAccount.type}
+      </span>
     ),
   },
   {
@@ -48,7 +54,7 @@ export const columns: ColumnDef<SettlementTableType>[] = [
     header: ({column}) => (
       <TableColumnHeader column={column} title="DATETIME" />
     ),
-    cell: ({row}) => row.original.dateTime,
+    cell: ({row}) => dateTimeSemiColon(row.original.createdAt),
   },
   {
     accessorKey: 'amount',
@@ -65,16 +71,10 @@ export const columns: ColumnDef<SettlementTableType>[] = [
     cell: ({row}) => {
       const status = row.original.status;
       return (
-        <Badge
-          variant={
-            status === 'successful'
-              ? 'positive'
-              : status === 'pending'
-                ? 'warning'
-                : 'negative'
-          }
-        >
-          {status.charAt(0).toUpperCase() + status.slice(1)}
+        <Badge variant={renderStatus(row.original.status)}>
+          {/* caplitalize */}
+          {row.original.status.charAt(0).toUpperCase() +
+            row.original.status.slice(1)}
         </Badge>
       );
     },
@@ -82,7 +82,7 @@ export const columns: ColumnDef<SettlementTableType>[] = [
 ];
 
 type Props = {
-  settlements: SettlementTableType[];
+  settlements: SETTLEMENT_HISTORY[];
   isLoading: boolean;
   page: number;
   totalPages: number;
