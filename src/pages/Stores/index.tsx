@@ -5,9 +5,22 @@ import {Button} from '@/components/ui/button';
 import {useNavigate} from 'react-router-dom';
 import StoreSummaryCards from './StoreSummaryCards';
 import StoreTable from './StoresTable';
+import {useGetStores} from '@/services/stores.services';
 
 const Stores = () => {
+  const [page, setPage] = React.useState(1);
+  const limit = 20; // Define the number of items per page
   const navigate = useNavigate();
+
+  const {data, isLoading} = useGetStores(page, limit);
+
+  const statistics = data?.statistics || {};
+  const tableData = data?.data || [];
+  const pagination = data?.pagination || {
+    totalPages: 0,
+    hasNextPage: false,
+    hasPrevPage: false,
+  };
 
   return (
     <React.Fragment>
@@ -21,8 +34,15 @@ const Stores = () => {
             </Button>
           }
         />
-        <StoreSummaryCards />
-        <StoreTable />
+        <StoreSummaryCards statistics={statistics} isLoading={isLoading} />
+        <StoreTable
+          tableData={tableData}
+          isLoading={isLoading}
+          pagination={pagination}
+          page={page}
+          setPage={setPage}
+          limit={limit}
+        />
       </div>
     </React.Fragment>
   );

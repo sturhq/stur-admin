@@ -35,6 +35,7 @@ export const useGetProducts = (
           hasNextPage: data.data.pagination.hasNextPage,
           hasPrevPage: data.data.pagination.hasPrevPage,
         },
+        statistics: data.data.statistics,
       };
     },
   });

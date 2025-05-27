@@ -36,7 +36,7 @@ export function TableToolbar<TData>({table}: TableToolbarProps<TData>) {
     const value = e.target.value;
     setNameFilter(value);
 
-    table.getColumn('title')?.setFilterValue(value);
+    table.getColumn('storeName')?.setFilterValue(value);
   };
 
   const isFiltered = table.getState().columnFilters.length > 0;

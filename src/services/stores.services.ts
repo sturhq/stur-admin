@@ -25,7 +25,17 @@ export const useGetStores = (page?: number, limit?: number) => {
           hasNextPage: data.data.pagination.hasNextPage,
           hasPrevPage: data.data.pagination.hasPrevPage,
         },
+        statistics: data.data.statistics,
       };
     },
+  });
+};
+
+export const useGetStoreById = (storeId: string) => {
+  return useQuery({
+    queryKey: ['store', storeId],
+    queryFn: () => api.get(`/store/${storeId}`),
+    enabled: !!storeId,
+    refetchOnWindowFocus: true,
   });
 };
