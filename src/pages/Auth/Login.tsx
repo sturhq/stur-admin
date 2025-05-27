@@ -53,13 +53,13 @@ const Login = () => {
             if (res?.data?.data?.user?.verification?.status) {
               navigate('/');
             } else {
-              navigate('/onboarding/store');
+              navigate('/stores');
             }
           } else {
             if (res?.data?.data?.user?.verification?.cac.isVerified) {
               navigate('/');
             } else {
-              navigate('/onboarding/store');
+              navigate('/stores');
             }
           }
         }

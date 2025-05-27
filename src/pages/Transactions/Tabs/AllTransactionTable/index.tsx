@@ -29,7 +29,7 @@ const AllTransactions = () => {
   const [selectedTransaction, setSelectedTransaction] =
     useState<TRANSACTIONTYPE | null>(null);
   const [page, setPage] = useState(1);
-  const limit = 10;
+  const limit = 20;
   const {userData} = useUser();
   const storeId = userData?.store?._id;
   const {data, isLoading, refetch} = useGetTransactions(
@@ -41,6 +41,8 @@ const AllTransactions = () => {
   );
 
   const transactions = data?.data?.data || [];
+
+  const transactionsSummary = data?.data?.statistics || {};
 
   const totalPages = Math.ceil(
     (data?.data?.pagination?.total || 0) / limit
@@ -67,7 +69,10 @@ const AllTransactions = () => {
     <React.Fragment>
       <div>
         {' '}
-        <TransactionsSummaryCards />
+        <TransactionsSummaryCards
+          stats={transactionsSummary}
+          isLoading={isLoading}
+        />
         <GenericTable
           data={transactions}
           isLoading={isLoading}
@@ -76,7 +81,7 @@ const AllTransactions = () => {
           onRowClick={row => handleRowClick(row)}
           currentPage={page}
           totalPages={totalPages}
-          onPageChange={() => {}}
+          onPageChange={handlePageChange}
           hasNextPage={hasNextPage}
           hasPrevPage={hasPrevPage}
           showPagination

@@ -8,6 +8,7 @@ import StoreTable from './StoresTable';
 
 const Stores = () => {
   const navigate = useNavigate();
+
   return (
     <React.Fragment>
       <PageHelmet title="Stores" />

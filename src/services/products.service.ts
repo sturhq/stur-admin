@@ -16,7 +16,7 @@ export const useGetProducts = (
   return useQuery({
     queryKey: ['products', page, limit, storeId, status, category],
     queryFn: () =>
-      api.get('/products', {
+      api.get('/products/admin/products', {
         params: {
           page,
           limit,

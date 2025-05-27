@@ -11,7 +11,7 @@ export const useGetTransactions = (
 ) => {
   return useQuery({
     queryFn: () =>
-      api.get('/transaction', {
+      api.get('/transaction/admin/all-transactions', {
         params: {
           page,
           limit,
@@ -26,34 +26,16 @@ export const useGetTransactions = (
   });
 };
 
-export const useGetTransactionStatistics = (storeId?: string) => {
+export const useGetSettlement = (page: number, limit: number) => {
   return useQuery({
     queryFn: () =>
-      api.get('/transaction/statistics', {
+      api.get('/settlement/admin/all', {
         params: {
-          storeId,
+          page,
+          limit,
         },
       }),
-    queryKey: ['transaction-stats'],
+    queryKey: ['settlement', page, limit],
     refetchOnWindowFocus: true,
-    enabled: !!storeId,
-  });
-};
-
-export const useGetSettlement = (
-  page: number,
-  limit: number,
-  storeId?: string
-) => {
-  return useQuery({
-    queryFn: () =>
-      api.get('/settlement', {
-        params: {
-          storeId,
-        },
-      }),
-    queryKey: ['settlement', page, limit, storeId],
-    refetchOnWindowFocus: true,
-    enabled: !!storeId,
   });
 };

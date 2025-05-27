@@ -4,7 +4,6 @@ import {GenericTable} from '@/components/organisms/GenericTable';
 import {TableToolbar} from './table-toolbar';
 import SettlementSummaryCards from '../../SettlementSummaryCards';
 import {useGetSettlement} from '@/services/transactions.service';
-import {useUser} from '@/hooks/useUser';
 
 export type SETTLEMENT_HISTORY = {
   settlementAccount: {
@@ -20,14 +19,10 @@ export type SETTLEMENT_HISTORY = {
 const SettlementHistory = () => {
   const [page, setPage] = useState(1);
   // const isMobile = useIsMobile();
-  const limit = 10;
-  const {userData} = useUser();
+  const limit = 20;
+
   // const columnHelper = createColumns<SETTLEMENT_HISTORY>();
-  const {data, isLoading, refetch} = useGetSettlement(
-    page,
-    limit,
-    userData?.store?._id
-  );
+  const {data, isLoading, refetch} = useGetSettlement(page, limit);
 
   const settlements = data?.data?.data || [];
 
@@ -56,7 +51,7 @@ const SettlementHistory = () => {
           pageSize={limit}
           currentPage={page}
           totalPages={totalPages}
-          onPageChange={() => {}}
+          onPageChange={handlePageChange}
           hasNextPage={hasNextPage}
           hasPrevPage={hasPrevPage}
           showPagination

@@ -16,7 +16,7 @@ export const useGetOrders = (
   return useQuery({
     queryKey: ['orders', storeId, page, limit],
     queryFn: () =>
-      api.get('/orders', {
+      api.get('/orders/admin/orders', {
         params: {
           storeId,
           page,
