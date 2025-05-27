@@ -49,7 +49,7 @@ const StoreTable = ({
 
   return (
     <GenericTable
-      data={storeData}
+      data={storeData || []}
       columns={columns}
       pageSize={limit}
       currentPage={page}

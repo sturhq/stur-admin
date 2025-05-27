@@ -46,16 +46,19 @@ export const columns: ColumnDef<ProductTableType, unknown>[] = [
       <TableColumnHeader column={column} title="PRODUCT" />
     ),
     cell: ({row}) => {
+      const original = row.original;
       return (
         <div className="flex items-center gap-[0.8519rem] mr-[18rem]">
-          <ImageComponent
-            src={row.original.previewMedia}
-            alt={row.original.title}
-            className="w-[1.5625rem] h-[1.5625rem] !rounded-sm"
-            imageClass="w-[1.5625rem] h-[1.5625rem] !rounded-sm"
-            placeholderClass="w-[0.8rem]"
-          />
-          <span>{row.original.title}</span>
+          {original.previewMedia && (
+            <ImageComponent
+              src={original.previewMedia}
+              alt={original.title || 'Product image'}
+              className="w-[1.5625rem] h-[1.5625rem] !rounded-sm"
+              imageClass="w-[1.5625rem] h-[1.5625rem] !rounded-sm"
+              placeholderClass="w-[0.8rem]"
+            />
+          )}
+          <span>{original.title || 'Untitled'}</span>
         </div>
       );
     },
@@ -65,21 +68,21 @@ export const columns: ColumnDef<ProductTableType, unknown>[] = [
     header: ({column}) => (
       <TableColumnHeader column={column} title="CATEGORY" />
     ),
-    cell: ({row}) => row.original.category,
+    cell: ({row}) => row.original.category || '-',
   },
   {
     accessorKey: 'stockQuantity',
     header: ({column}) => (
       <TableColumnHeader column={column} title="SOLD" />
     ),
-    cell: ({row}) => row.original.stockQuantity,
+    cell: ({row}) => row.original.stockQuantity || 0,
   },
   {
     accessorKey: 'price',
     header: ({column}) => (
       <TableColumnHeader column={column} title="PRICE" />
     ),
-    cell: ({row}) => nigerianCurrencyFormat(row.original.price),
+    cell: ({row}) => nigerianCurrencyFormat(row.original.price || 0),
   },
   {
     accessorKey: 'status',
@@ -94,8 +97,16 @@ export const columns: ColumnDef<ProductTableType, unknown>[] = [
         'out-of-stock': 'Out of stock',
         unpublished: 'Unpublished',
       };
+
+      const safeStatus =
+        status in statusMap
+          ? (status as keyof typeof statusMap)
+          : 'unpublished';
+
       return (
-        <Badge variant={renderVariant(status)}>{statusMap[status]}</Badge>
+        <Badge variant={renderVariant(safeStatus)}>
+          {statusMap[safeStatus]}
+        </Badge>
       );
     },
   },

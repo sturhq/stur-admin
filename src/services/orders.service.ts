@@ -197,3 +197,16 @@ export const useGetDeliveryAreas = (storeId: string) => {
     enabled: !!storeId,
   });
 };
+export const useOrderStatistics = (storeId: string) => {
+  return useQuery({
+    queryKey: ['order-statistics'],
+    queryFn: () =>
+      api.get('/orders/statistics', {
+        params: {
+          storeId,
+        },
+      }),
+    enabled: !!storeId,
+    refetchOnWindowFocus: true,
+  });
+};
