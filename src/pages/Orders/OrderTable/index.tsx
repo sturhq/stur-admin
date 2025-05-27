@@ -27,7 +27,7 @@ const OrderTable = () => {
   };
   return (
     <GenericTable
-      data={orders}
+      data={orders || []}
       columns={columns}
       pageSize={limit}
       currentPage={page}
@@ -39,9 +39,8 @@ const OrderTable = () => {
       isLoading={isLoading}
       className="!mt-0"
       emptyState={{
-        title: 'No Products Found',
-        description: 'There are no products available at the moment.',
-        action: <button>Add Product</button>,
+        title: 'No orders yet',
+        description: 'All orders will be displayed here',
       }}
       customToolbar={<TableToolbar />}
       onRowClick={row => {
