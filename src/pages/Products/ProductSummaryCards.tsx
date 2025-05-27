@@ -13,8 +13,8 @@ import {
 } from '@heroicons/react/24/solid';
 interface StoreSummaryCardsProps {
   statistics?: {
-    totalProducts?: number;
-    totalDrafts?: number;
+    total?: number;
+    drafts?: number;
   };
   isLoading?: boolean;
 }
@@ -35,9 +35,7 @@ const ProductSummaryCard = ({
             {isLoading ? (
               <Skeleton className="w-20 h-7" />
             ) : (
-              <div className="text-xl font-bold">
-                {statistics.totalProducts}
-              </div>
+              <div className="text-xl font-bold">{statistics.total}</div>
             )}
           </div>
         </Card>
@@ -49,7 +47,7 @@ const ProductSummaryCard = ({
             {isLoading ? (
               <Skeleton className="w-20 h-7" />
             ) : (
-              <p className="text-xl font-bold">{statistics.totalDrafts}</p>
+              <p className="text-xl font-bold">{statistics.drafts}</p>
             )}
           </div>
         </Card>

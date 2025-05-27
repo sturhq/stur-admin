@@ -26,7 +26,7 @@ export const useGetProducts = (
         },
       }),
     refetchOnWindowFocus: true,
-    enabled: !!storeId,
+    enabled: true,
     select: data => {
       return {
         data: data.data.data,

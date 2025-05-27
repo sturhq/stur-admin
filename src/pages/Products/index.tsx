@@ -17,13 +17,12 @@ const Products = () => {
   const navigate = useNavigate();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const {userData} = useUser();
+  const [selectedStoreId, setSelectedStoreId] = useState<
+    string | undefined
+  >();
 
-  const {data, isLoading, error} = useGetProducts(
-    page,
-    limit,
-    userData?.store?._id
-  );
-  console.log(data);
+  const {data, isLoading} = useGetProducts(page, limit, selectedStoreId);
+  console.log(userData);
   const statistics = data?.statistics || {};
   const tableData = data?.data || [];
   const pagination = data?.pagination || {
