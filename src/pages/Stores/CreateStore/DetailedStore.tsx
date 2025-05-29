@@ -85,7 +85,6 @@ const DetailedStore = () => {
       const response = await uploadFile(file);
       const url = response.secure_url;
 
-    
       if (type === 'logo') {
         setValue('storeLogoUrl', url);
       } else {
