@@ -22,7 +22,6 @@ const Products = () => {
   >();
 
   const {data, isLoading} = useGetProducts(page, limit, selectedStoreId);
-  console.log(userData);
   const statistics = data?.statistics || {};
   const tableData = data?.data || [];
   const pagination = data?.pagination || {

@@ -26,17 +26,6 @@ const SuccessScreen = () => {
 
   return (
     <div>
-      {/* <div className="flex items-center gap-5 mb-6 py-[1.25rem] px-[1.875rem] max-lg:px-[0.625rem] max-lg:py-[0.9375rem]  border-b">
-        <div className="border rounded-xl p-2">
-          <ArrowLeft
-            onClick={() => navigate(-1)}
-            className=" cursor-pointer"
-          />
-        </div>
-        <h1 className="text-2xl font-bold max-lg:text-lg">
-          Create stores
-        </h1>
-      </div> */}
       <div className="mx-auto max-w-[46.375rem] px-4">
         <div className="flex flex-col items-center  justify-center gap-1">
           <img src={confetti} alt="success" className="w-12 h-12" />
@@ -105,10 +94,7 @@ const SuccessScreen = () => {
           </Card>
         </div>
         <Button
-          className="w-full bg-[#30313D] mt-[1.5625rem] rounded-[0.75rem] font-normal text-[0.875rem] text-[#FFFFFF]"
-          // onClick={() =>
-          //   navigate(`/order/summary/${successResponse?._id}`)
-          // }
+          className="w-full bg-[#30313D] mt-[1.5625rem] rounded-[0.75rem] font-normal text-[0.875rem] text-[#FFFFFF] mb-[20rem]"
           onClick={() => navigate('/products/add-product')}
         >
           Add product
