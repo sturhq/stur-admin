@@ -1,6 +1,4 @@
 import {Button} from '@/components/ui/button';
-
-// import Pricing from './Pricing';
 import Details from './Details';
 import {useGetPresignedUrl} from '@/services/fileupload.service';
 import {useState} from 'react';
@@ -82,14 +80,6 @@ const AddProductPage = () => {
         </div>
       </div>
       <div className="flex flex-col-reverse lg:flex-row justify-end gap-4 lg:mt-6 lg:fixed lg:bottom-0 lg:bg-transparent p-4 lg:border-none w-full">
-        {/* <Button
-          variant="outline"
-          // onClick={onDraftSubmit}
-          // loading={addingDraftPending}
-          disabled={!details.title || !pricing.price}
-        >
-          Save as draft
-        </Button> */}
         <Button
           // onClick={onSubmit}
           // loading={isPending}

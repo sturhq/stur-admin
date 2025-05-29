@@ -40,6 +40,26 @@ export const useGetStoreById = (storeId: string) => {
   });
 };
 
+export const useCreateStore = () => {
+  return useMutation({
+    mutationFn: (data: {
+      storeName: string;
+      storeDescription: string;
+      phoneNumber: string;
+      email: string;
+      businessType: string;
+      storeLogoUrl: string;
+      bannerUrl: string;
+    }) => api.post('/store/admin/claimable', data),
+    onSuccess: () => {
+      toast({title: 'Store created successfully!', variant: 'success'});
+    },
+    onError: () => {
+      toast({title: 'Error creating store', variant: 'destructive'});
+    },
+  });
+};
+
 export const useBlockUser = (userId: string) => {
   const queryClient = useQueryClient();
   return useMutation({
