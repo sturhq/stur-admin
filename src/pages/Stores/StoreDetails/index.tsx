@@ -56,8 +56,9 @@ const StoreDetails = () => {
     Premium: 'Premium',
     Standard: 'Standard',
   };
+  type PlanType = keyof typeof planMap;
   const variantMap: Record<
-    typeof plan,
+    PlanType,
     | 'positive'
     | 'negative'
     | 'destructive'

@@ -4,7 +4,7 @@ import {GenericTable} from '@/components/organisms/GenericTable';
 import {TableToolbar} from './table-toolbar';
 import {useNavigate} from 'react-router-dom';
 
-type StoreData = {
+export type StoreData = {
   _id: string;
   userId: string;
   storeName: string;

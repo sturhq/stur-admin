@@ -4,6 +4,7 @@ import {ColumnDef} from '@tanstack/react-table';
 import {TableColumnHeader} from '@/components/organisms/GenericTable/TableColumnHeader';
 import {Copy} from 'lucide-react';
 import {toast} from '@/hooks/use-toast';
+import {StoreData} from '.';
 
 export const tableSchema = z.object({
   storeName: z.string(),
@@ -14,9 +15,7 @@ export const tableSchema = z.object({
   plan: z.enum(['premium', 'standard']),
 });
 
-type TableColumnType = z.infer<typeof tableSchema>;
-
-export const columns: ColumnDef<TableColumnType>[] = [
+export const columns: ColumnDef<StoreData>[] = [
   {
     accessorKey: 'storeName',
     header: ({column}) => (
@@ -32,7 +31,7 @@ export const columns: ColumnDef<TableColumnType>[] = [
     cell: info => info.getValue(),
   },
   {
-    accessorKey: 'phoneNumber',
+    accessorKey: 'phone',
     header: ({column}) => (
       <TableColumnHeader column={column} title="Phone" />
     ),
