@@ -3,13 +3,6 @@ import {Table} from '@tanstack/react-table';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
 import {ArrowUpLeft, Search, X} from 'lucide-react';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import {TableViewOptions} from '@/components/organisms/GenericTable/TableViewOptions';
 
 interface TableToolbarProps<TData> {

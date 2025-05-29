@@ -25,6 +25,22 @@ export const useGetOrders = (
       }),
     enabled: !!storeId,
     refetchOnWindowFocus: true,
+    select: data => {
+      return {
+        data: data.data.data,
+        pagination: {
+          totalPages: data.data.pagination.totalPages,
+          hasNextPage: data.data.pagination.hasNextPage,
+          hasPrevPage: data.data.pagination.hasPrevPage,
+        },
+        statistics: {
+          totalOrderValue: data.data.statistics.totalOrderValue,
+          totalOrders: data.data.statistics.totalOrders,
+          completedOrders: data.data.statistics.completedOrders,
+          unpaidOrders: data.data.statistics.unpaidOrders,
+        },
+      };
+    },
   });
 };
 

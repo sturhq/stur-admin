@@ -1,15 +1,15 @@
 import {Card} from '@/components/ui/card';
-import IconComponent from '@/components/organisms/CircleIcon';
 import {Skeleton} from '@/components/ui/skeleton';
 import {nigerianCurrencyFormat} from '@/lib/utils';
 import {useUser} from '@/hooks/useUser';
-import {useOrderStatistics} from '@/services/orders.service';
+import {useGetOrders} from '@/services/orders.service';
 
 const OrderSummaryCards = () => {
   const {userData} = useUser();
-  const {data, isLoading} = useOrderStatistics(userData?.store?._id);
+  const {data, isLoading} = useGetOrders(userData?.store?._id);
+  console.log(data);
 
-  const statisticsData = data?.data?.data;
+  const statisticsData = data?.statistics;
 
   return (
     <div className="grid grid-cols-12 md:flex md:gap-4 items-center justify-between w-full max-lg:flex-col max-md:border max-md:rounded-lg">

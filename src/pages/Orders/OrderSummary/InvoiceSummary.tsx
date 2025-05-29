@@ -3,21 +3,9 @@ import {Badge} from '@/components/ui/badge';
 import {Separator} from '@/components/ui/separator';
 import {Skeleton} from '@/components/ui/skeleton';
 import {ellipsizeText, nigerianCurrencyFormat} from '@/lib/utils';
-import {BoxIcon, CircleHelp, CreditCard, Truck} from 'lucide-react';
+import {BoxIcon, CircleHelp, Truck} from 'lucide-react';
 import moment from 'moment';
 
-const renderPaymentStatusBadge = status => {
-  switch (status) {
-    case 'paid':
-      return 'positive';
-    case 'pending':
-      return 'warning';
-    case 'refunded':
-      return 'negative';
-    default:
-      return 'info';
-  }
-};
 const renderStatusBadge = status => {
   switch (status) {
     case 'pending':

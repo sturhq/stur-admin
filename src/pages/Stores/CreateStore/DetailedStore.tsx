@@ -1,5 +1,4 @@
 import {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
 import {Controller, useForm} from 'react-hook-form';
 import {
   Select,
@@ -45,7 +44,6 @@ const businessTypes = {
 
 const DetailedStore = () => {
   const [isSuccess, setIsSuccess] = useState(false);
-  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const {mutate: createStore, isPending: isCreatingStore} =
     useCreateStore();

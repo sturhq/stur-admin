@@ -15,7 +15,7 @@ export type StoreData = {
   plan: 'premium' | 'standard';
 };
 
-interface TableProps {
+export interface TableProps {
   tableData: StoreData[];
   isLoading: boolean;
   pagination: {

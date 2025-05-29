@@ -1,11 +1,10 @@
 import {Card} from '@/components/ui/card';
 import productImage from '@/assets/images/products.svg';
 import {Button} from '@/components/ui/button';
-import {useNavigate} from 'react-router-dom';
+
 // import {gaRecordEvent} from '@/analytics';
 
 const NoProducts = () => {
-  const navigate = useNavigate();
   // const addProduct = () => {
   //   gaRecordEvent('ADD_PRODUCT', 'user clicked add product from its page');
   //   navigate('/products/add-product');

@@ -1,12 +1,11 @@
 import PageHeader from '@/common/PageHeader';
 import PageHelmet from '@/common/PageHelmet';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import ProductSummaryCard from './ProductSummaryCards';
-import {Alert} from '@/components/ui/alert';
-import {useUser} from '@/hooks/useUser';
+
 // import {userStatus} from '@/helpers/verification';
 import {Plus} from 'lucide-react';
-import {useNavigate, useSearchParams} from 'react-router-dom';
+
 import {Button} from '@/components/ui/button';
 import ProductTable from './ProductsTable';
 import {useGetProducts} from '@/services/products.service';
@@ -14,9 +13,8 @@ import {useGetProducts} from '@/services/products.service';
 const Products = () => {
   const [page, setPage] = React.useState(1);
   const limit = 20; // Define the number of items per page
-  const navigate = useNavigate();
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const {userData} = useUser();
+  // const {userData} = useUser();
   const [selectedStoreId, setSelectedStoreId] = useState<
     string | undefined
   >();

@@ -28,7 +28,10 @@ export const columns: ColumnDef<StoreData>[] = [
     header: ({column}) => (
       <TableColumnHeader column={column} title="Category" />
     ),
-    cell: info => info.getValue(),
+    cell: info =>
+      (info.getValue() as string)
+        .replace(/_/g, ' ')
+        .replace(/\b\w/g, c => c.toUpperCase()),
   },
   {
     accessorKey: 'phone',

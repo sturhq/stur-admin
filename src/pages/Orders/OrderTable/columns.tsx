@@ -9,20 +9,6 @@ import {z} from 'zod';
 import {GenericTable} from '@/components/organisms/GenericTable';
 import {BoxIcon, Truck} from 'lucide-react';
 
-// Define types for nested objects
-type Customer = {
-  _id: string;
-  firstName: string;
-  lastName: string;
-  email?: string;
-  phone?: string;
-};
-
-type Vendor = {
-  _id: string;
-  name: string;
-};
-
 export const orderTableSchema = z.object({
   _id: z.string(),
   customer: z.object({
@@ -44,7 +30,7 @@ export const orderTableSchema = z.object({
   }),
   totalAmount: z.number(),
   status: z.enum(['pending', 'completed']),
-  deliveryStatus: z.enum(['pending', 'out-for-delivery', 'delivered']),
+  deliveryStatus: z.enum(['pending', 'out_for_delivery', 'delivered']),
 });
 
 type OrderTableType = z.infer<typeof orderTableSchema>;
@@ -133,11 +119,11 @@ export const columns: ColumnDef<OrderTableType>[] = [
           </Badge>
           <Badge variant={renderDeliveryVariant(deliveryStatus)}>
             <span className="flex gap-[0.25rem] items-center">
-              {deliveryStatus === 'out-for-delivery'
+              {deliveryStatus === 'out_for_delivery'
                 ? 'Out for delivery'
                 : deliveryStatus.charAt(0).toUpperCase() +
                   deliveryStatus.slice(1)}
-              {(deliveryStatus === 'out-for-delivery' ||
+              {(deliveryStatus === 'out_for_delivery' ||
                 deliveryStatus === 'delivered') && <Truck size={13} />}
               {(deliveryStatus === 'pending' ||
                 deliveryStatus === 'delivered') && <BoxIcon size={13} />}
@@ -167,7 +153,6 @@ const AllOrders = ({
   page,
   totalPages,
   refetch,
-  pageSize,
   onPageChange,
   hasNextPage,
   hasPrevPage,

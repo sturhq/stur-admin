@@ -17,11 +17,14 @@ const OrderTable = () => {
     page,
     limit
   );
-  const orders = data?.data?.data || [];
+  const orders = data?.data || [];
+  const pagination = data?.pagination || {
+    totalPages: 0,
+    hasNextPage: false,
+    hasPrevPage: false,
+  };
+  const {totalPages, hasNextPage, hasPrevPage} = pagination;
 
-  const hasNextPage = data?.data?.pagination?.hasNextPage;
-  const hasPrevPage = data?.data?.pagination?.hasPrevPage;
-  const totalPages = data?.data?.pagination?.totalPages;
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
   };

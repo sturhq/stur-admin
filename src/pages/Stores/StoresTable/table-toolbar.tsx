@@ -2,14 +2,7 @@ import React, {useState} from 'react';
 import {Table} from '@tanstack/react-table';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
-import {ArrowUpLeft, Plus, Search, TriangleAlert, X} from 'lucide-react';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import {ArrowUpLeft, Search, TriangleAlert, X} from 'lucide-react';
 import {TableViewOptions} from '@/components/organisms/GenericTable/TableViewOptions';
 import {
   Tabs,
