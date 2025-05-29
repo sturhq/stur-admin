@@ -27,7 +27,6 @@ const OrderSummaryCards = () => {
               )}
             </p>
           )}
-          {/* <div className="text-xl font-bold">₦63,000.00</div> */}
         </div>
       </Card>
 
