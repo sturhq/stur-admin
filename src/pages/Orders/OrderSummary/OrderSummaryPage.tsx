@@ -14,8 +14,8 @@ import DeliveryAddressSummary from './DeliveryAddressSummary';
 import CustomerInfoSummary from './CustomerInfoSummary';
 import InvoiceSummary from './InvoiceSummary';
 import {useNavigate, useParams} from 'react-router-dom';
-import {nigerianCurrencyFormat} from '@/lib/utils';
-import {useUser} from '@/hooks/useUser';
+// import {nigerianCurrencyFormat} from '@/lib/utils';
+// import {useUser} from '@/hooks/useUser';
 import {ConfirmActionModal} from './Modal/ConfirmActionModal';
 import {
   CubeIcon,
@@ -51,21 +51,6 @@ const statusOptions = [
   },
 ];
 
-const paymentOptions = [
-  {
-    value: 'paid',
-    label: 'Paid',
-  },
-  {
-    value: 'pending',
-    label: 'Pending',
-  },
-  {
-    value: 'refunded',
-    label: 'Refunded',
-  },
-];
-
 const deliveryOptions = [
   {
     value: 'pending',
@@ -84,7 +69,7 @@ const deliveryOptions = [
 const OrderSummary = () => {
   const navigate = useNavigate();
   const {orderId} = useParams();
-  const {userData} = useUser();
+  // const {userData} = useUser();
   const {data, isLoading} = useGetOrderById(orderId);
 
   const order = data?.data?.data;
@@ -104,7 +89,7 @@ const OrderSummary = () => {
   const [deliveryStatus, setDeliveryStatus] = useState(
     data?.data?.data?.deliveryStatus
   );
-  const storeSlug = userData?.store?.storeSlug;
+  // const storeSlug = userData?.store?.storeSlug;
   const {mutateAsync: updateOrderStatus} = useUpdateOrderStatus(orderId);
   const {mutateAsync: updatePaymentStatus} =
     useUpdateOrderPaymentStatus(orderId);
@@ -226,60 +211,60 @@ const OrderSummary = () => {
     setDeliveryStatus(data?.data?.data?.deliveryStatus);
   }, [data]);
 
-  const shareToWhatsApp = () => {
-    const {
-      orderNumber,
-      items,
-      totalAmount,
-      phoneNumber,
-      deliveryOption,
-      deliveryFee,
-      customer,
-    } = order;
-    const customerName =
-      `${customer?.firstName || ''} ${customer?.lastName || ''}`.trim();
-    const customerPhone = customer?.phone || phoneNumber;
-    const customerAddress =
-      customer?.addresses?.[0]?.address || 'No address provided';
-    const itemDetails = items
-      .map(
-        item =>
-          `📦 ${item.product.title.toLocaleString()} - ${item.quantity.toLocaleString()} x - NGN ${item.price.toLocaleString()}\n`
-      )
-      .join('\n');
+  // const shareToWhatsApp = () => {
+  //   const {
+  //     orderNumber,
+  //     items,
+  //     totalAmount,
+  //     phoneNumber,
+  //     deliveryOption,
+  //     deliveryFee,
+  //     customer,
+  //   } = order;
+  //   const customerName =
+  //     `${customer?.firstName || ''} ${customer?.lastName || ''}`.trim();
+  //   const customerPhone = customer?.phone || phoneNumber;
+  //   const customerAddress =
+  //     customer?.addresses?.[0]?.address || 'No address provided';
+  //   const itemDetails = items
+  //     .map(
+  //       item =>
+  //         `📦 ${item.product.title.toLocaleString()} - ${item.quantity.toLocaleString()} x - NGN ${item.price.toLocaleString()}\n`
+  //     )
+  //     .join('\n');
 
-    const message =
-      paymentStatus === 'paid'
-        ? `Hi ${customerName.toLocaleUpperCase()},\n\n` +
-          `Please find the invoice for your order attached. Thank you for shopping with us, we appreciate your business!\n\n` +
-          `🛍️ See invoice: ${import.meta.env.VITE_CUSTOMER_URL}/invoice/${order._id}\n\n` +
-          `_Sent from Stur App_ : https://shop.stur.africa/${storeSlug}`
-        : `Hi, here is the invoice of your order. Click the link to complete your payment:\n\n` +
-          `${itemDetails}\n\n` +
-          `${deliveryOption !== 'in_store' ? '*CUSTOMER INFO:*\n' : ''}` +
-          `👤 *Customer Name:* ${customerName.toLocaleUpperCase()}\n` +
-          `📞 *Phone:* ${customerPhone}\n\n` +
-          `${
-            deliveryOption !== 'in_store'
-              ? `🏠 *Address:* ${customerAddress}\n`
-              : ''
-          }` +
-          `🚚 *Delivery Fee:* NGN ${nigerianCurrencyFormat(deliveryFee)}\n` +
-          `💰 *Total Price:* NGN ${totalAmount.toLocaleString()}\n\n` +
-          `🛍️ See invoice: ${import.meta.env.VITE_CUSTOMER_URL}/invoice/${order._id}\n\n` +
-          `Order ID: ${orderNumber}\n\n` +
-          `_Sent from Stur App_ : https://shop.stur.africa/${storeSlug}`;
+  //   const message =
+  //     paymentStatus === 'paid'
+  //       ? `Hi ${customerName.toLocaleUpperCase()},\n\n` +
+  //         `Please find the invoice for your order attached. Thank you for shopping with us, we appreciate your business!\n\n` +
+  //         `🛍️ See invoice: ${import.meta.env.VITE_CUSTOMER_URL}/invoice/${order._id}\n\n` +
+  //         `_Sent from Stur App_ : https://shop.stur.africa/${storeSlug}`
+  //       : `Hi, here is the invoice of your order. Click the link to complete your payment:\n\n` +
+  //         `${itemDetails}\n\n` +
+  //         `${deliveryOption !== 'in_store' ? '*CUSTOMER INFO:*\n' : ''}` +
+  //         `👤 *Customer Name:* ${customerName.toLocaleUpperCase()}\n` +
+  //         `📞 *Phone:* ${customerPhone}\n\n` +
+  //         `${
+  //           deliveryOption !== 'in_store'
+  //             ? `🏠 *Address:* ${customerAddress}\n`
+  //             : ''
+  //         }` +
+  //         `🚚 *Delivery Fee:* NGN ${nigerianCurrencyFormat(deliveryFee)}\n` +
+  //         `💰 *Total Price:* NGN ${totalAmount.toLocaleString()}\n\n` +
+  //         `🛍️ See invoice: ${import.meta.env.VITE_CUSTOMER_URL}/invoice/${order._id}\n\n` +
+  //         `Order ID: ${orderNumber}\n\n` +
+  //         `_Sent from Stur App_ : https://shop.stur.africa/${storeSlug}`;
 
-    const formattedNumber = (customer?.phone || phoneNumber).replace(
-      /\D/g,
-      ''
-    );
-    const whatsappUrl = `https://api.whatsapp.com/send?phone=${formattedNumber}&text=${encodeURIComponent(
-      message
-    )}`;
-    // gaRecordEvent('ORDER', 'share_invoice');
-    window.open(whatsappUrl, '_blank');
-  };
+  //   const formattedNumber = (customer?.phone || phoneNumber).replace(
+  //     /\D/g,
+  //     ''
+  //   );
+  //   const whatsappUrl = `https://api.whatsapp.com/send?phone=${formattedNumber}&text=${encodeURIComponent(
+  //     message
+  //   )}`;
+  //   // gaRecordEvent('ORDER', 'share_invoice');
+  //   window.open(whatsappUrl, '_blank');
+  // };
 
   return (
     <div>
@@ -431,25 +416,25 @@ const OrderSummary = () => {
 
 export default OrderSummary;
 
-const BankCard = () => {
-  return (
-    <svg
-      width="13"
-      height="12"
-      viewBox="0 0 13 12"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M2.75 1.875C1.92157 1.875 1.25 2.54657 1.25 3.375V3.75H11.75V3.375C11.75 2.54657 11.0784 1.875 10.25 1.875H2.75Z"
-        fill="white"
-      />
-      <path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
-        d="M11.75 4.875H1.25V8.625C1.25 9.45343 1.92157 10.125 2.75 10.125H10.25C11.0784 10.125 11.75 9.45343 11.75 8.625V4.875ZM2.75 6.75C2.75 6.54289 2.91789 6.375 3.125 6.375H6.125C6.33211 6.375 6.5 6.54289 6.5 6.75C6.5 6.95711 6.33211 7.125 6.125 7.125H3.125C2.91789 7.125 2.75 6.95711 2.75 6.75ZM3.125 7.875C2.91789 7.875 2.75 8.04289 2.75 8.25C2.75 8.45711 2.91789 8.625 3.125 8.625H4.625C4.83211 8.625 5 8.45711 5 8.25C5 8.04289 4.83211 7.875 4.625 7.875H3.125Z"
-        fill="white"
-      />
-    </svg>
-  );
-};
+// const BankCard = () => {
+//   return (
+//     <svg
+//       width="13"
+//       height="12"
+//       viewBox="0 0 13 12"
+//       fill="none"
+//       xmlns="http://www.w3.org/2000/svg"
+//     >
+//       <path
+//         d="M2.75 1.875C1.92157 1.875 1.25 2.54657 1.25 3.375V3.75H11.75V3.375C11.75 2.54657 11.0784 1.875 10.25 1.875H2.75Z"
+//         fill="white"
+//       />
+//       <path
+//         fill-rule="evenodd"
+//         clip-rule="evenodd"
+//         d="M11.75 4.875H1.25V8.625C1.25 9.45343 1.92157 10.125 2.75 10.125H10.25C11.0784 10.125 11.75 9.45343 11.75 8.625V4.875ZM2.75 6.75C2.75 6.54289 2.91789 6.375 3.125 6.375H6.125C6.33211 6.375 6.5 6.54289 6.5 6.75C6.5 6.95711 6.33211 7.125 6.125 7.125H3.125C2.91789 7.125 2.75 6.95711 2.75 6.75ZM3.125 7.875C2.91789 7.875 2.75 8.04289 2.75 8.25C2.75 8.45711 2.91789 8.625 3.125 8.625H4.625C4.83211 8.625 5 8.45711 5 8.25C5 8.04289 4.83211 7.875 4.625 7.875H3.125Z"
+//         fill="white"
+//       />
+//     </svg>
+//   );
+// };

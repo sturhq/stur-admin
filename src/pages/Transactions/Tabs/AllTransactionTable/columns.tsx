@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect} from 'react';
 import {Badge} from '@/components/ui/badge';
 import {ColumnDef} from '@tanstack/react-table';
 import {TableColumnHeader} from '@/components/organisms/GenericTable/TableColumnHeader';
@@ -6,10 +6,10 @@ import {nigerianCurrencyFormat} from '@/lib/utils';
 import {useNavigate} from 'react-router-dom';
 import {useIsMobile} from '@/hooks/use-mobile';
 // import {MobileTransactionTable} from '../Mobile/MobileTransactionTable';
-import emptyStateImage from '@/assets/images/transactionEmptyState.svg';
-import {z} from 'zod';
+// import emptyStateImage from '@/assets/images/transactionEmptyState.svg';
+// import {z} from 'zod';
 import {GenericTable} from '@/components/organisms/GenericTable';
-import TransactionsSummaryCards from '../../TransactionsSummaryCards';
+// import TransactionsSummaryCards from '../../TransactionsSummaryCards';
 import {TRANSACTIONTYPE} from '.';
 import {dateTimeSemiColon} from '@/lib/dateTimeFormat';
 
@@ -72,7 +72,6 @@ export const columns: ColumnDef<TRANSACTIONTYPE>[] = [
       <TableColumnHeader column={column} title="STATUS" />
     ),
     cell: ({row}) => {
-      const status = row.original.status;
       return (
         <Badge
           variant={
@@ -106,7 +105,6 @@ const AllTransactions = ({
   page,
   totalPages,
   refetch,
-  pageSize,
   onPageChange,
   hasNextPage,
   hasPrevPage,

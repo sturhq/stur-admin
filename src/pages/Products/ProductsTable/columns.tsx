@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect} from 'react';
 import {Badge} from '@/components/ui/badge';
 import {ColumnDef} from '@tanstack/react-table';
 import {TableColumnHeader} from '@/components/organisms/GenericTable/TableColumnHeader';
@@ -6,7 +6,7 @@ import {nigerianCurrencyFormat} from '@/lib/utils';
 import ImageComponent from '@/components/organisms/ImageComponent.tsx';
 import {useNavigate} from 'react-router-dom';
 import {useIsMobile} from '@/hooks/use-mobile';
-import emptyStateImage from '@/assets/images/transactionEmptyState.svg';
+
 // import {gaRecordEvent} from '@/analytics';
 import {z} from 'zod';
 import {GenericTable} from '@/components/organisms/GenericTable';
@@ -130,7 +130,6 @@ const AllProducts = ({
   page,
   totalPages,
   refetch,
-  pageSize,
   onPageChange,
   hasNextPage,
   hasPrevPage,

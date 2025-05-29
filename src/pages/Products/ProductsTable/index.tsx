@@ -1,10 +1,7 @@
-import React, {useEffect, useState} from 'react';
 import {columns} from './columns';
 import {GenericTable} from '@/components/organisms/GenericTable';
 import {TableToolbar} from './table-toolbar';
 import {useNavigate} from 'react-router-dom';
-import {useUser} from '@/hooks/useUser';
-import {useGetProducts} from '@/services/products.service';
 
 type ProductData = {
   _id: string;

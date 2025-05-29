@@ -15,7 +15,7 @@ export type StoreData = {
   plan: 'premium' | 'standard';
 };
 
-interface TableProps {
+export interface TableProps {
   tableData: StoreData[];
   isLoading: boolean;
   pagination: {
@@ -39,6 +39,7 @@ const StoreTable = ({
   const navigate = useNavigate();
   const {totalPages, hasNextPage, hasPrevPage} = pagination;
   const storeData = tableData || [];
+  console.log(storeData);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
