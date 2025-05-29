@@ -6,7 +6,6 @@ import {ellipsizeText, nigerianCurrencyFormat} from '@/lib/utils';
 import {BoxIcon, CircleHelp, Truck} from 'lucide-react';
 import moment from 'moment';
 
-
 const renderStatusBadge = status => {
   switch (status) {
     case 'pending':

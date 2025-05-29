@@ -9,7 +9,6 @@ import {z} from 'zod';
 import {GenericTable} from '@/components/organisms/GenericTable';
 import {BoxIcon, Truck} from 'lucide-react';
 
-
 export const orderTableSchema = z.object({
   _id: z.string(),
   customer: z.object({
