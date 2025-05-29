@@ -7,7 +7,6 @@ import {useGetOrders} from '@/services/orders.service';
 const OrderSummaryCards = () => {
   const {userData} = useUser();
   const {data, isLoading} = useGetOrders(userData?.store?._id);
-  console.log(data);
 
   const statisticsData = data?.statistics;
 
