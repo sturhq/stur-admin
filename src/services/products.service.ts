@@ -25,7 +25,7 @@ export const useGetProducts = (
         params: {
           page,
           limit,
-          storeId,
+          store: storeId,
           status,
           category,
         },
@@ -417,6 +417,31 @@ export const useOrderStatistics = (storeId: string) => {
         },
       }),
     enabled: !!storeId,
+    refetchOnWindowFocus: true,
+  });
+};
+
+export const useGetStoreProducts = (
+  slug: string,
+  page?: number,
+  limit?: number,
+  storeId?: string
+  // status?: string,
+  // category?: string
+) => {
+  return useQuery({
+    queryKey: ['store-products', slug],
+    queryFn: () =>
+      api.get(`/products/store/${slug}`, {
+        params: {
+          page,
+          limit,
+          storeId,
+          // status: status || 'published',
+          // category,
+        },
+      }),
+    enabled: !!slug,
     refetchOnWindowFocus: true,
   });
 };
