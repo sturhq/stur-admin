@@ -40,7 +40,6 @@ const StoreTable = ({
   const {totalPages, hasNextPage, hasPrevPage} = pagination;
   const storeData = tableData || [];
 
-
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
   };
