@@ -13,7 +13,6 @@ import {
 import {ArrowLeft, CircleCheckBig} from 'lucide-react';
 import {toast} from '@/hooks/use-toast.ts';
 import {useNavigate, useParams} from 'react-router-dom';
-import {gaRecordEvent} from '@/analytics.ts';
 
 type PRICINGTYPES = {
   price: number;
@@ -79,7 +78,7 @@ const EditDraftPage = () => {
 
   const onSubmit = async () => {
     await mutateAsync();
-    gaRecordEvent('PRODUCT', 'product_published');
+
     navigate('/products');
   };
 
@@ -98,7 +97,7 @@ const EditDraftPage = () => {
         description: 'Product added to draft successfully',
         variant: 'success',
       });
-      gaRecordEvent('PRODUCT', 'product_draft_saved');
+
       navigate('/products');
     } catch (error) {
       console.log(error);
@@ -106,7 +105,6 @@ const EditDraftPage = () => {
   };
   const onDelete = async () => {
     await deleteProduct();
-    gaRecordEvent('PRODUCT', 'product_deleted');
     navigate('/products');
   };
   useEffect(() => {

@@ -292,17 +292,7 @@ export const Details = ({
                 </span>
                 Share
               </div>
-              <div
-                onClick={() =>
-                  navigate(`/products/edit-product/${details._id}`)
-                }
-                className="flex text-[#30313D] font-semibold text-sm items-center gap-4 px-3 border-b border-gray-200 border-opacity-50 py-3"
-              >
-                <span className="w-7 flex justify-center">
-                  <EditPen />
-                </span>
-                Edit
-              </div>
+
               <div className="flex text-[#30313D] font-semibold text-sm items-center gap-4 px-3 border-b border-gray-200 border-opacity-50 py-3">
                 <div className="w-7 flex justify-center">
                   {isUnpublishing ? (
