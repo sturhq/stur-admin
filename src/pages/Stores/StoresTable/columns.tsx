@@ -10,7 +10,7 @@ export const tableSchema = z.object({
   category: z.string(),
   phone: z.string(),
   storeUrl: z.string(),
-  status: z.enum(['completed', 'pending', 'blocked']),
+  status: z.enum(['Active', 'pending', 'blocked']),
   plan: z.enum(['premium', 'standard']),
 });
 
@@ -73,12 +73,12 @@ export const columns: ColumnDef<TableColumnType>[] = [
     ),
     cell: ({row}) => {
       const status = row.getValue('status') as
-        | 'Completed'
+        | 'Active'
         | 'Pending'
         | 'Blocked'
         | 'Inactive';
       const statusMap = {
-        Completed: 'Completed',
+        Active: 'Active',
         Pending: 'Pending',
         Blocked: 'Blocked',
         Inactive: 'Inactive',
@@ -93,7 +93,7 @@ export const columns: ColumnDef<TableColumnType>[] = [
         | 'default'
         | 'warning'
       > = {
-        Completed: 'positive',
+        Active: 'positive',
         Pending: 'negative',
         Blocked: 'destructive',
         Inactive: 'default',

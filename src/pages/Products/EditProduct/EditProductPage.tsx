@@ -12,7 +12,6 @@ import {
 } from '@/services/products.service.ts';
 import {useNavigate, useParams} from 'react-router-dom';
 import {ArrowLeft} from 'lucide-react';
-import {gaRecordEvent} from '@/analytics.ts';
 
 type PRICINGTYPES = {
   price: number;
@@ -80,13 +79,13 @@ const EditProductPage = () => {
       unit: pricing.unit,
       previewMedia,
     });
-    gaRecordEvent('PRODUCT', 'product_updated');
+
     navigate('/products');
   };
 
   const onDelete = async () => {
     await deleteProduct();
-    gaRecordEvent('PRODUCT', 'product_deleted');
+
     navigate('/products');
   };
 

@@ -33,7 +33,7 @@ export const useGetStores = (page?: number, limit?: number) => {
 
 export const useGetStoreById = (storeId: string) => {
   return useQuery({
-    queryKey: ['store', storeId],
+    queryKey: ['store-by-id', storeId],
     queryFn: () => api.get(`/store/${storeId}`),
     enabled: !!storeId,
     refetchOnWindowFocus: true,
@@ -56,6 +56,32 @@ export const useCreateStore = () => {
     },
     onError: () => {
       toast({title: 'Error creating store', variant: 'destructive'});
+    },
+  });
+};
+
+export const useBlockUser = (userId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => api.put(`/user/${userId}/block`),
+    onSuccess: () => {
+      toast({
+        title: 'User Blocked',
+        description: 'The user has been blocked successfully.',
+        variant: 'success',
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['store-by-id'],
+        exact: false,
+      });
+    },
+    onError: error => {
+      toast({
+        title: 'Error',
+        // @ts-expect-error - error is not typed
+        description: error.response?.data.message || 'An error occurred',
+        variant: 'destructive',
+      });
     },
   });
 };

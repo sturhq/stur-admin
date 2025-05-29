@@ -1,4 +1,3 @@
-import {useDeleteDeliveryArea} from '@/services/store.service';
 import {Button} from '../ui/button';
 import {Dialog, DialogContent} from '../ui/dialog';
 import truck from '@/assets/images/truck.svg';

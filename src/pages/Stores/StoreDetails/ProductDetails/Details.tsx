@@ -10,7 +10,6 @@ import {
 import {toast} from '@/hooks/use-toast';
 import React, {useEffect, useRef, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import {Switch} from '@/components/ui/switch';
 import {Button} from '@/components/ui/button';
 import {cn, ellipsizeText, nigerianCurrencyFormat} from '@/lib/utils';
 import {useUser} from '@/hooks/useUser';
@@ -147,16 +146,6 @@ export const Details = ({
         </div>
         <div>
           <div className="hidden lg:flex items-center gap-4">
-            <Button
-              variant="outline"
-              className="flex items-center h-9 gap-2 px-2.5"
-              onClick={() =>
-                navigate(`/products/edit-product/${details._id}`)
-              }
-            >
-              <EditPen />
-              Edit
-            </Button>
             <Button
               disabled={isDeleting}
               loading={isDeleting}
