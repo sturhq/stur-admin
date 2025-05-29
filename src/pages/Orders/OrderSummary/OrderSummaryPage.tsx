@@ -75,6 +75,7 @@ const OrderSummary = () => {
   const order = data?.data?.data;
 
   const [orderStatus, setOrderStatus] = useState(data?.data?.data?.status);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [paymentStatus, setPaymentStatus] = useState(
     data?.data?.data?.paymentStatus
   );

@@ -3,20 +3,14 @@ import {columns} from './columns';
 import {GenericTable} from '@/components/organisms/GenericTable';
 import {TableToolbar} from './table-toolbar';
 import {useNavigate} from 'react-router-dom';
-import {useUser} from '@/hooks/useUser';
 import {useGetOrders} from '@/services/orders.service';
 
 const OrderTable = () => {
   const navigate = useNavigate();
-  const {userData} = useUser();
   const limit = 20;
   const [page, setPage] = useState(1);
 
-  const {data, isLoading, refetch} = useGetOrders(
-    userData?.store?._id,
-    page,
-    limit
-  );
+  const {data, isLoading, refetch} = useGetOrders(page, limit);
   const orders = data?.data || [];
   const pagination = data?.pagination || {
     totalPages: 0,

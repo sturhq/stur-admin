@@ -1,15 +1,19 @@
 import {Card} from '@/components/ui/card';
 import {Skeleton} from '@/components/ui/skeleton';
 import {nigerianCurrencyFormat} from '@/lib/utils';
-import {useUser} from '@/hooks/useUser';
-import {useGetOrders} from '@/services/orders.service';
 
-const OrderSummaryCards = () => {
-  const {userData} = useUser();
-  const {data, isLoading} = useGetOrders(userData?.store?._id);
-
-  const statisticsData = data?.statistics;
-
+interface OrderSummaryCardsProps {
+  statisticsData?: {
+    totalOrderValue?: number;
+    unpaidOrders?: number;
+    completedOrders?: number;
+  };
+  isLoading?: boolean;
+}
+const OrderSummaryCards = ({
+  statisticsData,
+  isLoading,
+}: OrderSummaryCardsProps) => {
   return (
     <div className="grid grid-cols-12 md:flex md:gap-4 items-center justify-between w-full max-lg:flex-col max-md:border max-md:rounded-lg">
       <Card className="p-4 w-full  transition-all duration-500 ease-in-out flex flex-col md:flex-row gap-2.5 md:gap-[0.9375rem] md:items-center max-md:col-span-6 max-md:border-transparent max-md:border-l-[#EBEEF1] max-md:rounded-none max-md:rounded-tr-lg">
