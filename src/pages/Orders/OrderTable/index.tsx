@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {columns} from './columns';
 import {GenericTable} from '@/components/organisms/GenericTable';
 import {TableToolbar} from './table-toolbar';
@@ -25,6 +25,10 @@ const OrderTable = () => {
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
   };
+
+  useEffect(() => {
+    refetch();
+  }, [page, refetch]);
   return (
     <GenericTable
       data={orders || []}
