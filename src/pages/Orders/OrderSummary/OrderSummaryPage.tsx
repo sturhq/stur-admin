@@ -316,17 +316,17 @@ const OrderSummary = () => {
         <div className="p-1.2 md:p-[1.8rem]  w-[70%] max-2xl:w-[90%] mx-auto  transition-all duration-500 ease-in-out flex flex-col md:flex-row justify-between md:gap-[0.9375rem] md:items-center max-md:col-span-6 max-md:border-transparent max-md:rounded-lg">
           <div className="flex gap-[1.0625rem] items-center">
             <Avatar className="w-[3.4375rem] h-[3.4375rem]">
-              <AvatarImage src={userData?.store.storeLogoUrl} />
+              {/* <AvatarImage src={userData?.store.storeLogoUrl} /> */}
             </Avatar>
             <div>
               <div>
                 <p className="text-[#414552] text-[1.75rem] font-bold">
-                  {userData?.store?.storeName}
+                  {/* {userData?.store?.storeName} */}
                 </p>
               </div>
               <div className="flex gap-[0.75rem] items-center">
                 <p className="text-[#6A7383] text-[0.875rem] font-normal">
-                  {userData?.store?.storeUrl}
+                  {/* {userData?.store?.storeUrl} */}
                 </p>
                 <CopyIcon size={15} color="#5433EB" />
               </div>
