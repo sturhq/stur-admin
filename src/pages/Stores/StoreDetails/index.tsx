@@ -11,6 +11,7 @@ import {useGetStoreById} from '@/services/stores.services.ts';
 import {useParams} from 'react-router-dom';
 import {useGetProducts} from '@/services/products.service.ts';
 import ProductsTable from '@/pages/Products/ProductsTable/index.tsx';
+import LoaderScreen from '@/components/organisms/LoaderScreen.tsx';
 
 const StoreDetails = () => {
   const limit = 20; // Define the number of items per page
@@ -66,6 +67,29 @@ const StoreDetails = () => {
   > = {
     Premium: 'info',
     Standard: 'outline',
+  };
+
+  const statusMap = {
+    Active: 'Active',
+    Pending: 'Pending',
+    Blocked: 'Blocked',
+    Inactive: 'Inactive',
+  };
+
+  const statusVariantMap: Record<
+    typeof status,
+    | 'positive'
+    | 'negative'
+    | 'destructive'
+    | 'info'
+    | 'outline'
+    | 'default'
+    | 'warning'
+  > = {
+    Active: 'positive',
+    Pending: 'negative',
+    Blocked: 'destructive',
+    Inactive: 'default',
   };
 
   return (
@@ -129,7 +153,9 @@ const StoreDetails = () => {
             </span>
           </div>
           <div className="flex col gap-2 mt-4">
-            <Badge variant="positive">Complete</Badge>
+            <Badge variant={statusVariantMap[store?.status || '']}>
+              {statusMap[store?.status || '']}
+            </Badge>
             <Badge variant={variantMap[store?.plan || '']}>
               {planMap[store?.plan || '']}
             </Badge>
