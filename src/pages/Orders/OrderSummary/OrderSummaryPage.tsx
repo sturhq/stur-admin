@@ -9,23 +9,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import {useEffect, useState} from 'react';
-import {Input} from '@/components/ui/input';
-import {ArrowLeft, Copy, CopyIcon} from 'lucide-react';
+import {ArrowLeft, CopyIcon} from 'lucide-react';
 import DeliveryAddressSummary from './DeliveryAddressSummary';
 import CustomerInfoSummary from './CustomerInfoSummary';
 import InvoiceSummary from './InvoiceSummary';
 import {useNavigate, useParams} from 'react-router-dom';
-// import {
-//   useGetOrderById,
-//   useUpdateDeliveryStatus,
-//   useUpdateOrderPaymentStatus,
-//   useUpdateOrderStatus,
-// } from '@/services/orders.service';
-import {CopyToClipboard, nigerianCurrencyFormat} from '@/lib/utils';
-import {toast} from '@/hooks/use-toast';
+import {nigerianCurrencyFormat} from '@/lib/utils';
 import {useUser} from '@/hooks/useUser';
-import {Edit} from '@/pages/Products/ProductDetails/Details';
-import {Share} from '@/assets/svgs/Icons';
 import {ConfirmActionModal} from './Modal/ConfirmActionModal';
 import {
   CubeIcon,
@@ -33,20 +23,14 @@ import {
   CreditCardIcon,
   XCircleIcon,
 } from '@heroicons/react/24/solid';
-import ReportTransaction from './ReportTransaction';
-// import {gaRecordEvent} from '@/analytics';
+
 import {
   useGetOrderById,
   useUpdateDeliveryStatus,
   useUpdateOrderPaymentStatus,
   useUpdateOrderStatus,
 } from '@/services/orders.service';
-import {
-  Avatar,
-  // AvatarFallback,
-  // AvatarFallback,
-  AvatarImage,
-} from '@/components/ui/avatar';
+import {Avatar} from '@/components/ui/avatar';
 
 const statusOptions = [
   {
@@ -102,7 +86,6 @@ const OrderSummary = () => {
   const {orderId} = useParams();
   const {userData} = useUser();
   const {data, isLoading} = useGetOrderById(orderId);
-  console.log(userData);
 
   const order = data?.data?.data;
 
