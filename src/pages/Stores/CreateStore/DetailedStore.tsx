@@ -78,7 +78,10 @@ const DetailedStore = () => {
   const formValues = watch();
 
   const handleFileUpload = async (file: File, type: 'logo' | 'banner') => {
-    if (!file) return;
+    if (!file) {
+      setValue(type === 'logo' ? 'storeLogoUrl' : 'bannerUrl', '');
+      return;
+    }
     setType(type);
 
     try {
@@ -107,7 +110,12 @@ const DetailedStore = () => {
   };
 
   const onSubmit = (data: StoreFormData) => {
-    createStore(data, {
+    const storeData = {
+      ...data,
+      storeLogoUrl: data.storeLogoUrl || null,
+      bannerUrl: data.bannerUrl || null,
+    };
+    createStore(storeData, {
       onSuccess: () => setIsSuccess(true),
     });
   };
