@@ -8,22 +8,17 @@ import {toast} from '@/hooks/use-toast';
 import {ORDER_EDIT_TYPE, ORDER_TYPE} from './types';
 import {STALE} from '@/common/QueryStaleTime';
 
-export const useGetOrders = (
-  storeId: string,
-  page?: number,
-  limit?: number
-) => {
+export const useGetOrders = (page?: number, limit?: number) => {
   return useQuery({
-    queryKey: ['orders', storeId, page, limit],
+    queryKey: ['orders', page, limit],
     queryFn: () =>
       api.get('/orders/admin/orders', {
         params: {
-          storeId,
           page,
           limit,
         },
       }),
-    enabled: !!storeId,
+    enabled: true,
     refetchOnWindowFocus: true,
     select: data => {
       return {

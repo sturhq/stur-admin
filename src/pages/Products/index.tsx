@@ -13,8 +13,10 @@ import {useGetProducts} from '@/services/products.service';
 const Products = () => {
   const [page, setPage] = React.useState(1);
   const limit = 20; // Define the number of items per page
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   // const {userData} = useUser();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [selectedStoreId, setSelectedStoreId] = useState<
     string | undefined
   >();
