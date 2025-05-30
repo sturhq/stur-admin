@@ -15,15 +15,15 @@ export function TableToolbar<TData>({table}: TableToolbarProps<TData>) {
   // Only process if table is available
   if (!table) return null;
 
-  // Apply name filter to the table
+  // Apply customer name filter to the table
   const handleNameFilterChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const value = e.target.value;
     setNameFilter(value);
 
-    // Filter on product title
-    table.getColumn('title')?.setFilterValue(value);
+    // Filter on customer firstName
+    table.getColumn('customer')?.setFilterValue(value);
   };
 
   const isFiltered = table.getState().columnFilters.length > 0;
@@ -34,7 +34,7 @@ export function TableToolbar<TData>({table}: TableToolbarProps<TData>) {
         <div className="flex items-center border rounded-[0.475rem] px-[0.5rem]">
           <Search size={16} />
           <Input
-            placeholder="Search..."
+            placeholder="Search by customer name..."
             value={nameFilter}
             onChange={handleNameFilterChange}
             className="h-8 w-[150px] lg:w-[250px] border-none focus:outline-none focus:ring-0 focus:border-none"
