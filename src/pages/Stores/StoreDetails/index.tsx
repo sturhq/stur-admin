@@ -8,15 +8,15 @@ import {Badge} from '@/components/ui/badge';
 import ProductSummaryCard from './ProductSummaryCards';
 import {BlockModal} from './BlockModal.tsx';
 import {useGetStoreById} from '@/services/stores.services.ts';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {useGetProducts} from '@/services/products.service.ts';
 import ProductsTable from '@/pages/Products/ProductsTable/index.tsx';
-import LoaderScreen from '@/components/organisms/LoaderScreen.tsx';
 
 const StoreDetails = () => {
   const limit = 20; // Define the number of items per page
 
   const [page, setPage] = useState(1);
+  const navigate = useNavigate();
 
   const {storeId} = useParams();
   const [open, setOpen] = useState(false);
@@ -110,7 +110,9 @@ const StoreDetails = () => {
                   // }}
                 >
                   <Plus size={15} />
-                  <div>Add product</div>
+                  <div onClick={() => navigate('/products/add-product')}>
+                    Add product
+                  </div>
                 </Button>
                 <Button
                   variant="destructive"
