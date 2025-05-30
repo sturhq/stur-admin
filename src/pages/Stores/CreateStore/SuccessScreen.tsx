@@ -1,13 +1,9 @@
 import {Card} from '@/components/ui/card';
-import {ArrowLeft, CircleHelp, Copy} from 'lucide-react';
 import React from 'react';
 import confetti from '@/assets/images/confetti.png';
 import {Button} from '@/components/ui/button';
-import whatsappIcon from '@/assets/icons/whatsapp.svg';
 import {useNavigate} from 'react-router-dom';
-import {nigerianCurrencyFormat} from '@/lib/utils';
-import moment from 'moment';
-import {useUser} from '@/hooks/useUser';
+// import {useUser} from '@/hooks/useUser';
 import {
   ArrowTopRightOnSquareIcon,
   LinkIcon,
@@ -16,13 +12,14 @@ import whatsapp from '@/assets/images/whatsapp.svg';
 import facebook from '@/assets/images/facebook.svg';
 import instagram from '@/assets/images/instagram.svg';
 import twitter from '@/assets/images/twitter.svg';
+import {Copy} from 'lucide-react';
 // import {useSendToWhatsapp} from '@/services/orders.service';
 
 const SuccessScreen = () => {
-  const {userData} = useUser();
+  // const {userData} = useUser();
   const navigate = useNavigate();
-  const whatsappPhoneNumber = userData?.store?.phoneNumber;
-  const storeSlug = userData?.store?.storeSlug;
+  // const whatsappPhoneNumber = userData?.store?.phoneNumber;
+  // const storeSlug = userData?.store?.storeSlug;
 
   return (
     <div>

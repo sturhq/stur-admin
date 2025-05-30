@@ -420,3 +420,38 @@ export const useOrderStatistics = (storeId: string) => {
     refetchOnWindowFocus: true,
   });
 };
+export const useAddProduct = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (data: PRODUCT_TYPE) => api.post('/products', data),
+    onSuccess: data => {
+      toast({
+        title: 'Product added!',
+        description: data.data.message,
+        variant: 'success',
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['current-user'],
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['products'],
+        exact: false,
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['products-statistics'],
+      });
+    },
+    onError: error => {
+      toast({
+        title: 'An error occurred',
+        description:
+          // @ts-expect-error - error is a response object
+          error?.response?.data?.message ||
+          error?.message ||
+          'An error occurred',
+        variant: 'destructive',
+      });
+    },
+  });
+};

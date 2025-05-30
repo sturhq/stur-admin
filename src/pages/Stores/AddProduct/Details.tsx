@@ -14,9 +14,9 @@ import {useCloudinaryUpload} from '@/services/fileupload.service';
 import {toast} from '@/hooks/use-toast';
 import {useQueryClient} from '@tanstack/react-query';
 import {useEffect, useState} from 'react';
-// import AddCategoryModal from './AddCategoryModal';
+import AddCategoryModal from './AddCategoryModal';
 import {useUser} from '@/hooks/useUser';
-
+import {useGetCategories} from '@/services/products.service';
 import {Spinner} from '@/components/ui/spinner';
 import {NumericFormat} from 'react-number-format';
 import {UnitsOptions} from './Units';
@@ -24,7 +24,6 @@ import {CustomFileUploader} from '@/components/organisms/CustomFileUploader';
 import clsx from 'clsx';
 import AddOption from './AddOption';
 import {ChevronRightIcon} from '@heroicons/react/24/solid';
-import AddCategoryModal from './AddCategoryModal';
 
 type PRICINGTYPES = {
   price: number;
@@ -45,7 +44,6 @@ interface DetailsProps {
     options: Array<{
       name: string;
       required: boolean;
-      // Add other option properties as needed
     }>;
   };
   setPricing: (pricing: PRICINGTYPES) => void;
@@ -70,7 +68,6 @@ const Details = ({
 }: DetailsProps) => {
   const {userData} = useUser();
   const queryClient = useQueryClient();
-  const [isLoading, setIsLoading] = useState(false);
   const [returnedUrls, setReturnedUrls] = useState<string[]>([]);
   const [unitType, setUnitType] = useState<string>('');
   const [selectedCategoryId, setSelectedCategoryId] = useState<
@@ -80,33 +77,178 @@ const Details = ({
   const [editingIndex, setEditingIndex] = useState(-1);
   const [triggerOptionModal, setTriggerOptionModal] = useState(false);
 
-  // Handle clicking on an existing option
+  // Get category
+  const {
+    data: categoriesData,
+    error,
+    isLoading,
+    refetch,
+  } = useGetCategories(userData?.store?._id);
+
+  const categories = categoriesData?.data?.data;
+
+  // Cloudinary upload mutation
+  const cloudData = queryClient.getQueryData(['presigned-url', 1]);
+  const {mutateAsync, isPending} = useCloudinaryUpload(
+    // @ts-expect-error - data is not defined
+    cloudData?.data?.data.url,
+    // @ts-expect-error - data is not defined
+    cloudData?.data?.data.apiKey,
+    // @ts-expect-error - data is not defined
+    cloudData?.data?.data.timestamp,
+    // @ts-expect-error - data is not defined
+    cloudData?.data?.data.signature
+  );
+
+  // File upload handler
+  const uploadFile = async (file: File) => {
+    if (!file) return;
+
+    try {
+      const response = await mutateAsync(file);
+      const newUrls = [...returnedUrls, response.secure_url];
+      setReturnedUrls(newUrls);
+      toast({
+        title: 'Upload Successful',
+        description: 'Preview image uploaded',
+        variant: 'success',
+      });
+      return response;
+    } catch (error) {
+      toast({
+        title: 'Upload Failed',
+        description:
+          error instanceof Error ? error.message : 'Unknown error',
+        variant: 'destructive',
+      });
+      console.error(error);
+    }
+  };
+
+  const uploadSingleFile = async (file: File) => {
+    if (!file) return;
+
+    try {
+      const response = await mutateAsync(file);
+      toast({
+        title: 'Upload Successful',
+        description: 'Preview image uploaded',
+        variant: 'success',
+      });
+      const newUrls = [...returnedUrls, response.secure_url];
+      setReturnedUrls(newUrls);
+      return response;
+    } catch (error) {
+      toast({
+        title: 'Upload Failed',
+        description:
+          error instanceof Error ? error.message : 'Unknown error',
+        variant: 'destructive',
+      });
+      console.error('Upload error:', error);
+    }
+  };
+
+  const handleSelectedFile = (file: File | null) => {
+    if (file) {
+      uploadSingleFile(file);
+    }
+  };
+
+  // Event handlers
+  const handleCategoryChange = (category: string) => {
+    setDetails(prev => ({...prev, category}));
+  };
+
+  const handleNameChange = (title: string) => {
+    setDetails(prev => ({...prev, title}));
+  };
+
+  const handleDescriptionChange = (description: string) => {
+    setDetails(prev => ({...prev, description}));
+  };
+
+  const handleStockQuantityChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setPricing({...pricing, stockQuantity: Number(e.target.value)});
+  };
+
   const handleOptionClick = (option, index) => {
     setEditingOption(option);
     setEditingIndex(index);
     setTriggerOptionModal(true);
   };
 
-  // Reset editing state
   const handleEditComplete = () => {
     setEditingOption(null);
     setEditingIndex(-1);
     setTriggerOptionModal(false);
   };
 
-  // Get category
+  // Effects
+  useEffect(() => {
+    setDetails(prev => ({...prev, media: returnedUrls}));
+    setPreviewMedia(returnedUrls[0]);
+  }, [returnedUrls]);
 
-  //   const categories = categoriesData?.data?.data;
+  useEffect(() => {
+    if (unitType) {
+      setPricing({...pricing, unit: unitType});
+    }
+  }, [unitType]);
 
-  // Cloudinary upload mutation
+  useEffect(() => {
+    if (categories) {
+      const selectedCategory = categories.find(
+        category => category.name === details.category
+      );
+      setSelectedCategoryId(selectedCategory?._id);
+    }
+  }, [categories, details.category]);
 
-  const cloudData = queryClient.getQueryData(['presigned-url', 1]);
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: 'An error occurred',
+        description: 'Failed to get categories',
+        variant: 'destructive',
+      });
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (selectedCategoryId) {
+      refetch();
+    }
+  }, [selectedCategoryId]);
+
+  useEffect(() => {
+    if (details.media.length > 0) {
+      setReturnedUrls(details.media);
+    }
+  }, [details.media]);
+
+  useEffect(() => {
+    if (
+      pricing.discountAmount &&
+      pricing.price &&
+      pricing.discountAmount >= pricing.price
+    ) {
+      toast({
+        title: 'Invalid Discount',
+        description: 'Discount must be less than regular price',
+        variant: 'destructive',
+      });
+      setPricing({...pricing, discountAmount: undefined});
+    }
+  }, [pricing.price, pricing.discountAmount]);
 
   return (
     <Card
       className={clsx(
         mainClass,
-        'max-lg:p-0  p-[1.07rem] max-lg:py-[1.07rem] w-full flex flex-col gap-4 md:border border-0'
+        'max-lg:p-0 p-[1.07rem] max-lg:py-[1.07rem] w-full flex flex-col gap-4 md:border border-0'
       )}
     >
       {!isOnboarding && (
@@ -121,14 +263,14 @@ const Details = ({
               'image/jpg',
               'image/webp',
             ]}
-            // isUploading={isPending}
+            isUploading={isPending}
             maxSize={10 * 1024 * 1024}
-            // onFileSelect={(files: File[]) => {
-            //   const lastFile = files[files.length - 1]; // Get the last added file
-            //   if (lastFile) {
-            //     uploadFile(lastFile);
-            //   }
-            // }}
+            onFileSelect={(files: File[]) => {
+              const lastFile = files[files.length - 1];
+              if (lastFile) {
+                uploadFile(lastFile);
+              }
+            }}
             onFileRemove={(removedIndex: number) => {
               setReturnedUrls(prev =>
                 prev.filter((_, index) => index !== removedIndex)
@@ -146,7 +288,7 @@ const Details = ({
         <Input
           label={isOnboarding ? '' : 'Item *'}
           placeholder="Enter item name"
-          //   onChange={e => handleNameChange(e.target.value)}
+          onChange={e => handleNameChange(e.target.value)}
           value={details.title}
         />
 
@@ -154,9 +296,9 @@ const Details = ({
           <div className="flex flex-col gap-2 w-full">
             <Label>Category (Optional)</Label>
             <Select
-              //   onValueChange={handleCategoryChange}
+              onValueChange={handleCategoryChange}
               value={details.category}
-              //   disabled={isLoading}
+              disabled={isLoading}
             >
               <SelectTrigger>
                 {isLoading ? (
@@ -172,14 +314,11 @@ const Details = ({
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value={null}>Select Category</SelectItem>
-                {/* {categories?.map(category => (
+                {categories?.map(category => (
                   <SelectItem key={category._id} value={category.name}>
                     {category.name}
                   </SelectItem>
-                ))} */}
-                <SelectItem value="FASHION_AND_BEAUTY">
-                  Fashion & Beauty (Makeup, hair, bags)
-                </SelectItem>
+                ))}
                 <div className="flex justify-center py-3 bg-[#F6F8FA]">
                   <AddCategoryModal />
                 </div>
@@ -195,7 +334,7 @@ const Details = ({
             'bg-white border border-[#EBEEF1] p-4 rounded-[15px]'
         )}
       >
-        <div className=" flex gap-4 flex-row">
+        <div className="flex gap-4 flex-row">
           <div className="w-full">
             {!isOnboarding && <Label htmlFor="price">Price *</Label>}
             <NumericFormat
@@ -219,17 +358,6 @@ const Details = ({
             )}
             <NumericFormat
               placeholder="NGN"
-              // onValueChange={values => {
-              //   if (
-              //     values.floatValue === undefined ||
-              //     (pricing.price && values.floatValue <= pricing.price)
-              //   ) {
-              //     setPricing({
-              //       ...pricing,
-              //       discountAmount: values.floatValue,
-              //     });
-              //   }
-              // }}
               onValueChange={values => {
                 if (values.floatValue === undefined) {
                   setPricing({...pricing, discountAmount: undefined});
@@ -268,7 +396,7 @@ const Details = ({
             <Input
               label="Stock Quantity *"
               placeholder="Enter stock quantity"
-              //   onChange={handleStockQuantityChange}
+              onChange={handleStockQuantityChange}
               value={pricing.stockQuantity}
               type="number"
               inputMode="numeric"
@@ -300,7 +428,7 @@ const Details = ({
           label="Product description (Optional)"
           placeholder=""
           className="h-24"
-          //   onChange={e => handleDescriptionChange(e.target.value)}
+          onChange={e => handleDescriptionChange(e.target.value)}
           value={details.description}
           mainClass="bg-white border border-[#EBEEF1] p-4 rounded-[15px]"
         />
@@ -335,7 +463,6 @@ const Details = ({
             </div>
             <div className="p-4">
               <AddOption
-                // @ts-expect-error - details is not defined
                 details={details}
                 setDetails={setDetails}
                 editingOption={editingOption}
@@ -358,8 +485,8 @@ const Details = ({
             ]}
             className="w-[10rem] h-24 min-h-24"
             imagePreviewClassName="w-[10rem] h-24 min-h-24"
-            // onFileSelect={handleSelectedFile}
-            // isUploading={isPending}
+            onFileSelect={handleSelectedFile}
+            isUploading={isPending}
             maxSize={10 * 1024 * 1024}
             isOnboarding
           />

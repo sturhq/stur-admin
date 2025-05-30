@@ -11,6 +11,7 @@ import {BoxIcon, Truck} from 'lucide-react';
 
 export const orderTableSchema = z.object({
   _id: z.string(),
+  orderNumber: z.string(),
   customer: z.object({
     _id: z.string(),
     firstName: z.string(),
@@ -18,12 +19,7 @@ export const orderTableSchema = z.object({
     email: z.string().email().optional(),
     phone: z.string().optional(),
   }),
-  items: z.array(
-    z.object({
-      productId: z.string(),
-      quantity: z.number(),
-    })
-  ),
+  items: z.number(),
   vendor: z.object({
     _id: z.string(),
     name: z.string(),
@@ -33,7 +29,7 @@ export const orderTableSchema = z.object({
   deliveryStatus: z.enum(['pending', 'out_for_delivery', 'delivered']),
 });
 
-type OrderTableType = z.infer<typeof orderTableSchema>;
+export type OrderTableType = z.infer<typeof orderTableSchema>;
 
 const renderStatusVariant = (status: string) => {
   switch (status) {
@@ -65,6 +61,15 @@ const renderDeliveryVariant = (status: string) => {
 
 export const columns: ColumnDef<OrderTableType>[] = [
   {
+    accessorKey: 'orderNumber',
+    header: ({column}) => (
+      <TableColumnHeader column={column} title="ORDERNUMBER" />
+    ),
+    cell: ({row}) => (
+      <span className="font-medium">{row.original.orderNumber}</span>
+    ),
+  },
+  {
     accessorKey: 'customer',
     header: ({column}) => (
       <TableColumnHeader column={column} title="CUSTOMER" />
@@ -77,11 +82,11 @@ export const columns: ColumnDef<OrderTableType>[] = [
     ),
   },
   {
-    accessorKey: 'total',
+    accessorKey: 'items',
     header: ({column}) => (
-      <TableColumnHeader column={column} title="TOTAL" />
+      <TableColumnHeader column={column} title="TOTAL ITEMS" />
     ),
-    cell: ({row}) => <span>{row.original.items?.length}</span>,
+    cell: ({row}) => <span>{row.original.items}</span>,
   },
   {
     accessorKey: 'vendor',
