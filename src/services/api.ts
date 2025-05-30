@@ -24,6 +24,8 @@ let isLoggingOut = false;
 // Debounce health check
 
 const debounce = (fn, delay: number) => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   let timeoutId: NodeJS.Timeout;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (...args: any[]) => {
