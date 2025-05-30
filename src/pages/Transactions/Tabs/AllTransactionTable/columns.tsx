@@ -24,6 +24,10 @@ export const columns: ColumnDef<TRANSACTIONTYPE>[] = [
         {row.original.authorization?.senderName}
       </span>
     ),
+    filterFn: (row, id, filterValue) => {
+      const senderName = row.original.authorization?.senderName || '';
+      return senderName.toLowerCase().includes(filterValue.toLowerCase());
+    },
   },
   {
     accessorKey: 'orderId',

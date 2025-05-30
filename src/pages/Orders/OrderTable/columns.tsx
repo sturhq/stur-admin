@@ -75,6 +75,15 @@ export const columns: ColumnDef<OrderTableType>[] = [
         {row.original.customer?.lastName || ''}
       </span>
     ),
+    filterFn: (row, id, filterValue) => {
+      const firstName = row.original.customer?.firstName || '';
+      const lastName = row.original.customer?.lastName || '';
+      const fullName = `${firstName} ${lastName}`.toLowerCase();
+      return (
+        fullName.includes(filterValue.toLowerCase()) ||
+        firstName.toLowerCase().includes(filterValue.toLowerCase())
+      );
+    },
   },
   {
     accessorKey: 'total',

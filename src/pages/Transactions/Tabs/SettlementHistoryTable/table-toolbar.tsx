@@ -22,8 +22,8 @@ export function TableToolbar<TData>({table}: TableToolbarProps<TData>) {
     const value = e.target.value;
     setNameFilter(value);
 
-    // Filter on product title
-    table.getColumn('title')?.setFilterValue(value);
+    // Filter on account name
+    table.getColumn('accountName')?.setFilterValue(value);
   };
 
   const isFiltered = table.getState().columnFilters.length > 0;
@@ -31,11 +31,10 @@ export function TableToolbar<TData>({table}: TableToolbarProps<TData>) {
   return (
     <div className="flex items-center justify-between py-6 px-1 gap-2">
       <div className="flex flex-1 items-center space-x-2">
-        {/* <Search size={16} /> */}
         <div className="flex items-center border rounded-[0.475rem] px-[0.5rem]">
           <Search size={16} />
           <Input
-            placeholder="Search..."
+            placeholder="Search by account name..."
             value={nameFilter}
             onChange={handleNameFilterChange}
             className="h-8 w-[150px] lg:w-[250px] border-none focus:outline-none focus:ring-0 focus:border-none"

@@ -22,8 +22,8 @@ export function TableToolbar<TData>({table}: TableToolbarProps<TData>) {
     const value = e.target.value;
     setNameFilter(value);
 
-    // Filter on product title
-    table.getColumn('title')?.setFilterValue(value);
+    // Filter on sender name using the customer column
+    table.getColumn('customer')?.setFilterValue(value);
   };
 
   const isFiltered = table.getState().columnFilters.length > 0;
@@ -34,52 +34,12 @@ export function TableToolbar<TData>({table}: TableToolbarProps<TData>) {
         <div className="flex items-center border rounded-[0.475rem] px-[0.5rem]">
           <Search size={16} />
           <Input
-            placeholder="Search..."
+            placeholder="Search by sender name..."
             value={nameFilter}
             onChange={handleNameFilterChange}
             className="h-8 w-[150px] lg:w-[250px] border-none focus:outline-none focus:ring-0 focus:border-none"
           />
         </div>
-
-        {/* <Select
-          onValueChange={value =>
-            table.getColumn('status')?.setFilterValue(value || undefined)
-          }
-          value={
-            (table.getColumn('status')?.getFilterValue() as string) ??
-            undefined
-          }
-        >
-          <SelectTrigger className="h-8 w-[150px]">
-            <SelectValue placeholder="Filter by status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="published">Published</SelectItem>
-            <SelectItem value="draft">Draft</SelectItem>
-            <SelectItem value="out-of-stock">Out of stock</SelectItem>
-            <SelectItem value="unpublished">Unpublished</SelectItem>
-          </SelectContent>
-        </Select> */}
-
-        {/* <Select
-          onValueChange={value =>
-            table.getColumn('category')?.setFilterValue(value || undefined)
-          }
-          value={
-            (table.getColumn('category')?.getFilterValue() as string) ??
-            undefined
-          }
-        >
-          <SelectTrigger className="h-8 w-[150px]">
-            <SelectValue placeholder="Filter by category" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="Food">Food</SelectItem>
-            <SelectItem value="Footwear">Footwear</SelectItem>
-            <SelectItem value="Fashion">Fashion</SelectItem>
-            <SelectItem value="Home Deco">Home Deco</SelectItem>
-          </SelectContent>
-        </Select> */}
 
         {isFiltered && (
           <Button

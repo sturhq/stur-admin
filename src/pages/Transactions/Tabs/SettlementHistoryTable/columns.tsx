@@ -37,6 +37,10 @@ export const columns: ColumnDef<SETTLEMENT_HISTORY>[] = [
         {row.original.settlementAccount.accountName}
       </span>
     ),
+    filterFn: (row, id, filterValue) => {
+      const accountName = row.original.settlementAccount.accountName || '';
+      return accountName.toLowerCase().includes(filterValue.toLowerCase());
+    },
   },
   {
     accessorKey: 'type',
