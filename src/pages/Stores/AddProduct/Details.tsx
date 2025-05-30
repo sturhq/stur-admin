@@ -31,6 +31,11 @@ type PRICINGTYPES = {
   stockQuantity: number;
   unit: string;
 };
+interface OptionChoice {
+  name: string;
+  price: number;
+  stockQuantity: number;
+}
 
 interface DetailsProps {
   setPreviewMedia: (url: string | null) => void;
@@ -44,6 +49,7 @@ interface DetailsProps {
     options: Array<{
       name: string;
       required: boolean;
+      choices: OptionChoice[];
     }>;
   };
   setPricing: (pricing: PRICINGTYPES) => void;
@@ -352,7 +358,7 @@ const Details = ({
               customInput={Input}
             />
           </div>
-          <div className="w-full">
+          {/* <div className="w-full">
             {!isOnboarding && (
               <Label htmlFor="price">Discount Amount (Optional)</Label>
             )}
@@ -389,7 +395,7 @@ const Details = ({
               allowNegative={false}
               customInput={Input}
             />
-          </div>
+          </div> */}
         </div>
         {!isOnboarding && (
           <div className="flex md:flex-row flex-col gap-4 w-full">
