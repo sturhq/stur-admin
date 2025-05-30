@@ -63,10 +63,10 @@ export const columns: ColumnDef<OrderTableType>[] = [
   {
     accessorKey: 'orderNumber',
     header: ({column}) => (
-      <TableColumnHeader column={column} title="ORDERNUMBER" />
+      <TableColumnHeader column={column} title="ORDER NUMBER" />
     ),
     cell: ({row}) => (
-      <span className="font-medium">{row.original.orderNumber}</span>
+      <span className="font-medium">#{row.original.orderNumber}</span>
     ),
   },
   {
