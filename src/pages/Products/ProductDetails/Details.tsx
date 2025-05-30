@@ -181,7 +181,7 @@ export const Details = ({
                       description: 'Product link shared successfully',
                       variant: 'success',
                     });
-                  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                   } catch (error) {
                     toast({
                       description: 'Sharing was cancelled or failed',
@@ -267,7 +267,7 @@ export const Details = ({
                         description: 'Product link shared successfully',
                         variant: 'success',
                       });
-                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                      // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     } catch (error) {
                       toast({
                         description: 'Sharing was cancelled or failed',
