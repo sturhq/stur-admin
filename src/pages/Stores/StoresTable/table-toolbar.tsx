@@ -2,15 +2,15 @@ import React, {useState} from 'react';
 import {Table} from '@tanstack/react-table';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
-import {ArrowUpLeft, Search, TriangleAlert, X} from 'lucide-react';
+import {ArrowUpLeft, Search, X} from 'lucide-react';
 import {TableViewOptions} from '@/components/organisms/GenericTable/TableViewOptions';
 import {
   Tabs,
-  TabsContent,
+  // TabsContent,
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs';
-import {Alert} from '@/components/ui/alert';
+// import {Alert} from '@/components/ui/alert';
 
 interface TableToolbarProps<TData> {
   table?: Table<TData>;
@@ -64,12 +64,12 @@ export function TableToolbar<TData>({table}: TableToolbarProps<TData>) {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="claimed" className="">
+          {/* <TabsContent value="claimed" className="">
             <Alert variant="warning" className="mb-4">
               <TriangleAlert size={18} />
               Your store has not been setup yet.
             </Alert>
-          </TabsContent>
+          </TabsContent> */}
         </Tabs>
 
         {isFiltered && (
