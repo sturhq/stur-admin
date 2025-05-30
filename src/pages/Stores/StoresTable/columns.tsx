@@ -34,7 +34,7 @@ export const columns: ColumnDef<StoreData>[] = [
         .replace(/\b\w/g, c => c.toUpperCase()),
   },
   {
-    accessorKey: 'phone',
+    accessorKey: 'phoneNumber',
     header: ({column}) => (
       <TableColumnHeader column={column} title="Phone" />
     ),
