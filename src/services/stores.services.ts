@@ -64,10 +64,9 @@ export const useBlockUser = (userId: string) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: () => api.put(`/user/${userId}/block`),
-    onSuccess: () => {
+    onSuccess: data => {
       toast({
-        title: 'User Blocked',
-        description: 'The user has been blocked successfully.',
+        description: data.data.message || 'User blocked successfully',
         variant: 'success',
       });
       queryClient.invalidateQueries({

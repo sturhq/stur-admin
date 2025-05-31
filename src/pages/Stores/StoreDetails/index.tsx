@@ -119,12 +119,16 @@ const StoreDetails = () => {
                   </div>
                 </Button>
                 <Button
-                  variant="destructive"
+                  variant={
+                    store?.status === 'Blocked' ? 'outline' : 'destructive'
+                  }
                   onClick={() => {
                     setOpen(true);
                   }}
                 >
-                  Block user
+                  {store?.status === 'Blocked'
+                    ? 'Unblock Store'
+                    : 'Block Store'}
                 </Button>
               </div>
             }
@@ -182,7 +186,7 @@ const StoreDetails = () => {
           limit={limit}
         />
       </div>
-      <BlockModal open={open} setOpen={setOpen} />
+      <BlockModal open={open} setOpen={setOpen} store={store} />
     </React.Fragment>
   );
 };
