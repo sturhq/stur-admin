@@ -10,6 +10,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs';
+import {TableFacetedFilter} from '@/components/organisms/GenericTable/TableFacetedFilter';
 // import {Alert} from '@/components/ui/alert';
 
 interface TableToolbarProps<TData> {
@@ -33,6 +34,13 @@ export function TableToolbar<TData>({table}: TableToolbarProps<TData>) {
   };
 
   const isFiltered = table.getState().columnFilters.length > 0;
+
+  const statusOptions = [
+    {value: 'active', label: 'Active'},
+    {value: 'inactive', label: 'Inactive'},
+    {value: 'pending', label: 'Pending'},
+    {value: 'blocked', label: 'Blocked'},
+  ];
 
   return (
     <div className="flex items-center justify-between pb-6 px-1 gap-2">
@@ -93,6 +101,13 @@ export function TableToolbar<TData>({table}: TableToolbarProps<TData>) {
             className="h-8 w-[150px] lg:w-[250px] border-none focus:outline-none focus:ring-0 focus:border-none"
           />
         </div>
+        {table.getColumn('status') && (
+          <TableFacetedFilter
+            column={table.getColumn('status')}
+            title="Filter Status"
+            options={statusOptions}
+          />
+        )}
         <TableViewOptions table={table} />
 
         <Button
