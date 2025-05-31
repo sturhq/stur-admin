@@ -21,7 +21,7 @@ import {useCloudinaryUpload} from '@/services/fileupload.service';
 import {toast} from '@/hooks/use-toast';
 import {useQueryClient} from '@tanstack/react-query';
 
-type StoreFormData = {
+export type StoreFormData = {
   storeName: string;
   storeDescription: string;
   phoneNumber: string;
@@ -44,6 +44,8 @@ const businessTypes = {
 
 const DetailedStore = () => {
   const [isSuccess, setIsSuccess] = useState(false);
+  const [createdStoreData, setCreatedStoreData] =
+    useState<StoreFormData | null>(null);
   const queryClient = useQueryClient();
   const {mutate: createStore, isPending: isCreatingStore} =
     useCreateStore();
@@ -114,11 +116,16 @@ const DetailedStore = () => {
       bannerUrl: data.bannerUrl || null,
     };
     createStore(storeData, {
-      onSuccess: () => setIsSuccess(true),
+      onSuccess: () => {
+        setCreatedStoreData(storeData);
+        setIsSuccess(true);
+      },
     });
   };
 
-  if (isSuccess) return <SuccessScreen />;
+  if (isSuccess && createdStoreData) {
+    return <SuccessScreen storeData={createdStoreData} />;
+  }
 
   return (
     <div className="p-[1.07rem] max-lg:py-[1.07rem] max-w-[46.437rem] max-lg:w-full flex flex-col gap-[1.56rem] mx-auto pb-24">

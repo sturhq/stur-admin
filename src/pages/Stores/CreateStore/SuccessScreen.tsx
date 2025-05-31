@@ -13,10 +13,24 @@ import facebook from '@/assets/images/facebook.svg';
 import instagram from '@/assets/images/instagram.svg';
 import twitter from '@/assets/images/twitter.svg';
 import {Copy} from 'lucide-react';
+import {StoreFormData} from './DetailedStore';
 // import {useSendToWhatsapp} from '@/services/orders.service';
+type SuccessScreenProps = {
+  storeData: StoreFormData;
+};
 
-const SuccessScreen = () => {
+const SuccessScreen = ({storeData}: SuccessScreenProps) => {
+  const generateStoreSlug = (name: string) => {
+    return name
+      .toLowerCase()
+      .replace(/\s+/g, '') // remove spaces
+      .replace(/[^a-z0-9]/g, ''); // remove non-alphanumeric
+  };
+
+  const storeSlug = generateStoreSlug(storeData.storeName);
+  const storeUrl = `${import.meta.env.VITE_CUSTOMER_URL}/${storeSlug}`;
   // const {userData} = useUser();
+  console.log(storeData);
   const navigate = useNavigate();
   // const whatsappPhoneNumber = userData?.store?.phoneNumber;
   // const storeSlug = userData?.store?.storeSlug;
@@ -38,7 +52,8 @@ const SuccessScreen = () => {
             <div className="flex gap-[0.875rem]">
               <LinkIcon className="w-[1.375rem] h-[1.375rem]" />
               <div className="font-semibold text-[0.875rem] text-[#30313D]">
-                https://stur.africa/lasolasHQ
+                {/* https://stur.africa/lasolasHQ */}
+                {storeUrl}
               </div>
             </div>
             <div>

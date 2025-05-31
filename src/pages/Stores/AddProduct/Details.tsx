@@ -92,7 +92,6 @@ const Details = ({
   } = useGetCategories(userData?.store?._id);
 
   const categories = categoriesData?.data?.data;
-
   // Cloudinary upload mutation
   const cloudData = queryClient.getQueryData(['presigned-url', 1]);
   const {mutateAsync, isPending} = useCloudinaryUpload(

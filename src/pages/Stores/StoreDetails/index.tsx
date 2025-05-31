@@ -13,7 +13,7 @@ import {useGetProducts} from '@/services/products.service.ts';
 import ProductsTable from '@/pages/Products/ProductsTable/index.tsx';
 
 const StoreDetails = () => {
-  const limit = 20; // Define the number of items per page
+  const limit = 20;
 
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
@@ -21,8 +21,7 @@ const StoreDetails = () => {
   const {storeId} = useParams();
   const [open, setOpen] = useState(false);
   const {data: storeInfo, error} = useGetStoreById(storeId);
-  console.log(storeInfo);
-
+  const claimed = storeInfo?.data;
   const {
     data: products,
     isLoading,
@@ -108,9 +107,14 @@ const StoreDetails = () => {
                   // onClick={() => {
                   //   setOpen(true);
                   // }}
+                  disabled={!claimed?.isClaimable}
                 >
                   <Plus size={15} />
-                  <div onClick={() => navigate('/products/add-product')}>
+                  <div
+                    onClick={() =>
+                      navigate(`/products/add-product?storeId=${storeId}`)
+                    }
+                  >
                     Add product
                   </div>
                 </Button>

@@ -59,6 +59,7 @@ export const Details = ({
   // onPublish,
   // isPublishing,
 }: DetailsProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isPublished, setIsPublished] = useState(
     details?.status === 'published'
   );
