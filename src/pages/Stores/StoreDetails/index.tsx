@@ -107,16 +107,13 @@ const StoreDetails = () => {
                   // onClick={() => {
                   //   setOpen(true);
                   // }}
-                  disabled={!claimed?.isClaimable}
+                  onClick={() =>
+                    navigate(`/products/add-product?storeId=${storeId}`)
+                  }
+                  disabled={claimed?.isClaimable}
                 >
                   <Plus size={15} />
-                  <div
-                    onClick={() =>
-                      navigate(`/products/add-product?storeId=${storeId}`)
-                    }
-                  >
-                    Add product
-                  </div>
+                  Add product
                 </Button>
                 <Button
                   variant={
@@ -133,37 +130,30 @@ const StoreDetails = () => {
               </div>
             }
           />
-          <div
-            className="flex items-center gap-4 cursor-pointer"
-            onClick={() => {
-              navigator.clipboard.writeText('www.stur.ng/thelinkstore');
-              toast({
-                description: 'Store link copied to clipboard',
-                variant: 'success',
-              });
-            }}
-          >
-            <a
-              className="text-[#6A7383]"
-              href="https://www.stur.ng/thelinkstore"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {store?.storeUrl || ''}
-            </a>
-            <span
-              className="cursor-pointer"
-              onClick={() => {
-                navigator.clipboard.writeText(store?.storeUrl || '');
-                toast({
-                  description: 'Store link copied to clipboard',
-                  variant: 'default',
-                });
-              }}
-            >
-              <Copy className="w-4 h-4 text-[#5433EB]" />
-            </span>
-          </div>
+          {store?.storeUrl && (
+            <div className="flex items-center gap-4 cursor-pointer">
+              <a
+                className="text-[#6A7383]"
+                href="https://www.stur.ng/thelinkstore"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {store?.storeUrl || ''}
+              </a>
+              <span
+                className="cursor-pointer"
+                onClick={() => {
+                  navigator.clipboard.writeText(store?.storeUrl || '');
+                  toast({
+                    description: 'Store link copied to clipboard',
+                    variant: 'default',
+                  });
+                }}
+              >
+                <Copy className="w-4 h-4 text-[#5433EB]" />
+              </span>
+            </div>
+          )}
           <div className="flex col gap-2 mt-4">
             <Badge variant={statusVariantMap[store?.status || '']}>
               {statusMap[store?.status || '']}

@@ -448,7 +448,8 @@ export const useGetStoreProducts = (
 export const useAddProduct = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: PRODUCT_TYPE) => api.post('/products', data),
+    mutationFn: (data: PRODUCT_TYPE) =>
+      api.post('/products/admin/create', data),
     onSuccess: data => {
       toast({
         title: 'Product added!',

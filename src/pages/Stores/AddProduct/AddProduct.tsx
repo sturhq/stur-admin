@@ -5,6 +5,7 @@ import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {ArrowLeft} from 'lucide-react';
 import {useAddProduct} from '@/services/products.service';
+import queryString from 'query-string';
 
 export type PRICINGTYPES = {
   price: number;
@@ -35,6 +36,8 @@ export type DETAILSTYPES = {
 };
 
 const AddProductPage = () => {
+  const queryParams = queryString.parse(window.location.search);
+  const storeId = queryParams.storeId as string;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [previewMedia, setPreviewMedia] = useState<string | null>(null);
   const {mutateAsync, isPending} = useAddProduct();
@@ -61,6 +64,7 @@ const AddProductPage = () => {
       stockQuantity: pricing.stockQuantity,
       unit: pricing.unit,
       previewMedia,
+      storeId,
     };
     await mutateAsync(payload);
     // gaRecordEvent('ADD_PRODUCT', 'user added a product');

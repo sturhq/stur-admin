@@ -41,32 +41,11 @@ export const columns: ColumnDef<StoreData>[] = [
     cell: info => info.getValue(),
   },
   {
-    accessorKey: 'storeUrl',
+    accessorKey: 'email',
     header: ({column}) => (
-      <TableColumnHeader column={column} title="Stur Link" />
+      <TableColumnHeader column={column} title="Email" />
     ),
-    cell: info => {
-      const storeUrl = info.getValue() as string;
-      return (
-        <div className="flex items-center gap-2">
-          <span className="text-sm">{storeUrl}</span>
-          {storeUrl && (
-            <span
-              className="cursor-pointer"
-              onClick={() => {
-                navigator.clipboard.writeText(storeUrl);
-                toast({
-                  description: 'Store link copied to clipboard',
-                  variant: 'default',
-                });
-              }}
-            >
-              <Copy className="h-4 w-4" stroke="#5433EB" />
-            </span>
-          )}
-        </div>
-      );
-    },
+    cell: info => info.getValue(),
   },
   {
     accessorKey: 'status',

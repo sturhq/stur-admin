@@ -22,6 +22,7 @@ export type PRODUCT_TYPE = {
   price: number;
   stockQuantity: number;
   unit: string;
+  storeId: string;
 };
 
 export type STORE_TYPE = {

@@ -17,9 +17,10 @@ import {StoreFormData} from './DetailedStore';
 // import {useSendToWhatsapp} from '@/services/orders.service';
 type SuccessScreenProps = {
   storeData: StoreFormData;
+  returnedData?: StoreFormData;
 };
 
-const SuccessScreen = ({storeData}: SuccessScreenProps) => {
+const SuccessScreen = ({storeData, returnedData}: SuccessScreenProps) => {
   const generateStoreSlug = (name: string) => {
     return name
       .toLowerCase()
@@ -30,7 +31,7 @@ const SuccessScreen = ({storeData}: SuccessScreenProps) => {
   const storeSlug = generateStoreSlug(storeData.storeName);
   const storeUrl = `${import.meta.env.VITE_CUSTOMER_URL}/${storeSlug}`;
   // const {userData} = useUser();
-  console.log(storeData);
+
   const navigate = useNavigate();
   // const whatsappPhoneNumber = userData?.store?.phoneNumber;
   // const storeSlug = userData?.store?.storeSlug;
@@ -107,7 +108,9 @@ const SuccessScreen = ({storeData}: SuccessScreenProps) => {
         </div>
         <Button
           className="w-full bg-[#30313D] mt-[1.5625rem] rounded-[0.75rem] font-normal text-[0.875rem] text-[#FFFFFF] mb-[20rem]"
-          onClick={() => navigate('/products/add-product')}
+          onClick={() =>
+            navigate(`/products/add-product?storeId=${returnedData?._id}`)
+          }
         >
           Add product
         </Button>

@@ -22,6 +22,7 @@ import {toast} from '@/hooks/use-toast';
 import {useQueryClient} from '@tanstack/react-query';
 
 export type StoreFormData = {
+  _id?: string;
   storeName: string;
   storeDescription: string;
   phoneNumber: string;
@@ -47,12 +48,13 @@ const DetailedStore = () => {
   const [createdStoreData, setCreatedStoreData] =
     useState<StoreFormData | null>(null);
   const queryClient = useQueryClient();
-  const {mutate: createStore, isPending: isCreatingStore} =
+  const {mutateAsync: createStore, isPending: isCreatingStore} =
     useCreateStore();
   const [type, setType] = useState<'banner' | 'logo' | null>(null);
   const cachedQuery = queryClient.getQueryData(['presigned-url', 1]);
   // @ts-expect-error - data is not defined
   const presigned = cachedQuery?.data?.data;
+  const [returnedData, setReturnedData] = useState(null);
 
   // Cloudinary upload mutation
   const {mutateAsync: uploadFile, isPending: isUploading} =
@@ -109,22 +111,38 @@ const DetailedStore = () => {
     }
   };
 
-  const onSubmit = (data: StoreFormData) => {
+  const onSubmit = async (data: StoreFormData) => {
     const storeData = {
       ...data,
       storeLogoUrl: data.storeLogoUrl || null,
       bannerUrl: data.bannerUrl || null,
     };
-    createStore(storeData, {
-      onSuccess: () => {
-        setCreatedStoreData(storeData);
-        setIsSuccess(true);
-      },
-    });
+
+    try {
+      const response = await createStore(storeData);
+
+      setReturnedData(response?.data.data);
+      setCreatedStoreData(storeData);
+      setIsSuccess(true);
+    } catch (error) {
+      toast({
+        title: 'Store Creation Failed',
+        description:
+          error instanceof Error
+            ? error.message
+            : 'An error occurred while creating the store',
+        variant: 'destructive',
+      });
+    }
   };
 
   if (isSuccess && createdStoreData) {
-    return <SuccessScreen storeData={createdStoreData} />;
+    return (
+      <SuccessScreen
+        storeData={createdStoreData}
+        returnedData={returnedData}
+      />
+    );
   }
 
   return (
