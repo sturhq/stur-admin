@@ -2,8 +2,6 @@ import {z} from 'zod';
 import {Badge} from '@/components/ui/badge';
 import {ColumnDef} from '@tanstack/react-table';
 import {TableColumnHeader} from '@/components/organisms/GenericTable/TableColumnHeader';
-import {Copy} from 'lucide-react';
-import {toast} from '@/hooks/use-toast';
 import {StoreData} from '.';
 
 export const tableSchema = z.object({
