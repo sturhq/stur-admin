@@ -6,14 +6,19 @@ import {
 import api from '@/services/api.ts';
 import {toast} from '@/hooks/use-toast';
 
-export const useGetStores = (page?: number, limit?: number) => {
+export const useGetStores = (
+  page?: number,
+  limit?: number,
+  claimStatus?: 'Claimed' | 'Unclaimed' | 'All'
+) => {
   return useQuery({
-    queryKey: ['stores', page, limit],
+    queryKey: ['stores', page, limit, claimStatus],
     queryFn: () =>
       api.get('/user/admin/users-with-stores', {
         params: {
           page,
           limit,
+          ...(claimStatus !== 'All' && {claimStatus}),
         },
       }),
     refetchOnWindowFocus: true,

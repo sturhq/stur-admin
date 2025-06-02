@@ -11,10 +11,10 @@ import {useGetStoreById} from '@/services/stores.services.ts';
 import {useNavigate, useParams} from 'react-router-dom';
 import {useGetProducts} from '@/services/products.service.ts';
 import ProductsTable from '@/pages/Products/ProductsTable/index.tsx';
+import {BreadCrumb} from './Breadcrumb.tsx';
 
 const StoreDetails = () => {
   const limit = 20;
-
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
 
@@ -96,6 +96,7 @@ const StoreDetails = () => {
   return (
     <React.Fragment>
       <PageHelmet title="Store Details" />
+      <BreadCrumb />
       <div className="flex flex-col gap-5 w-full">
         <div>
           <PageHeader

@@ -26,6 +26,8 @@ export interface TableProps {
   page: number;
   setPage: (page: number) => void;
   limit: number;
+  claimStatus?: 'Claimed' | 'Unclaimed' | 'All';
+  setClaimStatus?: (status: 'Claimed' | 'Unclaimed' | 'All') => void;
 }
 
 const StoreTable = ({
@@ -35,6 +37,8 @@ const StoreTable = ({
   page,
   setPage,
   limit,
+  claimStatus,
+  setClaimStatus,
 }: TableProps) => {
   const navigate = useNavigate();
   const {totalPages, hasNextPage, hasPrevPage} = pagination;
@@ -64,7 +68,12 @@ const StoreTable = ({
         title: 'No Stores Found',
         description: 'There are no stores available at the moment.',
       }}
-      customToolbar={<TableToolbar />}
+      customToolbar={
+        <TableToolbar
+          claimStatus={claimStatus}
+          setClaimStatus={setClaimStatus}
+        />
+      }
     />
   );
 };

@@ -15,9 +15,15 @@ import {TableFacetedFilter} from '@/components/organisms/GenericTable/TableFacet
 
 interface TableToolbarProps<TData> {
   table?: Table<TData>;
+  claimStatus?: 'Claimed' | 'Unclaimed' | 'All';
+  setClaimStatus?: (status: 'Claimed' | 'Unclaimed' | 'All') => void;
 }
 
-export function TableToolbar<TData>({table}: TableToolbarProps<TData>) {
+export function TableToolbar<TData>({
+  table,
+  claimStatus,
+  setClaimStatus,
+}: TableToolbarProps<TData>) {
   const [nameFilter, setNameFilter] = useState('');
 
   // Only process if table is available
@@ -42,30 +48,42 @@ export function TableToolbar<TData>({table}: TableToolbarProps<TData>) {
     {value: 'blocked', label: 'Blocked'},
   ];
 
+  const handleTabChange = (value: string) => {
+    if (setClaimStatus) {
+      if (value === 'All') {
+        setClaimStatus('All');
+      } else if (value === 'Unclaimed') {
+        setClaimStatus('Unclaimed');
+      } else if (value === 'Claimed') {
+        setClaimStatus('Claimed');
+      }
+    }
+  };
+
   return (
     <div className="flex items-center justify-between pb-6 px-1 gap-2">
       <div className="flex flex-1 items-center space-x-2">
         <Tabs
-          defaultValue="all"
-          className="w-full  "
-          // onValueChange={handleTabChange}
-          // value={tab}
+          defaultValue="All"
+          className="w-full"
+          onValueChange={handleTabChange}
+          value={claimStatus}
         >
           <TabsList className=" p-1 h-12 rounded-lg gap-4 flex">
             <TabsTrigger
-              value="all"
+              value="All"
               className="data-[state=active]:bg-[#30313D] data-[state=active]:text-[#FFFFFF] data-[state=active]:border-none text-[#30313D] p-[8px] rounded-[12px] no-underline border "
             >
               All
             </TabsTrigger>
             <TabsTrigger
-              value="unclaimed"
+              value="Unclaimed"
               className="data-[state=active]:bg-[#30313D] data-[state=active]:text-[#FFFFFF] data-[state=active]:border-none text-[#30313D] p-[8px] border rounded-[12px]"
             >
               Unclaimed stur
             </TabsTrigger>
             <TabsTrigger
-              value="claimed"
+              value="Claimed"
               className="data-[state=active]:bg-[#30313D] data-[state=active]:text-[#FFFFFF] data-[state=active]:border-none text-[#30313D] p-[8px]  border rounded-[12px]"
             >
               Claimed stur
