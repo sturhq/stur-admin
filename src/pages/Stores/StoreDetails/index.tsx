@@ -116,18 +116,22 @@ const StoreDetails = () => {
                   <Plus size={15} />
                   Add product
                 </Button>
-                <Button
-                  variant={
-                    store?.status === 'Blocked' ? 'outline' : 'destructive'
-                  }
-                  onClick={() => {
-                    setOpen(true);
-                  }}
-                >
-                  {store?.status === 'Blocked'
-                    ? 'Unblock Store'
-                    : 'Block Store'}
-                </Button>
+                {store?.claimedStatus === 'Unclaimed' && (
+                  <Button
+                    variant={
+                      store?.claimedStatus === 'Unclaimed'
+                        ? 'outline'
+                        : 'destructive'
+                    }
+                    onClick={() => {
+                      setOpen(true);
+                    }}
+                  >
+                    {store?.claimedStatus === 'Unclaimed'
+                      ? 'Unblock Store'
+                      : 'Block Store'}
+                  </Button>
+                )}
               </div>
             }
           />
