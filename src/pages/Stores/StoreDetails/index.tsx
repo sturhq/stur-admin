@@ -92,7 +92,7 @@ const StoreDetails = () => {
     Blocked: 'destructive',
     Inactive: 'default',
   };
-
+  console.log(store?.claimedStatus);
   return (
     <React.Fragment>
       <PageHelmet title="Store Details" />
@@ -111,15 +111,15 @@ const StoreDetails = () => {
                   onClick={() =>
                     navigate(`/products/add-product?storeId=${storeId}`)
                   }
-                  disabled={claimed?.isClaimable}
+                  disabled={store?.claimStatus === 'Claimed'}
                 >
                   <Plus size={15} />
                   Add product
                 </Button>
-                {store?.claimedStatus === 'Unclaimed' && (
+                {store?.claimStatus === 'Claimed' && (
                   <Button
                     variant={
-                      store?.claimedStatus === 'Unclaimed'
+                      store?.claimStatus === 'Unclaimed'
                         ? 'outline'
                         : 'destructive'
                     }
@@ -127,7 +127,7 @@ const StoreDetails = () => {
                       setOpen(true);
                     }}
                   >
-                    {store?.claimedStatus === 'Unclaimed'
+                    {store?.claimStatus === 'Unclaimed'
                       ? 'Unblock Store'
                       : 'Block Store'}
                   </Button>
