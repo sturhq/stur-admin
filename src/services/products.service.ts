@@ -26,7 +26,7 @@ export const useGetProducts = (
           page,
           limit,
           store: storeId,
-          status,
+          status: 'published',
           category,
         },
       }),
