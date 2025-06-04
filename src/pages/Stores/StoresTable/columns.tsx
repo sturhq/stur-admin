@@ -52,14 +52,12 @@ export const columns: ColumnDef<StoreData>[] = [
     ),
     cell: ({row}) => {
       const status = row.getValue('status') as
-        | 'Active'
+        | 'Verified'
         | 'Pending'
-        | 'Blocked'
         | 'Inactive';
       const statusMap = {
-        Active: 'Active',
+        Verified: 'Verified',
         Pending: 'Pending',
-        Blocked: 'Blocked',
         Inactive: 'Inactive',
       };
       const variantMap: Record<
@@ -72,9 +70,8 @@ export const columns: ColumnDef<StoreData>[] = [
         | 'default'
         | 'warning'
       > = {
-        Active: 'positive',
-        Pending: 'negative',
-        Blocked: 'destructive',
+        Verified: 'positive',
+        Pending: 'warning',
         Inactive: 'default',
       };
       return (

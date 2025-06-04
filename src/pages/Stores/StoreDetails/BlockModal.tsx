@@ -40,10 +40,10 @@ export const BlockModal = ({open, setOpen, store}: Props) => {
         </div>
         <div className="px-6">
           <h4 className="text-[#30313D] font-bold text-[1.75rem]">
-            {store?.status === 'Active' ? 'Block User' : 'Unblock User'}
+            {store?.status === 'Verified' ? 'Block User' : 'Unblock User'}
           </h4>
           <p className="text-sm text-[#6A7383] mt-1">
-            {store?.status === 'Active'
+            {store?.status === 'Verified'
               ? ' Are you sure you want to block this users? This user will loss access to his account when you block them.'
               : 'Are you sure you want to unblock this user?'}
           </p>
@@ -56,7 +56,7 @@ export const BlockModal = ({open, setOpen, store}: Props) => {
             loading={isPending}
             onClick={handleBlock}
             variant={
-              store?.status === 'Claimed' ? 'destructive' : 'default'
+              store?.status === 'Verified' ? 'destructive' : 'default'
             }
           >
             Yes, continue

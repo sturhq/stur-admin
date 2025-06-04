@@ -71,14 +71,15 @@ const StoreDetails = () => {
   };
 
   const statusMap = {
-    Active: 'Active',
+    Verified: 'Verified',
     Pending: 'Pending',
-    Blocked: 'Blocked',
     Inactive: 'Inactive',
   };
 
+  type StatusType = keyof typeof statusMap;
+
   const statusVariantMap: Record<
-    typeof status,
+    StatusType,
     | 'positive'
     | 'negative'
     | 'destructive'
@@ -87,12 +88,11 @@ const StoreDetails = () => {
     | 'default'
     | 'warning'
   > = {
-    Active: 'positive',
-    Pending: 'negative',
-    Blocked: 'destructive',
+    Verified: 'positive',
+    Pending: 'warning',
     Inactive: 'default',
   };
-  console.log(store?.claimedStatus);
+
   return (
     <React.Fragment>
       <PageHelmet title="Store Details" />
