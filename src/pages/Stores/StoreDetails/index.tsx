@@ -129,7 +129,7 @@ const StoreDetails = () => {
                       setOpen(true);
                     }}
                   >
-                    {store?.status === 'Unverified'
+                    {store?.status === 'Blocked'
                       ? 'Unblock Store'
                       : 'Block Store'}
                   </Button>
