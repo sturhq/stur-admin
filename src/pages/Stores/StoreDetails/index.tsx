@@ -72,8 +72,8 @@ const StoreDetails = () => {
 
   const statusMap = {
     Verified: 'Verified',
-    Pending: 'Pending',
-    Inactive: 'Inactive',
+    Unverified: 'Unverified',
+    Blocked: 'Blocked',
   };
 
   type StatusType = keyof typeof statusMap;
@@ -89,8 +89,8 @@ const StoreDetails = () => {
     | 'warning'
   > = {
     Verified: 'positive',
-    Pending: 'warning',
-    Inactive: 'default',
+    Unverified: 'default',
+    Blocked: 'destructive',
   };
 
   return (
@@ -121,7 +121,7 @@ const StoreDetails = () => {
                 {store?.claimStatus === 'Claimed' && (
                   <Button
                     variant={
-                      store?.status === 'Inactive'
+                      store?.status === 'Unverified'
                         ? 'outline'
                         : 'destructive'
                     }
@@ -129,7 +129,7 @@ const StoreDetails = () => {
                       setOpen(true);
                     }}
                   >
-                    {store?.status === 'Inactive'
+                    {store?.status === 'Unverified'
                       ? 'Unblock Store'
                       : 'Block Store'}
                   </Button>

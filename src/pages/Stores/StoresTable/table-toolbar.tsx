@@ -40,11 +40,9 @@ export function TableToolbar<TData>({
   };
 
   const isFiltered = table.getState().columnFilters.length > 0;
-
   const statusOptions = [
-    {value: 'active', label: 'Active'},
-    {value: 'inactive', label: 'Inactive'},
-    {value: 'pending', label: 'Pending'},
+    {value: 'verified', label: 'Verified'},
+    {value: 'unverified', label: 'Unverified'},
     {value: 'blocked', label: 'Blocked'},
   ];
 
