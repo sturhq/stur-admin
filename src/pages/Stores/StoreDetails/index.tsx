@@ -121,7 +121,7 @@ const StoreDetails = () => {
                 {store?.claimStatus === 'Claimed' && (
                   <Button
                     variant={
-                      store?.status === 'Unverified'
+                      store?.status !== 'Blocked'
                         ? 'outline'
                         : 'destructive'
                     }
