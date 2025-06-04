@@ -120,6 +120,7 @@ const DetailedStore = () => {
   const onSubmit = async (data: StoreFormData) => {
     const storeData = {
       ...data,
+      business_type: data.businessType,
       storeLogoUrl: data.storeLogoUrl || null,
       bannerUrl: data.bannerUrl || null,
     };
