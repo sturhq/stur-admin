@@ -1,19 +1,27 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PageHeader from '@/common/PageHeader';
 import PageHelmet from '@/common/PageHelmet';
 import {Button} from '@/components/ui/button';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useSearchParams} from 'react-router-dom';
 import StoreSummaryCards from './StoreSummaryCards';
 import StoreTable from './StoresTable';
 import {useGetStores} from '@/services/stores.services';
 
 const Stores = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = React.useState(1);
   const [claimStatus, setClaimStatus] = React.useState<
-    'Claimed' | 'Unclaimed' | 'All'
-  >('All');
+    'Claimed' | 'Unclaimed'
+  >(
+    (searchParams.get('claimStatus') as 'Claimed' | 'Unclaimed') ||
+      'Unclaimed'
+  );
   const limit = 20; // Define the number of items per page
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setSearchParams({claimStatus});
+  }, [claimStatus, setSearchParams]);
 
   const {data, isLoading} = useGetStores(page, limit, claimStatus);
 

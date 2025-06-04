@@ -21,7 +21,7 @@ const StoreDetails = () => {
   const {storeId} = useParams();
   const [open, setOpen] = useState(false);
   const {data: storeInfo, error} = useGetStoreById(storeId);
-  const claimed = storeInfo?.data;
+
   const {
     data: products,
     isLoading,

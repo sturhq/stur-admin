@@ -26,8 +26,8 @@ export interface TableProps {
   page: number;
   setPage: (page: number) => void;
   limit: number;
-  claimStatus?: 'Claimed' | 'Unclaimed' | 'All';
-  setClaimStatus?: (status: 'Claimed' | 'Unclaimed' | 'All') => void;
+  claimStatus?: 'Claimed' | 'Unclaimed';
+  setClaimStatus?: (status: 'Claimed' | 'Unclaimed') => void;
 }
 
 const StoreTable = ({

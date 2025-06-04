@@ -50,9 +50,7 @@ export function TableToolbar<TData>({
 
   const handleTabChange = (value: string) => {
     if (setClaimStatus) {
-      if (value === 'All') {
-        setClaimStatus('All');
-      } else if (value === 'Unclaimed') {
+      if (value === 'Unclaimed') {
         setClaimStatus('Unclaimed');
       } else if (value === 'Claimed') {
         setClaimStatus('Claimed');
@@ -64,18 +62,12 @@ export function TableToolbar<TData>({
     <div className="flex items-center justify-between pb-6 px-1 gap-2">
       <div className="flex flex-1 items-center space-x-2">
         <Tabs
-          defaultValue="All"
+          defaultValue="Unclaimed"
           className="w-full"
           onValueChange={handleTabChange}
           value={claimStatus}
         >
           <TabsList className=" p-1 h-12 rounded-lg gap-4 flex">
-            <TabsTrigger
-              value="All"
-              className="data-[state=active]:bg-[#30313D] data-[state=active]:text-[#FFFFFF] data-[state=active]:border-none text-[#30313D] p-[8px] rounded-[12px] no-underline border "
-            >
-              All
-            </TabsTrigger>
             <TabsTrigger
               value="Unclaimed"
               className="data-[state=active]:bg-[#30313D] data-[state=active]:text-[#FFFFFF] data-[state=active]:border-none text-[#30313D] p-[8px] border rounded-[12px]"

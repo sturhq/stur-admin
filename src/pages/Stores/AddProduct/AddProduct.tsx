@@ -68,7 +68,7 @@ const AddProductPage = () => {
     };
     await mutateAsync(payload);
     // gaRecordEvent('ADD_PRODUCT', 'user added a product');
-    navigate(-1);
+    navigate('/products');
   };
 
   return (
