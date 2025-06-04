@@ -108,9 +108,7 @@ const SuccessScreen = ({storeData, returnedData}: SuccessScreenProps) => {
         </div>
         <Button
           className="w-full bg-[#30313D] mt-[1.5625rem] rounded-[0.75rem] font-normal text-[0.875rem] text-[#FFFFFF] mb-[20rem]"
-          onClick={() =>
-            navigate(`/products/add-product?storeId=${returnedData?._id}`)
-          }
+          onClick={() => navigate(`/products`)}
         >
           Add product
         </Button>

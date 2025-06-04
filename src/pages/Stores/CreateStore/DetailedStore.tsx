@@ -147,16 +147,6 @@ const DetailedStore = () => {
 
   return (
     <div className="p-[1.07rem] max-lg:py-[1.07rem] max-w-[46.437rem] max-lg:w-full flex flex-col gap-[1.56rem] mx-auto pb-24">
-      <div className="text-center">
-        <h1 className="text-[1.75rem] font-bold text-[#30313D]">
-          Provide store information
-        </h1>
-        <p className="mx-[9.8125rem] text-[0.875rem] font-normal text-[#6A7383]">
-          Share key details about your store to help potential customers
-          find and shop with you easily.
-        </p>
-      </div>
-
       {/* Banner & Logo Section - Updated to match Settings style */}
       <div className="relative h-[15.625rem] max-lg:h-[8.3rem] w-full bg-[#F6F8FA] rounded-[15px]">
         <div className="absolute top-0 left-0 h-full w-full rounded-[15px]">

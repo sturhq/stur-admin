@@ -103,19 +103,22 @@ const StoreDetails = () => {
             title={store?.storeName || ''}
             button={
               <div className="flex gap-2">
-                <Button
-                  className="bg-[#30313D] p-[0.5rem]"
-                  // onClick={() => {
-                  //   setOpen(true);
-                  // }}
-                  onClick={() =>
-                    navigate(`/products/add-product?storeId=${storeId}`)
-                  }
-                  disabled={store?.claimStatus === 'Claimed'}
-                >
-                  <Plus size={15} />
-                  Add product
-                </Button>
+                {store?.claimStatus === 'Claimed' && (
+                  <Button
+                    className="bg-[#30313D] p-[0.5rem]"
+                    // onClick={() => {
+                    //   setOpen(true);
+                    // }}
+                    onClick={() =>
+                      navigate(`/products/add-product?storeId=${storeId}`)
+                    }
+                    disabled={store?.claimStatus === 'Claimed'}
+                  >
+                    <Plus size={15} />
+                    Add product
+                  </Button>
+                )}
+
                 {store?.claimStatus === 'Claimed' && (
                   <Button
                     variant={
