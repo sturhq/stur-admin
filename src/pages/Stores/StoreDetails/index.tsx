@@ -121,7 +121,7 @@ const StoreDetails = () => {
                 {store?.claimStatus === 'Claimed' && (
                   <Button
                     variant={
-                      store?.claimStatus === 'Unclaimed'
+                      store?.status === 'Inactive'
                         ? 'outline'
                         : 'destructive'
                     }
@@ -129,7 +129,7 @@ const StoreDetails = () => {
                       setOpen(true);
                     }}
                   >
-                    {store?.claimStatus === 'Unclaimed'
+                    {store?.status === 'Inactive'
                       ? 'Unblock Store'
                       : 'Block Store'}
                   </Button>
