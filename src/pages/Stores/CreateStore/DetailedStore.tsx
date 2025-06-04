@@ -65,7 +65,13 @@ const DetailedStore = () => {
       presigned?.signature
     );
 
-  const {control, handleSubmit, setValue, watch} = useForm<StoreFormData>({
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: {isValid, isDirty},
+  } = useForm<StoreFormData>({
     defaultValues: {
       storeName: '',
       storeDescription: '',
@@ -325,7 +331,7 @@ const DetailedStore = () => {
 
       <Button
         onClick={handleSubmit(onSubmit)}
-        disabled={isUploading || isCreatingStore}
+        disabled={!isValid || !isDirty}
         className="w-full bg-[#30313D] py-[0.5625rem] px-[1rem] rounded-[0.75rem] h-[2.625rem] text-[1rem] font-semibold hover:bg-[#30313D]/90"
       >
         {isCreatingStore ? 'Creating...' : 'Create Store'}

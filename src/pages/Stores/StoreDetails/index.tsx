@@ -103,7 +103,7 @@ const StoreDetails = () => {
             title={store?.storeName || ''}
             button={
               <div className="flex gap-2">
-                {store?.claimStatus === 'Claimed' && (
+                {store?.claimStatus === 'Unclaimed' && (
                   <Button
                     className="bg-[#30313D] p-[0.5rem]"
                     // onClick={() => {
@@ -112,7 +112,6 @@ const StoreDetails = () => {
                     onClick={() =>
                       navigate(`/products/add-product?storeId=${storeId}`)
                     }
-                    disabled={store?.claimStatus === 'Claimed'}
                   >
                     <Plus size={15} />
                     Add product
