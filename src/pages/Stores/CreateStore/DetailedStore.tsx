@@ -125,14 +125,7 @@ const DetailedStore = () => {
       setCreatedStoreData(storeData);
       setIsSuccess(true);
     } catch (error) {
-      toast({
-        title: 'Store Creation Failed',
-        description:
-          error instanceof Error
-            ? error.message
-            : 'An error occurred while creating the store',
-        variant: 'destructive',
-      });
+      console.log('Error creating store:', error);
     }
   };
 

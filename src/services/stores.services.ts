@@ -59,8 +59,13 @@ export const useCreateStore = () => {
     onSuccess: () => {
       toast({title: 'Store created successfully!', variant: 'success'});
     },
-    onError: () => {
-      toast({title: 'Error creating store', variant: 'destructive'});
+    onError: error => {
+      toast({
+        title: 'Error creating store',
+        // @ts-expect-error - error is not typed
+        description: error.response?.data.message || 'An error occurred',
+        variant: 'destructive',
+      });
     },
   });
 };
