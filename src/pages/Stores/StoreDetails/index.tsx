@@ -130,8 +130,8 @@ const StoreDetails = () => {
                     }}
                   >
                     {store?.status === 'Blocked'
-                      ? 'Unblock Store'
-                      : 'Block Store'}
+                      ? 'Block Store'
+                      : 'Unblock Store'}
                   </Button>
                 )}
               </div>
