@@ -129,14 +129,14 @@ const StoreDetails = () => {
                   <Button
                     variant={
                       store?.status !== 'Blocked'
-                        ? 'outline'
-                        : 'destructive'
+                        ? 'destructive'
+                        : 'outline'
                     }
                     onClick={() => {
                       setOpen(true);
                     }}
                   >
-                    {store?.status === 'Blocked'
+                    {store?.status !== 'Blocked'
                       ? 'Block Store'
                       : 'Unblock Store'}
                   </Button>
