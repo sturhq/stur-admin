@@ -15,12 +15,12 @@ export type OrderData = {
     phone?: string;
   };
   items?: number;
-  vendor?: {
+  store?: {
     _id?: string;
     name?: string;
   };
   totalAmount?: number;
-  deliveryStatus?: 'pending' | 'delivered';
+  deliveryStatus?: 'pending' | 'delivered' | 'out_for_delivery';
 };
 
 interface OrderProps {
