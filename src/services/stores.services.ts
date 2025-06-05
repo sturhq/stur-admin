@@ -94,3 +94,27 @@ export const useBlockUser = (userId: string) => {
     },
   });
 };
+export const useEditStore = (storeId: string) => {
+  return useMutation({
+    mutationFn: (data: {
+      storeName: string;
+      storeDescription: string;
+      phoneNumber: string;
+      email: string;
+      business_type: string;
+      storeLogoUrl: string;
+      bannerUrl: string;
+    }) => api.put(`/store/${storeId}`, data),
+    onSuccess: () => {
+      toast({title: 'Store updated!', variant: 'success'});
+    },
+    onError: error => {
+      toast({
+        title: 'Error updated store',
+        // @ts-expect-error - error is not typed
+        description: error.response?.data.message || 'An error occurred',
+        variant: 'destructive',
+      });
+    },
+  });
+};
