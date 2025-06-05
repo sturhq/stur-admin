@@ -284,15 +284,18 @@ const OrderSummary = () => {
       <div className="p-1.2 md:p-[1.8rem]   overflow-y-auto ">
         <div className="p-1.2 md:p-[1.8rem]  w-[70%] max-2xl:w-[90%] mx-auto  transition-all duration-500 ease-in-out flex flex-col md:flex-row justify-between md:gap-[0.9375rem] md:items-center max-md:col-span-6 max-md:border-transparent max-md:rounded-lg">
           <div className="flex gap-[1.0625rem] items-center">
-            <Avatar className="w-[3.4375rem] h-[3.4375rem]">
-              <AvatarImage src={order?.store.storeLogoUrl} />
-              <AvatarFallback className="w-[3.4375rem] h-[3.4375rem]">
-                {order?.store.storeName
-                  ? order?.store.storeName.charAt(0).toUpperCase() +
-                    order?.store.storeName.charAt(1).toUpperCase()
-                  : 'S'}
-              </AvatarFallback>
-            </Avatar>
+            {order?.store.storeName && (
+              <Avatar className="w-[3.4375rem] h-[3.4375rem]">
+                <AvatarImage src={order?.store.storeLogoUrl} />
+                <AvatarFallback className="w-[3.4375rem] h-[3.4375rem]">
+                  {order?.store.storeName
+                    ? order?.store.storeName.charAt(0).toUpperCase() +
+                      order?.store.storeName.charAt(1).toUpperCase()
+                    : 'S'}
+                </AvatarFallback>
+              </Avatar>
+            )}
+
             <div>
               <div>
                 <p className="text-[#414552] text-[1.75rem] font-bold">
@@ -328,7 +331,8 @@ const OrderSummary = () => {
                     }
                     disabled={
                       orderStatus === 'completed' ||
-                      orderStatus === 'cancelled'
+                      orderStatus === 'cancelled' ||
+                      order?.store?.claimStatus === 'Claimed'
                     }
                   >
                     <SelectTrigger className="w-full">
@@ -364,7 +368,8 @@ const OrderSummary = () => {
                     }
                     disabled={
                       deliveryStatus === 'delivered' ||
-                      orderStatus === 'cancelled'
+                      orderStatus === 'cancelled' ||
+                      order?.store?.claimStatus === 'Claimed'
                     }
                   >
                     <SelectTrigger className="w-full data-[disabled]:opacity-75 data-[disabled]:cursor-not-allowed">

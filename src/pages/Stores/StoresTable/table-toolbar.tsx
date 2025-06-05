@@ -4,19 +4,14 @@ import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
 import {ArrowUpLeft, Search, X} from 'lucide-react';
 import {TableViewOptions} from '@/components/organisms/GenericTable/TableViewOptions';
-import {
-  Tabs,
-  // TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@/components/ui/tabs';
+import {Tabs, TabsList, TabsTrigger} from '@/components/ui/tabs';
 import {TableFacetedFilter} from '@/components/organisms/GenericTable/TableFacetedFilter';
 // import {Alert} from '@/components/ui/alert';
 
 interface TableToolbarProps<TData> {
   table?: Table<TData>;
-  claimStatus?: 'Claimed' | 'Unclaimed' | 'All';
-  setClaimStatus?: (status: 'Claimed' | 'Unclaimed' | 'All') => void;
+  claimStatus?: 'Claimed' | 'Unclaimed';
+  setClaimStatus?: (status: 'Claimed' | 'Unclaimed') => void;
 }
 
 export function TableToolbar<TData>({
@@ -79,25 +74,7 @@ export function TableToolbar<TData>({
               Claimed stur
             </TabsTrigger>
           </TabsList>
-
-          {/* <TabsContent value="claimed" className="">
-            <Alert variant="warning" className="mb-4">
-              <TriangleAlert size={18} />
-              Your store has not been setup yet.
-            </Alert>
-          </TabsContent> */}
         </Tabs>
-
-        {isFiltered && (
-          <Button
-            variant="ghost"
-            onClick={() => table.resetColumnFilters()}
-            className="h-8 px-2 lg:px-3"
-          >
-            Reset
-            <X className="ml-2 h-4 w-4" />
-          </Button>
-        )}
       </div>
       <div className="flex flex-row gap-[8px]">
         <div className="flex items-center border rounded-[0.475rem] px-[0.5rem]">
@@ -109,6 +86,16 @@ export function TableToolbar<TData>({
             className="h-8 w-[150px] lg:w-[250px] border-none focus:outline-none focus:ring-0 focus:border-none"
           />
         </div>
+        {isFiltered && (
+          <Button
+            variant="ghost"
+            onClick={() => table.resetColumnFilters()}
+            className="h-8 px-2 lg:px-3"
+          >
+            Reset
+            <X className="ml-2 h-4 w-4" />
+          </Button>
+        )}
         {table.getColumn('status') && (
           <TableFacetedFilter
             column={table.getColumn('status')}

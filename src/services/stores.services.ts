@@ -9,7 +9,7 @@ import {toast} from '@/hooks/use-toast';
 export const useGetStores = (
   page?: number,
   limit?: number,
-  claimStatus?: 'Claimed' | 'Unclaimed' | 'All'
+  claimStatus?: 'Claimed' | 'Unclaimed'
 ) => {
   return useQuery({
     queryKey: ['stores', page, limit, claimStatus],
@@ -18,7 +18,7 @@ export const useGetStores = (
         params: {
           page,
           limit,
-          ...(claimStatus !== 'All' && {claimStatus}),
+          claimStatus,
         },
       }),
     refetchOnWindowFocus: true,

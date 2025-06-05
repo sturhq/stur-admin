@@ -20,9 +20,9 @@ export const orderTableSchema = z.object({
     phone: z.string().optional(),
   }),
   items: z.number(),
-  vendor: z.object({
+  store: z.object({
     _id: z.string(),
-    name: z.string(),
+    storeName: z.string(),
   }),
   totalAmount: z.number(),
   status: z.enum(['pending', 'completed']),
@@ -103,7 +103,7 @@ export const columns: ColumnDef<OrderTableType>[] = [
       <TableColumnHeader column={column} title="VENDOR" />
     ),
     cell: ({row}) => (
-      <span>{row.original.vendor?.name || 'Unknown Vendor'}</span>
+      <span>{row.original.store?.storeName || 'Unknown Vendor'}</span>
     ),
   },
   {
