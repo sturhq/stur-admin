@@ -105,10 +105,17 @@ const StoreDetails = () => {
               <div className="flex gap-2">
                 {store?.claimStatus === 'Unclaimed' && (
                   <Button
+                    className="bg-[#5433EB] py-[0.5rem] px-[0.875rem]"
+                    onClick={() =>
+                      navigate(`/store/edit-store/${storeId}`)
+                    }
+                  >
+                    Edit stur
+                  </Button>
+                )}
+                {store?.claimStatus === 'Unclaimed' && (
+                  <Button
                     className="bg-[#30313D] p-[0.5rem]"
-                    // onClick={() => {
-                    //   setOpen(true);
-                    // }}
                     onClick={() =>
                       navigate(`/products/add-product?storeId=${storeId}`)
                     }

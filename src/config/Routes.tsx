@@ -10,6 +10,7 @@ import Stores from '@/pages/Stores';
 import AddProductPage from '@/pages/Stores/AddProduct/AddProduct';
 
 import CreateStorePage from '@/pages/Stores/CreateStore/CreateStorePage';
+import EditStorePage from '@/pages/Stores/EditStore/EditStorePage';
 import StoreDetails from '@/pages/Stores/StoreDetails';
 import ProductDetailsPage from '@/pages/Stores/StoreDetails/ProductDetails/ProductDetailsPage';
 import Transactions from '@/pages/Transactions';
@@ -80,6 +81,7 @@ export const inAppRoutes = [
   {path: '/', element: <Navigate to="/stores" />},
   {path: '/stores', element: <Stores />},
   {path: '/stores/:storeId', element: <StoreDetails />},
+
   {
     path: 'products',
     element: <Products />,
@@ -161,6 +163,7 @@ export const fullScreenRoutes = [
     path: 'order/summary/:orderId',
     element: <OrderSummary />,
   },
+  {path: 'store/edit-store/:storeId', element: <EditStorePage />},
 
   /* {
     path: 'products/add-product',
