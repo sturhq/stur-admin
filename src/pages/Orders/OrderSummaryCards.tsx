@@ -50,7 +50,7 @@ const OrderSummaryCards = ({
       <Card className="p-4 w-full  transition-all duration-500 ease-in-out flex flex-col md:flex-row gap-2.5 md:gap-[0.9375rem] md:items-center max-md:col-span-6 max-md:border-transparent max-md:border-t-[#EBEEF1] max-md:border-l-[#EBEEF1] max-md:rounded-none max-md:rounded-br-lg">
         <div>
           <h1 className="text-sm font-semibold leading-5 mb-1 text-[#6A7383]">
-            Pending orders
+            Pending delivery
           </h1>
           {isLoading ? (
             <Skeleton className="w-1/2 h-6" />
