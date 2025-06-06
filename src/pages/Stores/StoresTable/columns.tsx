@@ -21,7 +21,12 @@ export const columns: ColumnDef<StoreData>[] = [
       <TableColumnHeader column={column} title="Store Name" />
     ),
     cell: info => {
-      ellipsizeText(info.getValue() as string, 35);
+      const storeName = info.getValue() as string;
+      return (
+        <span className="flex items-center gap-2">
+          {ellipsizeText(storeName, 20)}
+        </span>
+      );
     },
   },
   {
