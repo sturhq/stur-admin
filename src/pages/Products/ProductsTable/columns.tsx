@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Badge} from '@/components/ui/badge';
 import {ColumnDef} from '@tanstack/react-table';
 import {TableColumnHeader} from '@/components/organisms/GenericTable/TableColumnHeader';
-import {nigerianCurrencyFormat} from '@/lib/utils';
+import {ellipsizeText, nigerianCurrencyFormat} from '@/lib/utils';
 import ImageComponent from '@/components/organisms/ImageComponent.tsx';
 import {useNavigate} from 'react-router-dom';
 import {useIsMobile} from '@/hooks/use-mobile';
@@ -58,7 +58,7 @@ export const columns: ColumnDef<ProductTableType, unknown>[] = [
               placeholderClass="w-[0.8rem]"
             />
           )}
-          <span>{original.title || 'Untitled'}</span>
+          <span>{ellipsizeText(original.title, 35) || 'Untitled'}</span>
         </div>
       );
     },
