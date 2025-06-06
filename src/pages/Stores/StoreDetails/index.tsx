@@ -8,20 +8,19 @@ import {Badge} from '@/components/ui/badge';
 import ProductSummaryCard from './ProductSummaryCards';
 import {BlockModal} from './BlockModal.tsx';
 import {useGetStoreById} from '@/services/stores.services.ts';
-import {useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {useGetProducts} from '@/services/products.service.ts';
 import ProductsTable from '@/pages/Products/ProductsTable/index.tsx';
-import LoaderScreen from '@/components/organisms/LoaderScreen.tsx';
+import {BreadCrumb} from './Breadcrumb.tsx';
 
 const StoreDetails = () => {
-  const limit = 20; // Define the number of items per page
-
+  const limit = 20;
   const [page, setPage] = useState(1);
+  const navigate = useNavigate();
 
   const {storeId} = useParams();
   const [open, setOpen] = useState(false);
   const {data: storeInfo, error} = useGetStoreById(storeId);
-  console.log(storeInfo);
 
   const {
     data: products,
@@ -72,14 +71,15 @@ const StoreDetails = () => {
   };
 
   const statusMap = {
-    Active: 'Active',
-    Pending: 'Pending',
+    Verified: 'Verified',
+    Unverified: 'Unverified',
     Blocked: 'Blocked',
-    Inactive: 'Inactive',
   };
 
+  type StatusType = keyof typeof statusMap;
+
   const statusVariantMap: Record<
-    typeof status,
+    StatusType,
     | 'positive'
     | 'negative'
     | 'destructive'
@@ -88,72 +88,86 @@ const StoreDetails = () => {
     | 'default'
     | 'warning'
   > = {
-    Active: 'positive',
-    Pending: 'negative',
+    Verified: 'positive',
+    Unverified: 'default',
     Blocked: 'destructive',
-    Inactive: 'default',
   };
 
   return (
     <React.Fragment>
       <PageHelmet title="Store Details" />
+      <BreadCrumb />
       <div className="flex flex-col gap-5 w-full">
         <div>
           <PageHeader
             title={store?.storeName || ''}
             button={
               <div className="flex gap-2">
-                <Button
-                  className="bg-[#30313D] p-[0.5rem]"
-                  // onClick={() => {
-                  //   setOpen(true);
-                  // }}
-                >
-                  <Plus size={15} />
-                  <div>Add product</div>
-                </Button>
-                <Button
-                  variant="destructive"
-                  onClick={() => {
-                    setOpen(true);
-                  }}
-                >
-                  Block user
-                </Button>
+                {store?.claimStatus === 'Unclaimed' && (
+                  <Button
+                    className="bg-[#5433EB] py-[0.5rem] px-[0.875rem]"
+                    onClick={() =>
+                      navigate(`/store/edit-store/${storeId}`)
+                    }
+                  >
+                    Edit stur
+                  </Button>
+                )}
+                {store?.claimStatus === 'Unclaimed' && (
+                  <Button
+                    className="bg-[#30313D] p-[0.5rem]"
+                    onClick={() =>
+                      navigate(`/products/add-product?storeId=${storeId}`)
+                    }
+                  >
+                    <Plus size={15} />
+                    Add product
+                  </Button>
+                )}
+
+                {store?.claimStatus === 'Claimed' && (
+                  <Button
+                    variant={
+                      store?.status !== 'Blocked'
+                        ? 'destructive'
+                        : 'outline'
+                    }
+                    onClick={() => {
+                      setOpen(true);
+                    }}
+                  >
+                    {store?.status !== 'Blocked'
+                      ? 'Block Store'
+                      : 'Unblock Store'}
+                  </Button>
+                )}
               </div>
             }
           />
-          <div
-            className="flex items-center gap-4 cursor-pointer"
-            onClick={() => {
-              navigator.clipboard.writeText('www.stur.ng/thelinkstore');
-              toast({
-                description: 'Store link copied to clipboard',
-                variant: 'success',
-              });
-            }}
-          >
-            <a
-              className="text-[#6A7383]"
-              href="https://www.stur.ng/thelinkstore"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {store?.storeUrl || ''}
-            </a>
-            <span
-              className="cursor-pointer"
-              onClick={() => {
-                navigator.clipboard.writeText(store?.storeUrl || '');
-                toast({
-                  description: 'Store link copied to clipboard',
-                  variant: 'default',
-                });
-              }}
-            >
-              <Copy className="w-4 h-4 text-[#5433EB]" />
-            </span>
-          </div>
+          {store?.storeUrl && (
+            <div className="flex items-center gap-4 cursor-pointer">
+              <a
+                className="text-[#6A7383]"
+                href="https://www.stur.ng/thelinkstore"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {store?.storeUrl || ''}
+              </a>
+              <span
+                className="cursor-pointer"
+                onClick={() => {
+                  navigator.clipboard.writeText(store?.storeUrl || '');
+                  toast({
+                    description: 'Store link copied to clipboard',
+                    variant: 'default',
+                  });
+                }}
+              >
+                <Copy className="w-4 h-4 text-[#5433EB]" />
+              </span>
+            </div>
+          )}
           <div className="flex col gap-2 mt-4">
             <Badge variant={statusVariantMap[store?.status || '']}>
               {statusMap[store?.status || '']}
@@ -176,7 +190,7 @@ const StoreDetails = () => {
           limit={limit}
         />
       </div>
-      <BlockModal open={open} setOpen={setOpen} />
+      <BlockModal open={open} setOpen={setOpen} store={store} />
     </React.Fragment>
   );
 };

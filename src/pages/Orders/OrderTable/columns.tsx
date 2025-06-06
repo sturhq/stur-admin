@@ -11,6 +11,7 @@ import {BoxIcon, Truck} from 'lucide-react';
 
 export const orderTableSchema = z.object({
   _id: z.string(),
+  orderNumber: z.string(),
   customer: z.object({
     _id: z.string(),
     firstName: z.string(),
@@ -18,22 +19,17 @@ export const orderTableSchema = z.object({
     email: z.string().email().optional(),
     phone: z.string().optional(),
   }),
-  items: z.array(
-    z.object({
-      productId: z.string(),
-      quantity: z.number(),
-    })
-  ),
-  vendor: z.object({
+  items: z.number(),
+  store: z.object({
     _id: z.string(),
-    name: z.string(),
+    storeName: z.string(),
   }),
   totalAmount: z.number(),
   status: z.enum(['pending', 'completed']),
   deliveryStatus: z.enum(['pending', 'out_for_delivery', 'delivered']),
 });
 
-type OrderTableType = z.infer<typeof orderTableSchema>;
+export type OrderTableType = z.infer<typeof orderTableSchema>;
 
 const renderStatusVariant = (status: string) => {
   switch (status) {
@@ -65,6 +61,15 @@ const renderDeliveryVariant = (status: string) => {
 
 export const columns: ColumnDef<OrderTableType>[] = [
   {
+    accessorKey: 'orderNumber',
+    header: ({column}) => (
+      <TableColumnHeader column={column} title="ORDER NUMBER" />
+    ),
+    cell: ({row}) => (
+      <span className="font-medium">#{row.original.orderNumber}</span>
+    ),
+  },
+  {
     accessorKey: 'customer',
     header: ({column}) => (
       <TableColumnHeader column={column} title="CUSTOMER" />
@@ -86,11 +91,11 @@ export const columns: ColumnDef<OrderTableType>[] = [
     },
   },
   {
-    accessorKey: 'total',
+    accessorKey: 'items',
     header: ({column}) => (
-      <TableColumnHeader column={column} title="TOTAL" />
+      <TableColumnHeader column={column} title="TOTAL ITEMS" />
     ),
-    cell: ({row}) => <span>{row.original.items?.length}</span>,
+    cell: ({row}) => <span>{row.original.items}</span>,
   },
   {
     accessorKey: 'vendor',
@@ -98,7 +103,7 @@ export const columns: ColumnDef<OrderTableType>[] = [
       <TableColumnHeader column={column} title="VENDOR" />
     ),
     cell: ({row}) => (
-      <span>{row.original.vendor?.name || 'Unknown Vendor'}</span>
+      <span>{row.original.store?.storeName || 'Unknown Vendor'}</span>
     ),
   },
   {

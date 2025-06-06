@@ -9,9 +9,12 @@ interface Props {
   setOpen: (value: boolean) => void;
   isPending?: boolean;
   handleDelete?: () => Promise<void>;
+  store: {
+    status: string;
+  };
 }
 
-export const BlockModal = ({open, setOpen}: Props) => {
+export const BlockModal = ({open, setOpen, store}: Props) => {
   const queryParams = queryString.parse(window.location.search);
   const userId = queryParams.userId as string;
 
@@ -37,11 +40,12 @@ export const BlockModal = ({open, setOpen}: Props) => {
         </div>
         <div className="px-6">
           <h4 className="text-[#30313D] font-bold text-[1.75rem]">
-            Block users
+            {store?.status === 'Verified' ? 'Block User' : 'Unblock User'}
           </h4>
           <p className="text-sm text-[#6A7383] mt-1">
-            Are you sure you want to block this users? This user will loss
-            access to his account when you block them
+            {store?.status === 'Verified'
+              ? ' Are you sure you want to block this users? This user will loss access to his account when you block them.'
+              : 'Are you sure you want to unblock this user?'}
           </p>
         </div>
         <div className="border-t border-t-[#EBEEF1] px-6 pt-6 flex items-center justify-end gap-3">
@@ -51,7 +55,9 @@ export const BlockModal = ({open, setOpen}: Props) => {
           <Button
             loading={isPending}
             onClick={handleBlock}
-            variant="destructive"
+            variant={
+              store?.status === 'Verified' ? 'destructive' : 'default'
+            }
           >
             Yes, continue
           </Button>

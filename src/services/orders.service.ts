@@ -8,14 +8,19 @@ import {toast} from '@/hooks/use-toast';
 import {ORDER_EDIT_TYPE, ORDER_TYPE} from './types';
 import {STALE} from '@/common/QueryStaleTime';
 
-export const useGetOrders = (page?: number, limit?: number) => {
+export const useGetOrders = (
+  page?: number,
+  limit?: number,
+  claimStatus?: 'Claimed' | 'Unclaimed'
+) => {
   return useQuery({
-    queryKey: ['orders', page, limit],
+    queryKey: ['orders', page, limit, claimStatus],
     queryFn: () =>
       api.get('/orders/admin/orders', {
         params: {
           page,
           limit,
+          claimStatus,
         },
       }),
     enabled: true,

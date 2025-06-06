@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {Controller, useForm} from 'react-hook-form';
 import {
   Select,
@@ -14,12 +14,12 @@ import {Input} from '@/components/ui/input';
 import {Textarea} from '@/components/ui/textarea';
 import {Button} from '@/components/ui/button';
 import {SettingsLogoUploader} from '@/components/organisms/SettingsLogoUploader';
-import {useCreateStore} from '@/services/stores.services';
-import SuccessScreen from './SuccessScreen';
+import {useEditStore, useGetStoreById} from '@/services/stores.services';
 import banner from '../../../assets/images/banner.png';
 import {useCloudinaryUpload} from '@/services/fileupload.service';
 import {toast} from '@/hooks/use-toast';
 import {useQueryClient} from '@tanstack/react-query';
+import {useNavigate, useParams} from 'react-router-dom';
 
 export type StoreFormData = {
   _id?: string;
@@ -44,18 +44,21 @@ const businessTypes = {
 };
 
 const DetailedStore = () => {
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [createdStoreData, setCreatedStoreData] =
-    useState<StoreFormData | null>(null);
+  const {storeId} = useParams();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const {mutateAsync: createStore, isPending: isCreatingStore} =
-    useCreateStore();
+
   const [type, setType] = useState<'banner' | 'logo' | null>(null);
   const cachedQuery = queryClient.getQueryData(['presigned-url', 1]);
   // @ts-expect-error - data is not defined
   const presigned = cachedQuery?.data?.data;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [returnedData, setReturnedData] = useState(null);
 
+  // Fetch store data
+  const {data: storeData} = useGetStoreById(storeId || '');
+  const store = storeData?.data?.data;
+  console.log(store);
   // Cloudinary upload mutation
   const {mutateAsync: uploadFile, isPending: isUploading} =
     useCloudinaryUpload(
@@ -64,12 +67,14 @@ const DetailedStore = () => {
       presigned?.timestamp,
       presigned?.signature
     );
+  const {mutateAsync: editStore, isPending} = useEditStore(storeId || '');
 
   const {
     control,
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: {isValid, isDirty},
   } = useForm<StoreFormData>({
     defaultValues: {
@@ -82,6 +87,20 @@ const DetailedStore = () => {
       bannerUrl: '',
     },
   });
+
+  useEffect(() => {
+    if (store) {
+      reset({
+        storeName: store.storeName,
+        storeDescription: store.storeDescription,
+        phoneNumber: store.phoneNumber,
+        email: store.email,
+        businessType: store.business_type,
+        storeLogoUrl: store.storeLogoUrl,
+        bannerUrl: store.bannerUrl,
+      });
+    }
+  }, [store, reset]);
 
   const formValues = watch();
 
@@ -118,36 +137,25 @@ const DetailedStore = () => {
   };
 
   const onSubmit = async (data: StoreFormData) => {
+    const {businessType, ...filteredData} = data;
     const storeData = {
-      ...data,
-      business_type: data.businessType,
+      ...filteredData,
+      business_type: businessType,
       storeLogoUrl: data.storeLogoUrl || null,
       bannerUrl: data.bannerUrl || null,
     };
-
     try {
-      const response = await createStore(storeData);
-
-      setReturnedData(response?.data.data);
-      setCreatedStoreData(storeData);
-      setIsSuccess(true);
+      const response = await editStore(storeData);
+      setReturnedData(response?.data?.data);
+      navigate('/stores');
     } catch (error) {
-      console.log('Error creating store:', error);
+      console.error('Error creating store:', error);
     }
   };
 
-  if (isSuccess && createdStoreData) {
-    return (
-      <SuccessScreen
-        storeData={createdStoreData}
-        returnedData={returnedData}
-      />
-    );
-  }
-
   return (
     <div className="p-[1.07rem] max-lg:py-[1.07rem] max-w-[46.437rem] max-lg:w-full flex flex-col gap-[1.56rem] mx-auto pb-24">
-      {/* Banner & Logo Section - Updated to match Settings style */}
+      {/* Banner & Logo Section */}
       <div className="relative h-[15.625rem] max-lg:h-[8.3rem] w-full bg-[#F6F8FA] rounded-[15px]">
         <div className="absolute top-0 left-0 h-full w-full rounded-[15px]">
           {formValues.bannerUrl ? (
@@ -175,7 +183,7 @@ const DetailedStore = () => {
           className="md:w-[10rem] h-16 min-h-16 md:h-24 md:min-h-24"
           imagePreviewClassName="md:w-[10rem] h-16 min-h-16 md:h-24 md:min-h-24"
           onFileSelect={file => handleFileUpload(file, 'logo')}
-          isUploading={type === 'logo' && (isUploading || isCreatingStore)}
+          isUploading={type === 'logo' && (isUploading || isPending)}
           maxSize={10 * 1024 * 1024}
           logoUrl={formValues.storeLogoUrl}
         />
@@ -189,14 +197,12 @@ const DetailedStore = () => {
               'image/webp',
             ]}
             onFileSelect={file => handleFileUpload(file, 'banner')}
-            isUploading={
-              type === 'banner' && (isUploading || isCreatingStore)
-            }
+            isUploading={type === 'banner' && (isUploading || isPending)}
             maxSize={10 * 1024 * 1024}
             isOnboarding
             customButton
             isCustomUpdating={
-              type === 'banner' && (isUploading || isCreatingStore)
+              type === 'banner' && (isUploading || isPending)
             }
           />
         </div>
@@ -332,10 +338,10 @@ const DetailedStore = () => {
 
       <Button
         onClick={handleSubmit(onSubmit)}
-        disabled={!isValid || !isDirty}
+        disabled={!isValid || !isDirty || isPending}
         className="w-full bg-[#30313D] py-[0.5625rem] px-[1rem] rounded-[0.75rem] h-[2.625rem] text-[1rem] font-semibold hover:bg-[#30313D]/90"
       >
-        {isCreatingStore ? 'Creating...' : 'Create Store'}
+        {isPending ? 'Saving...' : 'Save changes'}
       </Button>
     </div>
   );

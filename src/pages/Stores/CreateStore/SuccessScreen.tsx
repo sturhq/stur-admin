@@ -1,13 +1,9 @@
 import {Card} from '@/components/ui/card';
-import {ArrowLeft, CircleHelp, Copy} from 'lucide-react';
 import React from 'react';
 import confetti from '@/assets/images/confetti.png';
 import {Button} from '@/components/ui/button';
-import whatsappIcon from '@/assets/icons/whatsapp.svg';
 import {useNavigate} from 'react-router-dom';
-import {nigerianCurrencyFormat} from '@/lib/utils';
-import moment from 'moment';
-import {useUser} from '@/hooks/useUser';
+// import {useUser} from '@/hooks/useUser';
 import {
   ArrowTopRightOnSquareIcon,
   LinkIcon,
@@ -16,13 +12,29 @@ import whatsapp from '@/assets/images/whatsapp.svg';
 import facebook from '@/assets/images/facebook.svg';
 import instagram from '@/assets/images/instagram.svg';
 import twitter from '@/assets/images/twitter.svg';
+import {Copy} from 'lucide-react';
+import {StoreFormData} from './DetailedStore';
 // import {useSendToWhatsapp} from '@/services/orders.service';
+type SuccessScreenProps = {
+  storeData: StoreFormData;
+  returnedData?: StoreFormData;
+};
 
-const SuccessScreen = () => {
-  const {userData} = useUser();
+const SuccessScreen = ({storeData, returnedData}: SuccessScreenProps) => {
+  const generateStoreSlug = (name: string) => {
+    return name
+      .toLowerCase()
+      .replace(/\s+/g, '') // remove spaces
+      .replace(/[^a-z0-9]/g, ''); // remove non-alphanumeric
+  };
+
+  const storeSlug = generateStoreSlug(storeData.storeName);
+  const storeUrl = `${import.meta.env.VITE_CUSTOMER_URL}/${storeSlug}`;
+  // const {userData} = useUser();
+
   const navigate = useNavigate();
-  const whatsappPhoneNumber = userData?.store?.phoneNumber;
-  const storeSlug = userData?.store?.storeSlug;
+  // const whatsappPhoneNumber = userData?.store?.phoneNumber;
+  // const storeSlug = userData?.store?.storeSlug;
 
   return (
     <div>
@@ -41,7 +53,8 @@ const SuccessScreen = () => {
             <div className="flex gap-[0.875rem]">
               <LinkIcon className="w-[1.375rem] h-[1.375rem]" />
               <div className="font-semibold text-[0.875rem] text-[#30313D]">
-                https://stur.africa/lasolasHQ
+                {/* https://stur.africa/lasolasHQ */}
+                {storeUrl}
               </div>
             </div>
             <div>
@@ -95,7 +108,9 @@ const SuccessScreen = () => {
         </div>
         <Button
           className="w-full bg-[#30313D] mt-[1.5625rem] rounded-[0.75rem] font-normal text-[0.875rem] text-[#FFFFFF] mb-[20rem]"
-          onClick={() => navigate('/products/add-product')}
+          onClick={() =>
+            navigate(`/products/add-product?storeId=${returnedData?._id}`)
+          }
         >
           Add product
         </Button>

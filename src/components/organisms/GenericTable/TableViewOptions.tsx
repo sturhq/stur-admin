@@ -29,7 +29,7 @@ export function TableViewOptions<TData>({
           className="ml-auto hidden h-8 lg:flex"
         >
           <FilterIcon className=" h-[0.5625rem] w-[0.5625rem]" />
-          Filter
+          Filter Column
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-fit">

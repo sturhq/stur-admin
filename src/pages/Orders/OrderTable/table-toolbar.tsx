@@ -4,12 +4,18 @@ import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
 import {ArrowUpLeft, Search, X} from 'lucide-react';
 import {TableViewOptions} from '@/components/organisms/GenericTable/TableViewOptions';
-
+import {Tabs, TabsList, TabsTrigger} from '@/components/ui/tabs';
 interface TableToolbarProps<TData> {
   table?: Table<TData>;
+  claimStatus?: 'Claimed' | 'Unclaimed';
+  setClaimStatus?: (status: 'Claimed' | 'Unclaimed') => void;
 }
 
-export function TableToolbar<TData>({table}: TableToolbarProps<TData>) {
+export function TableToolbar<TData>({
+  table,
+  claimStatus,
+  setClaimStatus,
+}: TableToolbarProps<TData>) {
   const [nameFilter, setNameFilter] = useState('');
 
   // Only process if table is available
@@ -28,9 +34,40 @@ export function TableToolbar<TData>({table}: TableToolbarProps<TData>) {
 
   const isFiltered = table.getState().columnFilters.length > 0;
 
+  const handleTabChange = (value: string) => {
+    if (setClaimStatus) {
+      if (value === 'Unclaimed') {
+        setClaimStatus('Unclaimed');
+      } else if (value === 'Claimed') {
+        setClaimStatus('Claimed');
+      }
+    }
+  };
+
   return (
     <div className="flex items-center justify-between py-6 px-1 gap-2">
       <div className="flex flex-1 items-center space-x-2">
+        <Tabs
+          defaultValue="Unclaimed"
+          className="w-full"
+          onValueChange={handleTabChange}
+          value={claimStatus}
+        >
+          <TabsList className=" p-1 h-12 rounded-lg gap-4 flex">
+            <TabsTrigger
+              value="Unclaimed"
+              className="data-[state=active]:bg-[#30313D] data-[state=active]:text-[#FFFFFF] data-[state=active]:border-none text-[#30313D] p-[8px] border rounded-[12px]"
+            >
+              Unclaimed stur
+            </TabsTrigger>
+            <TabsTrigger
+              value="Claimed"
+              className="data-[state=active]:bg-[#30313D] data-[state=active]:text-[#FFFFFF] data-[state=active]:border-none text-[#30313D] p-[8px]  border rounded-[12px]"
+            >
+              Claimed stur
+            </TabsTrigger>
+          </TabsList>
+        </Tabs>
         <div className="flex items-center border rounded-[0.475rem] px-[0.5rem]">
           <Search size={16} />
           <Input

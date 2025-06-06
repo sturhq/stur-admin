@@ -12,13 +12,27 @@ import {Input} from '@/components/ui/input';
 import {Button} from '@/components/ui/button';
 import {DottedButton} from '@/components/ui/DottedButton';
 import {Switch} from '@/components/ui/switch';
-import {useUser} from '@/hooks/useUser';
-
+import {useAddCategory} from '@/services/products.service';
+import queryString from 'query-string';
 const AddCategoryModal = () => {
   const [open, setOpen] = useState(false);
-  const {userData} = useUser();
   const [categoryName, setCategoryName] = useState('');
   const [showCategory, setShowCategory] = useState<boolean>(true);
+  const queryParams = queryString.parse(window.location.search);
+  const storeId = queryParams.storeId as string;
+  const {mutateAsync, isPending} = useAddCategory(storeId);
+
+  const handleSave = async () => {
+    try {
+      await mutateAsync({
+        name: categoryName,
+        status: showCategory ? 'visible' : 'hidden',
+      });
+      setOpen(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -47,9 +61,9 @@ const AddCategoryModal = () => {
               <p>Show category</p>
             </div>
             <Button
-              // loading={isPending}
-              // onClick={handleSave}
-              // disabled={!categoryName || isPending}
+              loading={isPending}
+              onClick={handleSave}
+              disabled={!categoryName || isPending}
               className="w-full"
             >
               Save
@@ -65,9 +79,9 @@ const AddCategoryModal = () => {
         </div>
         <DialogFooter className="flex max-lg:hidden">
           <Button
-          // loading={isPending}
-          // onClick={handleSave}
-          // disabled={!categoryName || isPending}
+            loading={isPending}
+            onClick={handleSave}
+            disabled={!categoryName || isPending}
           >
             Save
           </Button>

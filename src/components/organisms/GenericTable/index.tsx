@@ -60,7 +60,7 @@ const EmptyState = ({
   <div className="flex flex-col items-center justify-center space-y-3 py-20">
     {imageSrc && <div className="mb-[0.813rem]">{imageSrc}</div>}
 
-    <h1 className="text-xl font-bold !mt-0">{title}</h1>
+    <h1 className="text-xl font-bold !mt-0 !text-foreground">{title}</h1>
     <p className="text-sm text-[#30313D] text-center !mt-1.5">
       {description}
     </p>
@@ -112,18 +112,19 @@ export function GenericTable<T, TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
-  if (data.length === 0 && !isLoading) {
-    return (
-      <EmptyState
-        title={emptyState?.title || 'No data available'}
-        description={
-          emptyState?.description || 'There are no records to display'
-        }
-        action={emptyState?.action}
-        imageSrc={emptyState?.imageSrc}
-      />
-    );
-  }
+  // if (data.length === 0 && !isLoading) {
+  //   return (
+  //      <EmptyState
+  //               title={emptyState?.title || 'No Data Available'}
+  //               description={
+  //                 emptyState?.description ||
+  //                 'There are no records to display at this time.'
+  //               }
+  //               action={emptyState?.action}
+  //               imageSrc={emptyState?.imageSrc}
+  //             />
+  //   );
+  // }
 
   return (
     <div className="space-y-4">
@@ -155,26 +156,47 @@ export function GenericTable<T, TValue>({
               ))}
             </TableHeader>
             <TableBody>
-              {table.getRowModel().rows.map(row => (
-                <TableRow
-                  key={row.id}
-                  onClick={() => onRowClick && onRowClick(row.original)}
-                  className={
-                    onRowClick ? 'cursor-pointer hover:bg-muted/50' : ''
-                  }
-                >
-                  {row.getVisibleCells().map(cell => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
+              {data.length === 0 && !isLoading ? (
+                <TableRow>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-64 text-center py-8"
+                  >
+                    <div className="flex justify-center items-center h-full">
+                      <EmptyState
+                        title={emptyState?.title || 'No Data Available'}
+                        description={
+                          emptyState?.description ||
+                          'There are no records to display at this time.'
+                        }
+                        action={emptyState?.action}
+                        imageSrc={emptyState?.imageSrc}
+                      />
+                    </div>
+                  </TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                table.getRowModel().rows.map(row => (
+                  <TableRow
+                    key={row.id}
+                    onClick={() => onRowClick && onRowClick(row.original)}
+                    className={
+                      onRowClick ? 'cursor-pointer hover:bg-muted/50' : ''
+                    }
+                  >
+                    {row.getVisibleCells().map(cell => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              )}
             </TableBody>
-            {showPagination && (
+            {showPagination && data.length !== 0 && !isLoading && (
               <Pagination
                 columns={columns}
                 currentPage={currentPage || 1}

@@ -2,10 +2,10 @@ import {Button} from '@/components/ui/button';
 import Details from './Details';
 import {useGetPresignedUrl} from '@/services/fileupload.service';
 import {useState} from 'react';
-
-import {toast} from '@/hooks/use-toast';
 import {useNavigate} from 'react-router-dom';
 import {ArrowLeft} from 'lucide-react';
+import {useAddProduct} from '@/services/products.service';
+import queryString from 'query-string';
 
 export type PRICINGTYPES = {
   price: number;
@@ -36,7 +36,11 @@ export type DETAILSTYPES = {
 };
 
 const AddProductPage = () => {
+  const queryParams = queryString.parse(window.location.search);
+  const storeId = queryParams.storeId as string;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [previewMedia, setPreviewMedia] = useState<string | null>(null);
+  const {mutateAsync, isPending} = useAddProduct();
   const [details, setDetails] = useState<DETAILSTYPES>({
     subCategory: '',
     category: '',
@@ -53,6 +57,19 @@ const AddProductPage = () => {
   });
   const navigate = useNavigate();
   useGetPresignedUrl(1);
+  const onSubmit = async () => {
+    const payload = {
+      ...details,
+      price: pricing.price,
+      stockQuantity: pricing.stockQuantity,
+      unit: pricing.unit,
+      previewMedia,
+      storeId,
+    };
+    await mutateAsync(payload);
+    // gaRecordEvent('ADD_PRODUCT', 'user added a product');
+    navigate('/products');
+  };
 
   return (
     <div className="pb-28">
@@ -81,9 +98,9 @@ const AddProductPage = () => {
       </div>
       <div className="flex flex-col-reverse lg:flex-row justify-end gap-4 lg:mt-6 lg:fixed lg:bottom-0 lg:bg-transparent p-4 lg:border-none w-full">
         <Button
-          // onClick={onSubmit}
-          // loading={isPending}
-          // disabled={!details.title || !pricing.price}
+          onClick={onSubmit}
+          loading={isPending}
+          disabled={!details.title || !pricing.price}
           className="bg-[#30313D]"
         >
           Save and publish
