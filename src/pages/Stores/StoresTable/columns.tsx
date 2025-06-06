@@ -3,6 +3,7 @@ import {Badge} from '@/components/ui/badge';
 import {ColumnDef} from '@tanstack/react-table';
 import {TableColumnHeader} from '@/components/organisms/GenericTable/TableColumnHeader';
 import {StoreData} from '.';
+import {ellipsizeText} from '@/lib/utils';
 
 export const tableSchema = z.object({
   storeName: z.string(),
@@ -19,7 +20,9 @@ export const columns: ColumnDef<StoreData>[] = [
     header: ({column}) => (
       <TableColumnHeader column={column} title="Store Name" />
     ),
-    cell: info => info.getValue(),
+    cell: info => {
+      ellipsizeText(info.getValue() as string, 35);
+    },
   },
   {
     accessorKey: 'category',
