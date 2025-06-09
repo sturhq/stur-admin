@@ -9,7 +9,12 @@ import {useGetStores} from '@/services/stores.services';
 
 const Stores = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [page, setPage] = React.useState(1);
+  // Initialize page from URL or default to 1
+  const initialPage = searchParams.get('page')
+    ? parseInt(searchParams.get('page') as string, 10)
+    : 1;
+
+  const [page, setPage] = React.useState(initialPage);
   const [claimStatus, setClaimStatus] = React.useState<
     'Claimed' | 'Unclaimed'
   >(
@@ -19,9 +24,14 @@ const Stores = () => {
   const limit = 20; // Define the number of items per page
   const navigate = useNavigate();
 
+  // Update URL when page or claimStatus changes
   useEffect(() => {
-    setSearchParams({claimStatus});
-  }, [claimStatus, setSearchParams]);
+    // Preserve both parameters in the URL
+    setSearchParams({
+      claimStatus,
+      page: page.toString(),
+    });
+  }, [claimStatus, page, setSearchParams]);
 
   const {data, isLoading} = useGetStores(page, limit, claimStatus);
 
