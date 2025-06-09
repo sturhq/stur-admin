@@ -1,7 +1,8 @@
 import {TableCell, TableRow, TableFooter} from '@/components/ui/table';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
-import {useState, FormEvent} from 'react';
+import {useState, FormEvent, useEffect} from 'react';
+import {useNavigate, useLocation} from 'react-router-dom';
 
 interface PaginationProps {
   columns: readonly unknown[];
@@ -21,6 +22,28 @@ export const Pagination = ({
   hasPrevPage,
 }: PaginationProps) => {
   const [pageInput, setPageInput] = useState(currentPage.toString());
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Update URL with page parameter when currentPage changes
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set('page', currentPage.toString());
+    navigate(`${location.pathname}?${searchParams.toString()}`, {replace: true});
+  }, [currentPage, location.pathname, navigate]);
+
+  // Initialize page from URL on component mount
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const pageParam = searchParams.get('page');
+    if (pageParam) {
+      const page = parseInt(pageParam, 10);
+      if (!isNaN(page) && page >= 1 && page <= totalPages && page !== currentPage) {
+        onPageChange(page);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handlePageSubmit = (e: FormEvent) => {
     e.preventDefault();
