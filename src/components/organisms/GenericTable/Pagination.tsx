@@ -30,30 +30,15 @@ export const Pagination = ({
     setPageInput(currentPage.toString());
   }, [currentPage]);
 
-  // Initialize page from URL on component mount
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const pageParam = searchParams.get('page');
-    if (pageParam) {
-      const page = parseInt(pageParam, 10);
-      if (
-        !isNaN(page) &&
-        page >= 1 &&
-        page <= totalPages &&
-        page !== currentPage
-      ) {
-        onPageChange(page);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // Handle page change and update URL
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages && page !== currentPage) {
-      // Update URL
+      // Get current query parameters and preserve them
       const searchParams = new URLSearchParams(location.search);
+      // Update or add the page parameter
       searchParams.set('page', page.toString());
+
+      // Update URL while preserving other query parameters
       navigate(`${location.pathname}?${searchParams.toString()}`, {
         replace: true,
       });
@@ -73,6 +58,25 @@ export const Pagination = ({
     }
   };
 
+  // Initialize page from URL on component mount - also update to handle existing params
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const pageParam = searchParams.get('page');
+    if (pageParam) {
+      const page = parseInt(pageParam, 10);
+      if (
+        !isNaN(page) &&
+        page >= 1 &&
+        page <= totalPages &&
+        page !== currentPage
+      ) {
+        // Only call onPageChange, don't update URL here
+        onPageChange(page);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <TableFooter>
       <TableRow>
@@ -88,7 +92,9 @@ export const Pagination = ({
               className="flex items-center gap-2"
             >
               <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">Go to:</span>
+                <span className="text-sm text-muted-foreground">
+                  Go to:
+                </span>
                 <Input
                   type="number"
                   min={1}

@@ -79,7 +79,7 @@ export const resetPasswordRoutes = [
 
 export const inAppRoutes = [
   {path: '/', element: <Navigate to="/stores" />},
-  {path: '/stores', element: <Stores />},
+  {path: 'stores', element: <Stores />},
   {path: '/stores/:storeId', element: <StoreDetails />},
 
   {
