@@ -25,14 +25,10 @@ export const Pagination = ({
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Update URL with page parameter when currentPage changes
+  // Update pageInput when currentPage changes from parent component
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    searchParams.set('page', currentPage.toString());
-    navigate(`${location.pathname}?${searchParams.toString()}`, {
-      replace: true,
-    });
-  }, [currentPage, location.pathname, navigate]);
+    setPageInput(currentPage.toString());
+  }, [currentPage]);
 
   // Initialize page from URL on component mount
   useEffect(() => {
@@ -52,11 +48,26 @@ export const Pagination = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Handle page change and update URL
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages && page !== currentPage) {
+      // Update URL
+      const searchParams = new URLSearchParams(location.search);
+      searchParams.set('page', page.toString());
+      navigate(`${location.pathname}?${searchParams.toString()}`, {
+        replace: true,
+      });
+
+      // Call parent handler
+      onPageChange(page);
+    }
+  };
+
   const handlePageSubmit = (e: FormEvent) => {
     e.preventDefault();
     const page = parseInt(pageInput, 10);
-    if (page >= 1 && page <= totalPages && page !== currentPage) {
-      onPageChange(page);
+    if (page >= 1 && page <= totalPages) {
+      handlePageChange(page);
     } else {
       setPageInput(currentPage.toString());
     }
@@ -77,9 +88,7 @@ export const Pagination = ({
               className="flex items-center gap-2"
             >
               <div className="flex items-center gap-2">
-                <span className="text-sm text-muted-foreground">
-                  Go to:
-                </span>
+                <span className="text-sm text-muted-foreground">Go to:</span>
                 <Input
                   type="number"
                   min={1}
@@ -97,7 +106,7 @@ export const Pagination = ({
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => onPageChange(currentPage - 1)}
+                  onClick={() => handlePageChange(currentPage - 1)}
                   disabled={!hasPrevPage}
                   type="button"
                 >
@@ -106,7 +115,7 @@ export const Pagination = ({
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => onPageChange(currentPage + 1)}
+                  onClick={() => handlePageChange(currentPage + 1)}
                   disabled={!hasNextPage}
                   type="button"
                 >
