@@ -26,6 +26,7 @@ dist-ssr
 .env.dev
 .env.staging
 .env.production
+.env.prod
 
 .todo
 .tsbuildinfo
