@@ -29,7 +29,9 @@ export const Pagination = ({
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     searchParams.set('page', currentPage.toString());
-    navigate(`${location.pathname}?${searchParams.toString()}`, {replace: true});
+    navigate(`${location.pathname}?${searchParams.toString()}`, {
+      replace: true,
+    });
   }, [currentPage, location.pathname, navigate]);
 
   // Initialize page from URL on component mount
@@ -38,7 +40,12 @@ export const Pagination = ({
     const pageParam = searchParams.get('page');
     if (pageParam) {
       const page = parseInt(pageParam, 10);
-      if (!isNaN(page) && page >= 1 && page <= totalPages && page !== currentPage) {
+      if (
+        !isNaN(page) &&
+        page >= 1 &&
+        page <= totalPages &&
+        page !== currentPage
+      ) {
         onPageChange(page);
       }
     }
