@@ -8,11 +8,16 @@ interface ProductSummaryCardsProps {
     inventoryVolume?: number;
     outOfStock?: number;
   };
+  settlementSummary?: {
+    pendingTotal?: number;
+    completedTotal?: number;
+  };
   isLoading?: boolean;
 }
 
 const ProductSummaryCard = ({
   statistics,
+  settlementSummary,
   isLoading,
 }: ProductSummaryCardsProps) => {
   return (
@@ -22,13 +27,13 @@ const ProductSummaryCard = ({
         <Card className="p-4 w-full   transition-all duration-500 ease-in-out flex gap-[0.9375rem] items-center">
           <div>
             <h1 className="text-base font-semibold leading-5 mb-1 text-[#6A7383]">
-              Inventory value
+              Pending settlement
             </h1>
             {isLoading ? (
               <Skeleton className="w-20 h-7" />
             ) : (
               <div className="text-xl font-bold">
-                {nigerianCurrencyFormat(statistics.inventoryValue)}
+                {nigerianCurrencyFormat(settlementSummary.pendingTotal)}
               </div>
             )}
           </div>
@@ -36,13 +41,13 @@ const ProductSummaryCard = ({
         <Card className="p-4 w-full  transition-all duration-500 ease-in-out  flex gap-[0.9375rem] items-center">
           <div>
             <h1 className="text-base font-semibold leading-5 mb-1 text-[#6A7383]">
-              Total Products
+              Total settlement
             </h1>
             {isLoading ? (
               <Skeleton className="w-20 h-7" />
             ) : (
               <p className="text-xl font-bold">
-                {statistics.inventoryVolume}
+                {nigerianCurrencyFormat(settlementSummary.completedTotal)}
               </p>
             )}
           </div>
@@ -50,12 +55,14 @@ const ProductSummaryCard = ({
         <Card className="p-4 w-full  transition-all duration-500 ease-in-out  flex gap-[0.9375rem] items-center">
           <div>
             <h1 className="text-base font-semibold leading-5 mb-1 text-[#6A7383]">
-              Out of Stock
+              Number of Products
             </h1>
             {isLoading ? (
               <Skeleton className="w-20 h-7" />
             ) : (
-              <p className="text-xl font-bold">{statistics.outOfStock}</p>
+              <p className="text-xl font-bold">
+                {statistics.inventoryVolume}
+              </p>
             )}
           </div>
         </Card>

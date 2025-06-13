@@ -41,6 +41,7 @@ export const useGetProducts = (
           hasPrevPage: data.data.pagination.hasPrevPage,
         },
         statistics: data.data.statistics,
+        settlementSummary: data.data.settlementSummary,
       };
     },
   });

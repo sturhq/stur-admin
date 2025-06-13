@@ -44,6 +44,7 @@ const StoreDetails = () => {
 
   const store = storeInfo?.data.data;
   const statistics = products?.statistics || {};
+  const settlementSummary = products?.settlementSummary || {};
   const tableData = products?.data || [];
   const pagination = products?.pagination || {
     totalPages: 0,
@@ -179,6 +180,7 @@ const StoreDetails = () => {
         </div>
         <ProductSummaryCard
           statistics={statistics}
+          settlementSummary={settlementSummary}
           isLoading={isLoading}
         />
         <ProductsTable
