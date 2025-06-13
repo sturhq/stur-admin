@@ -73,7 +73,7 @@ export const columns: ColumnDef<ProductTableType, unknown>[] = [
   {
     accessorKey: 'stockQuantity',
     header: ({column}) => (
-      <TableColumnHeader column={column} title="SOLD" />
+      <TableColumnHeader column={column} title="IN STOCK" />
     ),
     cell: ({row}) => row.original.stockQuantity || 0,
   },
